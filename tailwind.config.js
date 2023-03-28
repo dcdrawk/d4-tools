@@ -1,4 +1,5 @@
-import colors from 'tailwindcss/colors'
+// const colors = require('tailwindcss/colors')
+// import colors from 'tailwindcss/colors'
 
 module.exports = {
   content: [
@@ -21,19 +22,19 @@ module.exports = {
         lg: '1024px',
         xl: '1280px'
       }
-    },
-    colors: {
-      transparent: 'transparent',
-      current: 'currentColor',
-      black: colors.black,
-      blue: colors.blue,
-      white: colors.white,
-      gray: colors.neutral,
-      indigo: colors.indigo,
-      emerald: colors.emerald,
-      red: colors.rose,
-      yellow: colors.amber
     }
+    // colors: {
+    //   transparent: 'transparent',
+    //   current: 'currentColor',
+    //   black: colors.black,
+    //   blue: colors.blue,
+    //   white: colors.white,
+    //   gray: colors.neutral,
+    //   indigo: colors.indigo,
+    //   emerald: colors.emerald,
+    //   red: colors.rose,
+    //   yellow: colors.amber
+    // }
   },
   variants: {
     extend: {
