@@ -1,5 +1,5 @@
 <template>
-  <div class="skill-tier">
+  <div class="skill-tier w-[80px] h-[80px]">
     <BaseSVG
       :width="80"
       :height="80"
