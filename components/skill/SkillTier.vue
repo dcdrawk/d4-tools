@@ -1,9 +1,8 @@
 <template>
   <div class="skill-tier">
-    test
     <BaseSVG
-      :width="150"
-      :height="150"
+      :width="80"
+      :height="80"
     >
       <SkillTierSpikes />
       <rect
@@ -11,8 +10,8 @@
         height="53"
         fill="#3c0403"
         transform="rotate(45, 25, 25)"
-        y="12"
-        x="12"
+        y="13"
+        x="15"
         stroke="#5d5e60"
         stroke-width="2"
       />
@@ -21,8 +20,8 @@
         height="42"
         fill="#353b3b"
         transform="rotate(45, 25, 25)"
-        y="20"
-        x="12"
+        y="21"
+        x="15"
         stroke="#1e1e1e"
         stroke-width="2"
       />
