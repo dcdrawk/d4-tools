@@ -26,6 +26,8 @@
         stroke-width="2"
       />
     </BaseSVG>
+
+    <slot />
   </div>
 </template>
 
