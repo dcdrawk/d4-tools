@@ -1,8 +1,8 @@
 <template>
   <div class="skill-item">
     <BaseSVG
-      :width="80"
-      :height="80"
+      :width="56"
+      :height="56"
     >
       <g
         class="cursor-pointer"
