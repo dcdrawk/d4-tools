@@ -31,7 +31,17 @@
           stroke-width="1"
         />
 
+        <!-- Black Image Backdrop -->
+        <rect
+          width="38"
+          height="38"
+          fill="#000"
+          y="8.5"
+          x="8.5"
+        />
+
         <image
+          v-if="icon"
           :href="icon"
           class="absolute left-[10px] top-0 transition-all"
           x="8.5"

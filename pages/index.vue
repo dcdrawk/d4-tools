@@ -57,17 +57,17 @@ const skills = reactive([{
   transform: getSkillTransform(165, 95),
   active: false
 }, {
-  name: 'spark',
+  name: 'frost-bolt',
   icon: '/img/skills/sorcerer/basic/frost-bolt.png',
   transform: getSkillTransform(115, 95),
   active: false
 }, {
-  name: 'spark',
+  name: 'fire-bolt',
   icon: '/img/skills/sorcerer/basic/fire-bolt.png',
   transform: getSkillTransform(65, 95),
   active: false
 }, {
-  name: 'spark',
+  name: 'arc-lash',
   icon: '/img/skills/sorcerer/basic/arc-lash.png',
   transform: getSkillTransform(15, 95),
   active: false
