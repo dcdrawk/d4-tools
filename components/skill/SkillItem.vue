@@ -1,6 +1,12 @@
 <template>
   <div class="skill-item w-[55px] h-[55px]">
     <slot />
+    <div
+      class="skill-item__level absolute z-30 text-white translate-x-[28px] translate-y-11 font-semibold bg-gradient-to-l from-black/75 text-sm pr-[2px] select-none transition-opacity"
+      :class="levelClass"
+    >
+      {{ level }}/{{  levelMax }}
+    </div>
     <BaseSVG
       :width="56"
       :height="56"
@@ -8,7 +14,8 @@
     >
       <g
         class="cursor-pointer relative"
-        @click="$emit('toggle')"
+        @click="$emit('click')"
+        @contextmenu.prevent="$emit('right-click')"
       >
         <!-- Outer Circle -->
         <circle
@@ -108,7 +115,8 @@
 
 <script setup>
 defineEmits([
-  'toggle'
+  'click',
+  'right-click'
 ])
 
 const props = defineProps({
@@ -119,10 +127,30 @@ const props = defineProps({
   icon: {
     type: String,
     default: ''
+  },
+  level: {
+    type: [String, Number],
+    default: '0'
+  },
+  levelMax: {
+    type: [String, Number],
+    default: '5'
   }
 })
 
 const outerSquareBg = computed(() => props.active ? 'fill-red-700' : '!fill-[#191f20]')
 
 const iconOpacity = computed(() => props.active ? '1' : '0.6')
+
+const levelClass = computed(() => props.level <= 0 ? 'opacity-0' : 'opacity-100')
 </script>
+
+<style lang="postcss">
+.skill-item {
+  &:hover {
+    .skill-item__level {
+      @apply opacity-100;
+    }
+  }
+}
+</style>

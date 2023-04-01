@@ -1,5 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  sourcemap: false,
+
   css: [
     '@fortawesome/fontawesome-svg-core/styles.css',
     '/assets/css/index.css'

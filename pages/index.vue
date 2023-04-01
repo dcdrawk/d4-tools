@@ -10,7 +10,7 @@
         :key="skill.name"
       >
         <SkillLine
-          :active="skill.active"
+          :active="skill.level > 0"
           :el1="skillTier?.$el"
           :el2="skillRefs[index]?.$el"
         />
@@ -42,12 +42,15 @@
       <SkillItem
         v-for="(skill, index) in skills"
         :key="skill.name"
-        :ref="el => { skillRefs[index] = el }"
-        :active="skill.active"
-        :icon="skill.icon"
         class="absolute top-[12.5px] left-[12px]"
         :style="{ transform: skill.transform }"
-        @toggle="skill.active = !skill.active"
+        :ref="el => { skillRefs[index] = el }"
+        :active="skill.level > 0"
+        :icon="skill.icon"
+        :level="skill.level"
+        :level-max="skill.levelMax"
+        @click="handleSkillClick(skill)"
+        @right-click="handleSkillRightClick(skill)"
       >
         <SkillItemUpgrade
           v-for="modifier in skill.modifiers"
@@ -57,7 +60,8 @@
           class="absolute top-[10px] left-[10px]"
           :style="{ transform: modifier.transform }"
           :active="modifier.active"
-          @toggle="modifier.active = !modifier.active"
+          @click="handleModifierClick(skill, modifier)"
+          @right-click="handleModifierRightClick(skill, modifier)"
         >
           <SkillItemUpgrade
             v-for="choiceModifier in modifier.choiceModifiers"
@@ -67,7 +71,8 @@
             class="absolute top-0 left-0"
             :style="{ transform: choiceModifier.transform }"
             :active="choiceModifier.active"
-            @toggle="choiceModifier.active = !choiceModifier.active"
+            @click="handleModifierClick(modifier, choiceModifier)"
+            @right-click="handleModifierRightClick(modifier, choiceModifier)"
           />
         </SkillItemUpgrade>
       </SkillItem>
@@ -102,7 +107,8 @@ const skills = reactive([{
   name: 'spark',
   icon: '/img/skills/sorcerer/basic/spark.png',
   transform: getSkillTransform(165, radiusSkill),
-  active: false,
+  level: 0,
+  levelMax: 5,
   modifiers: [{
     name: 'enhanced-spark',
     transform: getSkillTransform(140, radiusModifier),
@@ -121,7 +127,8 @@ const skills = reactive([{
   name: 'frost-bolt',
   icon: '/img/skills/sorcerer/basic/frost-bolt.png',
   transform: getSkillTransform(115, radiusSkill),
-  active: false,
+  level: 0,
+  levelMax: 5,
   modifiers: [{
     name: 'enhanced-frost-bolt',
     transform: getSkillTransform(114, radiusModifier),
@@ -140,7 +147,8 @@ const skills = reactive([{
   name: 'fire-bolt',
   icon: '/img/skills/sorcerer/basic/fire-bolt.png',
   transform: getSkillTransform(65, radiusSkill),
-  active: false,
+  level: 0,
+  levelMax: 5,
   modifiers: [{
     name: 'enhanced-fire-bolt',
     transform: getSkillTransform(69, radiusModifier),
@@ -159,7 +167,8 @@ const skills = reactive([{
   name: 'arc-lash',
   icon: '/img/skills/sorcerer/basic/arc-lash.png',
   transform: getSkillTransform(15, radiusSkill),
-  active: false,
+  level: 0,
+  levelMax: 5,
   modifiers: [{
     name: 'enhanced-arc-lash',
     transform: getSkillTransform(40, radiusModifier),
@@ -175,4 +184,39 @@ const skills = reactive([{
     }]
   }]
 }])
+
+function handleSkillClick (skill: any) {
+  if (skill.level < skill.levelMax) {
+    skill.level++
+  }
+}
+
+function handleSkillRightClick (skill: any) {
+  if (skill.level <= 0) return
+
+  if (skill.level === 1 && hasActiveModifiers(skill)) return
+
+  skill.level--
+}
+
+function hasActiveModifiers (skill: any) {
+  return !!skill.modifiers.find((modifier: any) => modifier.active)
+}
+
+function hasChoiceModifierSelected (modifier: any) {
+  return !!modifier.choiceModifiers?.find((modifier: any) => modifier.active)
+}
+
+function handleModifierClick (parent: any, modifier: any) {
+  if (parent.level === 0) return
+  if (modifier.active) return
+  if ((parent.choiceModifiers && !parent.active)) return
+  if (parent.choiceModifiers && hasChoiceModifierSelected(parent)) return
+  modifier.active = true
+}
+
+function handleModifierRightClick (parent: any, modifier: any) {
+  if (modifier.choiceModifiers && hasChoiceModifierSelected(modifier)) return
+  modifier.active = false
+}
 </script>

@@ -25,7 +25,8 @@
       </defs>
       <g
         class="cursor-pointer"
-        @click="$emit('toggle')"
+        @click.stop="$emit('click')"
+        @contextmenu.prevent="$emit('right-click')"
       >
         <!-- Outer Square -->
         <rect
@@ -83,7 +84,8 @@
 
 <script lang="ts" setup>
 defineEmits([
-  'toggle'
+  'click',
+  'right-click'
 ])
 
 const props = defineProps({
