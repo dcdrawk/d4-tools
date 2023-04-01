@@ -127,11 +127,11 @@ const skills = reactive([{
     transform: getSkillTransform(114, radiusModifier),
     active: false,
     choiceModifiers: [{
-      name: 'flickering-frost-bolt',
+      name: 'glinting-frost-bolt',
       transform: getSkillTransform(165, radiusChoiceModifier),
       active: false
     }, {
-      name: 'glinting-frost-bolt',
+      name: 'flickering-frost-bolt',
       transform: getSkillTransform(75, radiusChoiceModifier),
       active: false
     }]
@@ -140,11 +140,39 @@ const skills = reactive([{
   name: 'fire-bolt',
   icon: '/img/skills/sorcerer/basic/fire-bolt.png',
   transform: getSkillTransform(65, radiusSkill),
-  active: false
+  active: false,
+  modifiers: [{
+    name: 'enhanced-fire-bolt',
+    transform: getSkillTransform(69, radiusModifier),
+    active: false,
+    choiceModifiers: [{
+      name: 'glinting-fire-bolt',
+      transform: getSkillTransform(110, radiusChoiceModifier),
+      active: false
+    }, {
+      name: 'flickering-fire-bolt',
+      transform: getSkillTransform(15, radiusChoiceModifier),
+      active: false
+    }]
+  }]
 }, {
   name: 'arc-lash',
   icon: '/img/skills/sorcerer/basic/arc-lash.png',
   transform: getSkillTransform(15, radiusSkill),
-  active: false
+  active: false,
+  modifiers: [{
+    name: 'enhanced-arc-lash',
+    transform: getSkillTransform(40, radiusModifier),
+    active: false,
+    choiceModifiers: [{
+      name: 'glinting-arc-lash',
+      transform: getSkillTransform(85, radiusChoiceModifier),
+      active: false
+    }, {
+      name: 'flickering-arc-lash',
+      transform: getSkillTransform(5, radiusChoiceModifier),
+      active: false
+    }]
+  }]
 }])
 </script>
