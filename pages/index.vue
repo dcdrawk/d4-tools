@@ -1,46 +1,75 @@
 <template>
   <div>
     <BaseSVG
-      :width="300"
-      :height="300"
+      :width="500"
+      :height="500"
       class="absolute"
     >
       <SkillLine
-        :x1="line.x1"
-        :y1="line.y1"
-        :x2="line.x2"
-        :y2="line.y2"
-        stroke="#3e403d"
-        stroke-width="10"
+        v-for="(skill, index) in skills"
+        :key="skill.name"
+        :active="skill.active"
+        :el1="skillTier?.$el"
+        :el2="skillRefs[index]?.$el"
       />
     </BaseSVG>
     <SkillTier
       ref="skillTier"
-      class="translate-x-24 translate-y-24"
+      class="translate-x-[230px] translate-y-[230px]"
     >
       <SkillItem
-        ref="skillItem"
-        :active="activeSkill"
-        class="absolute top-[12.5px] left-[12px] -translate-y-20 -translate-x-24"
-        @toggle="activeSkill = !activeSkill"
+        v-for="(skill, index) in skills"
+        :key="skill.name"
+        :ref="el => { skillRefs[index] = el }"
+        :active="skill.active"
+        :icon="skill.icon"
+        class="absolute top-[12.5px] left-[12px]"
+        :style="{
+          transform: skill.transform
+        }"
+        @toggle="skill.active = !skill.active"
       />
     </SkillTier>
-
-    <!-- </BaseSVG> -->
   </div>
 </template>
 
 <script setup lang="ts">
-// const props = defineProps()
-const activeSkill = ref(false)
 const skillTier = ref()
-const skillItem = ref()
+const skillRefs = ref<any[]>([])
 
-// console.log(skillTier.value)
+function getSkillPosition (degrees: number, radius: number) {
+  const radians = (360 - degrees) * (Math.PI / 180)
+  const x = radius * Math.cos(radians)
+  const y = radius * Math.sin(radians)
 
-const line = computed(() => {
-  const { x1, y1, x2, y2 } = useLineCoordinates(skillTier.value?.$el, skillItem.value?.$el)
+  return { x, y }
+}
 
-  return { x1, y1, x2, y2 }
-})
+function getSkillTransform (degrees: number, radius: number) {
+  const { x, y } = getSkillPosition(degrees, radius)
+
+  return `translate(${x}px, ${y}px)`
+}
+
+const skills = reactive([{
+  name: 'spark',
+  icon: '/img/skills/sorcerer/basic/spark.png',
+  transform: getSkillTransform(165, 95),
+  active: false
+}, {
+  name: 'spark',
+  icon: '/img/skills/sorcerer/basic/frost-bolt.png',
+  transform: getSkillTransform(115, 95),
+  active: false
+}, {
+  name: 'spark',
+  icon: '/img/skills/sorcerer/basic/fire-bolt.png',
+  transform: getSkillTransform(65, 95),
+  active: false
+}, {
+  name: 'spark',
+  icon: '/img/skills/sorcerer/basic/arc-lash.png',
+  transform: getSkillTransform(15, 95),
+  active: false
+}])
 </script>

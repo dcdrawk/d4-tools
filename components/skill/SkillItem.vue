@@ -5,7 +5,7 @@
       :height="56"
     >
       <g
-        class="cursor-pointer"
+        class="cursor-pointer relative"
         @click="$emit('toggle')"
       >
         <!-- Outer Circle -->
@@ -31,11 +31,21 @@
           stroke-width="1"
         />
 
+        <image
+          :href="icon"
+          class="absolute left-[10px] top-0 transition-all"
+          x="8.5"
+          y="8.5"
+          height="38"
+          width="38"
+          :opacity="iconOpacity"
+        />
+
         <!-- Inner Square -->
         <rect
           width="38"
           height="38"
-          fill="#191f20"
+          fill="transparent"
           y="8.5"
           x="8.5"
           stroke="#3e403d"
@@ -93,8 +103,14 @@ const props = defineProps({
   active: {
     type: Boolean,
     default: false
+  },
+  icon: {
+    type: String,
+    default: ''
   }
 })
 
 const outerSquareBg = computed(() => props.active ? 'fill-red-700' : '!fill-[#191f20]')
+
+const iconOpacity = computed(() => props.active ? '1' : '0.6')
 </script>

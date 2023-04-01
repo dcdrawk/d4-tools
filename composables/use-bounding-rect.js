@@ -1,4 +1,6 @@
 export const useLineCoordinates = (el1, el2) => {
+  if (!el1 || !el2) { return { x1: 0, y1: 0, x2: 0, y2: 0 } }
+
   const { x: x1, y: y1 } = useElementCenterCoordinates(el1)
   const { x: x2, y: y2 } = useElementCenterCoordinates(el2)
 
