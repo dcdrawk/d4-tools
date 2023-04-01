@@ -1,8 +1,10 @@
 <template>
-  <div class="skill-item">
+  <div class="skill-item w-[55px] h-[55px]">
+    <slot />
     <BaseSVG
       :width="56"
       :height="56"
+      class="absolute top-0 left-0"
     >
       <g
         class="cursor-pointer relative"
