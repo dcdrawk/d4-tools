@@ -1,21 +1,23 @@
 <template>
-  <div class="skill-item w-[55px] h-[55px]">
+  <div class="skill-item w-[55px] h-[55px] z-0 transition-all">
     <slot />
     <div
-      class="skill-item__level absolute z-30 text-white translate-x-[28px] translate-y-11 font-semibold bg-gradient-to-l from-black/75 text-sm pr-[2px] select-none transition-opacity"
+      class="skill-item__level pointer-events-none absolute z-30 text-white translate-x-[28px] translate-y-11 font-semibold bg-gradient-to-l from-black/75 text-sm pr-[2px] select-none transition-opacity"
       :class="levelClass"
     >
-      {{ level }}/{{  levelMax }}
+      {{ level }}/{{ levelMax }}
     </div>
     <BaseSVG
       :width="56"
       :height="56"
-      class="absolute top-0 left-0"
     >
       <g
         class="cursor-pointer relative"
         @click="$emit('click')"
         @contextmenu.prevent="$emit('right-click')"
+        @mouseover="$emit('mouseover')"
+        @mouseleave="$emit('mouseleave')"
+        @mouseout="$emit('mouseout')"
       >
         <!-- Outer Circle -->
         <circle
@@ -116,13 +118,28 @@
 <script setup>
 defineEmits([
   'click',
-  'right-click'
+  'right-click',
+  'mouseover',
+  'mouseleave',
+  'mouseout'
 ])
 
 const props = defineProps({
   active: {
     type: Boolean,
     default: false
+  },
+  name: {
+    type: String,
+    default: ''
+  },
+  description: {
+    type: String,
+    default: ''
+  },
+  descriptionValues: {
+    type: Array,
+    default: () => []
   },
   icon: {
     type: String,
@@ -149,6 +166,9 @@ const levelClass = computed(() => props.level <= 0 ? 'opacity-0' : 'opacity-100'
 .skill-item {
   &:hover {
     .skill-item__level {
+      @apply opacity-100;
+    }
+    .skill-item__tooltip {
       @apply opacity-100;
     }
   }

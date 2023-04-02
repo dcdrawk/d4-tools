@@ -1,5 +1,5 @@
 <template>
-  <div class="skill-item-upgrade w-[36px] h-[36px] z-20">
+  <div class="skill-item-upgrade w-[36px] h-[36px] z-auto">
     <BaseSVG
       :width="36"
       :height="36"
