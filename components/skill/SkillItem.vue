@@ -31,7 +31,7 @@
 
         <!-- Outer Square -->
         <rect
-          class="transition-all"
+          class="transition-colors"
           :class="outerSquareBg"
           width="45"
           height="45"
@@ -54,7 +54,7 @@
         <image
           v-if="icon"
           :href="icon"
-          class="absolute left-[10px] top-0 transition-all"
+          class="absolute left-[10px] top-0 transition-opacity transform-gpu"
           x="8.5"
           y="8.5"
           height="38"
@@ -155,7 +155,7 @@ const props = defineProps({
   }
 })
 
-const outerSquareBg = computed(() => props.active ? 'fill-red-700' : '!fill-[#191f20]')
+const outerSquareBg = computed(() => props.active ? 'fill-red-800' : '!fill-[#191f20]')
 
 const iconOpacity = computed(() => props.active ? '1' : '0.6')
 

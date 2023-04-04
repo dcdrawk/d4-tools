@@ -287,10 +287,10 @@ function handleSkillMouseOver (skill: any) {
 
 function getTooltipDescription (description: string, values: string[], level: number) {
   let descValue = description
-  values.forEach((value, index) => {
+  values?.forEach((value, index) => {
     const valueArray = value.split(',')
     descValue = descValue.replace(`{${index + 1}}`, valueArray[Math.max(0, level - 1)])
-    console.log(index)
+    // console.log(index)
   })
 
   return descValue

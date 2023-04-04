@@ -55,7 +55,7 @@
         <image
           v-if="icon"
           :href="icon"
-          class="absolute left-[10px] top-0 transition-all"
+          class="absolute left-[10px] top-0 transition-opacity transform-gpu"
           x="5"
           y="5"
           height="26"
