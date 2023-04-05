@@ -136,9 +136,11 @@ function getSkillTransform (degrees: number, radius: number) {
 const radiusSkill = 95
 const radiusModifier = 70
 const radiusChoiceModifier = 50
+const type = 'Basic'
 
 const skills = reactive([{
   name: 'Spark',
+  type,
   description: 'Launch a bolt of lightning that shocks an enemy <span class="text-orange-500">4</span> times, dealing <span class="text-orange-500">[{1}%]</span> damage each hit.',
   descriptionValues: ['8,8.8,9.6,10.4,11.2'],
   icon: '/img/skills/sorcerer/basic/spark.png',
@@ -161,6 +163,7 @@ const skills = reactive([{
   }]
 }, {
   name: 'Frost Bolt',
+  type,
   icon: '/img/skills/sorcerer/basic/frost-bolt.png',
   transform: getSkillTransform(115, radiusSkill),
   level: 0,
@@ -181,6 +184,7 @@ const skills = reactive([{
   }]
 }, {
   name: 'Fire Bolt',
+  type,
   icon: '/img/skills/sorcerer/basic/fire-bolt.png',
   transform: getSkillTransform(65, radiusSkill),
   level: 0,
@@ -201,6 +205,7 @@ const skills = reactive([{
   }]
 }, {
   name: 'Arc Lash',
+  type,
   icon: '/img/skills/sorcerer/basic/arc-lash.png',
   transform: getSkillTransform(15, radiusSkill),
   level: 0,
@@ -259,7 +264,6 @@ function handleModifierRightClick (modifier: any) {
   modifier.active = false
 }
 
-const showTooltip = ref(false)
 const tooltipVisible = ref(false)
 const tooltipName = ref('')
 const tooltipDescription = ref('')
@@ -290,7 +294,6 @@ function getTooltipDescription (description: string, values: string[], level: nu
   values?.forEach((value, index) => {
     const valueArray = value.split(',')
     descValue = descValue.replace(`{${index + 1}}`, valueArray[Math.max(0, level - 1)])
-    // console.log(index)
   })
 
   return descValue

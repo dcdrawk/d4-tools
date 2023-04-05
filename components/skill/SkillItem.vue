@@ -167,7 +167,7 @@ const props = defineProps({
   }
 })
 
-const outerSquareBg = computed(() => props.active ? useActiveColor() : '!fill-[#191f20]')
+const outerSquareBg = computed(() => props.active ? useActiveFill() : '!fill-[#191f20]')
 
 const iconOpacity = computed(() => props.active ? '1' : '0.6')
 

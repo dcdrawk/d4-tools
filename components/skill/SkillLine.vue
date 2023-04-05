@@ -50,7 +50,7 @@ const props = defineProps({
   }
 })
 
-const lineStroke = computed(() => props.active ? 'stroke-red-700' : 'stroke-[#191f20]')
+const lineStroke = computed(() => props.active ? 'stroke-red-800' : 'stroke-[#191f20]')
 
 const line = computed(() => {
   const { x1, y1, x2, y2 } = useLineCoordinates(props.el1, props.el2)
