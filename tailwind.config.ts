@@ -18,8 +18,8 @@ module.exports = {
       }
     },
     fontFamily: {
-      display: ['Rubik', 'sans-serif'],
-      body: ['Open Sans', 'sans-serif']
+      display: ['Noto Serif', 'sans-serif'],
+      sans: ['Arimo', 'sans-serif']
     },
     container: {
       center: true,

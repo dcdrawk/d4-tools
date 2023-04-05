@@ -1,5 +1,5 @@
 <template>
-  <div class="skill-item w-[55px] h-[55px] z-0 transition-all">
+  <div class="skill-item w-[55px] h-[55px] z-0">
     <slot />
     <div
       class="skill-item__rank pointer-events-none absolute z-30 text-white translate-x-[28px] translate-y-11 font-semibold bg-gradient-to-l from-black/75 text-sm pr-[2px] select-none transition-opacity"

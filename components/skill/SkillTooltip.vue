@@ -10,7 +10,10 @@
           :icon="icon"
         />
       </div>
-      <h4 class="font-display text-xl font-semibold text-center select-none shadow-black text-shadow mb-2">
+      <h4
+        class="font-display text-xl text-center select-none shadow-black mb-2 subpixel-antialiased"
+        style="backface-visibility: hidden;"
+      >
         {{ name }}
       </h4>
 
@@ -30,7 +33,7 @@
 
       <hr class="border-gray-500 my-2 select-none">
       <!-- eslint-disable-next-line -->
-      <p class="mb-2" v-html="description" />
+      <p class="mb-2 subpixel-antialiased  text-shadow-sm shadow-black" v-html="description" />
 
       <div class="flex flex-col items-end">
         <hr class="w-1/2 border-gray-500 my-2 select-none">
@@ -107,7 +110,7 @@ const notLearnedVisible = computed(() => {
 <style scoped lang="postcss">
 .tooltip {
   &__container {
-    background: url('/svg/tooltip-bg.svg');
+    /* background: url('/svg/tooltip-bg.svg'); */
     background-repeat: repeat;
     background-size: 150px 150px;
   }
