@@ -2,10 +2,10 @@
   <div class="skill-item w-[55px] h-[55px] z-0 transition-all">
     <slot />
     <div
-      class="skill-item__level pointer-events-none absolute z-30 text-white translate-x-[28px] translate-y-11 font-semibold bg-gradient-to-l from-black/75 text-sm pr-[2px] select-none transition-opacity"
-      :class="levelClass"
+      class="skill-item__rank pointer-events-none absolute z-30 text-white translate-x-[28px] translate-y-11 font-semibold bg-gradient-to-l from-black/75 text-sm pr-[2px] select-none transition-opacity"
+      :class="rankClass"
     >
-      {{ level }}/{{ levelMax }}
+      {{ rank }}/{{ rankMax }}
     </div>
     <BaseSVG
       :width="56"
@@ -157,11 +157,11 @@ const props = defineProps({
     type: String,
     default: ''
   },
-  level: {
+  rank: {
     type: [String, Number],
     default: '0'
   },
-  levelMax: {
+  rankMax: {
     type: [String, Number],
     default: '5'
   }
@@ -171,13 +171,13 @@ const outerSquareBg = computed(() => props.active ? useActiveFill() : '!fill-[#1
 
 const iconOpacity = computed(() => props.active ? '1' : '0.6')
 
-const levelClass = computed(() => props.level <= 0 ? 'opacity-0' : 'opacity-100')
+const rankClass = computed(() => props.rank <= 0 ? 'opacity-0' : 'opacity-100')
 </script>
 
 <style scoped lang="postcss">
 .skill-item__svg:hover {
   .skill-item {
-    &__level {
+    &__rank {
       @apply opacity-100;
     }
 

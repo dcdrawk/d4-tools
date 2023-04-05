@@ -1,6 +1,5 @@
 <template>
   <div class="relative">
-    <!-- {{ tooltipVisible }} -->
     <BaseSVG
       :width="500"
       :height="500"
@@ -11,7 +10,7 @@
         :key="skill.name"
       >
         <SkillLine
-          :active="skill.level > 0"
+          :active="skill.rank > 0"
           :el1="skillTier?.$el"
           :el2="skillRefs[skill.name]?.$el"
         />
@@ -39,8 +38,12 @@
     <SkillTooltip
       v-if="tooltip.visible"
       :name="tooltip.name"
+      :rank="tooltip.rank"
       :description="tooltip.description"
       :icon="tooltip.icon"
+      :type="tooltip.type"
+      :school="tooltip.school"
+      :damage-type="tooltip.damageType"
       :translate-x="tooltip.x"
       :translate-y="tooltip.y"
     />
@@ -57,10 +60,10 @@
         :style="{ transform: skill.transform }"
         :name="skill.name"
         :description="skill.description"
-        :active="skill.level > 0"
+        :active="skill.rank > 0"
         :icon="skill.icon"
-        :level="skill.level"
-        :level-max="skill.levelMax"
+        :rank="skill.rank"
+        :rank-max="skill.rankMax"
         @click="handleSkillClick(skill)"
         @right-click="handleSkillRightClick(skill)"
         @mouseover="handleSkillMouseOver(skill)"
@@ -122,12 +125,14 @@ const type = 'Basic'
 const skills = reactive([{
   name: 'Spark',
   type,
+  school: 'Shock',
+  damageType: 'Lightning',
   description: 'Launch a bolt of lightning that shocks an enemy <span class="text-orange-500">4</span> times, dealing <span class="text-orange-500">[{1}%]</span> damage each hit.',
   descriptionValues: ['8,8.8,9.6,10.4,11.2'],
   icon: '/img/skills/sorcerer/basic/spark.png',
   transform: getSkillTransform(165, radiusSkill),
-  level: 0,
-  levelMax: 5,
+  rank: 0,
+  rankMax: 5,
   modifiers: [{
     name: 'enhanced-spark',
     transform: getSkillTransform(140, radiusModifier),
@@ -145,10 +150,12 @@ const skills = reactive([{
 }, {
   name: 'Frost Bolt',
   type,
+  school: 'Frost',
+  damageType: 'Cold',
   icon: '/img/skills/sorcerer/basic/frost-bolt.png',
   transform: getSkillTransform(115, radiusSkill),
-  level: 0,
-  levelMax: 5,
+  rank: 0,
+  rankMax: 5,
   modifiers: [{
     name: 'enhanced-frost-bolt',
     transform: getSkillTransform(114, radiusModifier),
@@ -166,10 +173,12 @@ const skills = reactive([{
 }, {
   name: 'Fire Bolt',
   type,
+  school: 'Pyromancy',
+  damageType: 'Fire',
   icon: '/img/skills/sorcerer/basic/fire-bolt.png',
   transform: getSkillTransform(65, radiusSkill),
-  level: 0,
-  levelMax: 5,
+  rank: 0,
+  rankMax: 5,
   modifiers: [{
     name: 'enhanced-fire-bolt',
     transform: getSkillTransform(69, radiusModifier),
@@ -187,10 +196,12 @@ const skills = reactive([{
 }, {
   name: 'Arc Lash',
   type,
+  school: 'Shock',
+  damageType: 'Lightning',
   icon: '/img/skills/sorcerer/basic/arc-lash.png',
   transform: getSkillTransform(15, radiusSkill),
-  level: 0,
-  levelMax: 5,
+  rank: 0,
+  rankMax: 5,
   modifiers: [{
     name: 'enhanced-arc-lash',
     transform: getSkillTransform(40, radiusModifier),
@@ -208,20 +219,22 @@ const skills = reactive([{
 }])
 
 function handleSkillClick (skill: any) {
-  if (skill.level < skill.levelMax) {
-    skill.level++
-    tooltip.description = getTooltipDescription(skill.description, skill.descriptionValues, skill.level)
+  if (skill.rank < skill.rankMax) {
+    skill.rank++
+    tooltip.rank = skill.rank
+    tooltip.description = getTooltipDescription(skill.description, skill.descriptionValues, skill.rank)
   }
 }
 
 function handleSkillRightClick (skill: any) {
-  if (skill.level <= 0) return
+  if (skill.rank <= 0) return
 
-  if (skill.level === 1 && hasActiveModifiers(skill)) return
+  if (skill.rank === 1 && hasActiveModifiers(skill)) return
 
-  skill.level--
+  skill.rank--
 
-  tooltip.description = getTooltipDescription(skill.description, skill.descriptionValues, skill.level)
+  tooltip.rank = skill.rank
+  tooltip.description = getTooltipDescription(skill.description, skill.descriptionValues, skill.rank)
 }
 
 function hasActiveModifiers (skill: any) {
@@ -233,7 +246,7 @@ function hasChoiceModifierSelected (modifier: any) {
 }
 
 function handleModifierClick (parent: any, modifier: any) {
-  if (parent.level === 0) return
+  if (parent.rank === 0) return
   if (modifier.active) return
   if ((parent.choiceModifiers && !parent.active)) return
   if (parent.choiceModifiers && hasChoiceModifierSelected(parent)) return
@@ -251,6 +264,10 @@ const tooltip = reactive({
   name: '',
   description: '',
   icon: '',
+  rank: 0,
+  type,
+  school: '',
+  damageType: '',
   x: 0,
   y: 0
 })
@@ -261,9 +278,12 @@ function handleSkillMouseOver (skill: any) {
   const ref = skillRefs.value[skill.name]
   const refBox = ref.$el.getBoundingClientRect()
   tooltip.name = skill.name
+  tooltip.rank = skill.rank
+  tooltip.school = skill.school
+  tooltip.damageType = skill.damageType
 
   if (skill.descriptionValues) {
-    tooltip.description = getTooltipDescription(skill.description, skill.descriptionValues, skill.level)
+    tooltip.description = getTooltipDescription(skill.description, skill.descriptionValues, skill.rank)
   } else {
     tooltip.description = skill.description
   }
@@ -277,12 +297,12 @@ function handleSkillMouseOver (skill: any) {
   tooltip.visible = true
 }
 
-function getTooltipDescription (description: string, values: string[], level: number) {
+function getTooltipDescription (description: string, values: string[], rank: number) {
   let descValue = description
 
   values?.forEach((value, index) => {
     const valueArray = value.split(',')
-    descValue = descValue.replace(`{${index + 1}}`, valueArray[Math.max(0, level - 1)])
+    descValue = descValue.replace(`{${index + 1}}`, valueArray[Math.max(0, rank - 1)])
   })
 
   return descValue

@@ -1,5 +1,6 @@
 // const colors = require('tailwindcss/colors')
 // import colors from 'tailwindcss/colors'
+import plugin from 'tailwindcss/plugin'
 
 module.exports = {
   content: [
@@ -47,7 +48,18 @@ module.exports = {
       borderWidth: ['last']
     }
   },
-  plugins: [],
+  plugins: [
+    plugin(function ({ matchUtilities, theme }) {
+      matchUtilities(
+        {
+          'text-shadow': value => ({
+            textShadow: value
+          })
+        },
+        { values: theme('textShadow') }
+      )
+    })
+  ],
   future: {
     removeDeprecatedGapUtilities: true,
     purgeLayersByDefault: true
