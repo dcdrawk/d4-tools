@@ -36,33 +36,14 @@
       </g>
     </BaseSVG>
 
-    <div
+    <SkillTooltip
       v-if="tooltipVisible"
-      class="skill-item__tooltip absolute z-50 top-[40px] left-[40px] skill-item__tooltip w-[400px] flex flex-col text-white border-[#2d3c38] border-4 transition-opacity shadow-lg"
-      :style="{ transform: `translate(${tooltipX}px, ${tooltipY}px)`}"
-    >
-      <div class="relative bg-[#151314] border-[#060604] border-2 p-4 select-none">
-        <div class="relative w-full flex items-center justify-center -top-12 -mb-10">
-          <SkillItem
-            class="!block select-none"
-            :icon="tooltipIcon"
-          />
-        </div>
-        <!-- <div class="absolute -top-9 left-1/2 -translate-x-8 w-16 h-16 rounded-full bg-gray-800 border border-spacing-0 border-gray-500 pt-2 pl-2">
-          <img
-            :src="tooltipIcon"
-            class="w-12 h-12 border-2 border-gray-600"
-          >
-        </div> -->
-        <h4 class="font-display text-xl font-semibold text-center select-none">
-          {{ tooltipName }}
-        </h4>
-
-        <hr class="border-gray-500 my-2 select-none">
-        <!-- eslint-disable-next-line -->
-        <p v-html="tooltipDescription" />
-      </div>
-    </div>
+      :name="tooltipName"
+      :description="tooltipDescription"
+      :icon="tooltipIcon"
+      :translate-x="tooltipX"
+      :translate-y="tooltipY"
+    />
 
     <SkillTier
       ref="skillTier"
