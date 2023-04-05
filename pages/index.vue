@@ -128,7 +128,7 @@ const skills = reactive([{
   type,
   school: 'Shock',
   damageType: 'Lightning',
-  description: 'Launch a bolt of lightning that shocks an enemy <span class="text-orange-500">4</span> times, dealing <span class="text-orange-500">[{1}%]</span> damage each hit.',
+  description: 'Launch a bolt of lightning that shocks an enemy <span class="text-orange-300">4</span> times, dealing <span class="text-orange-300">[{1}%]</span> damage each hit.',
   descriptionValues: ['8,8.8,9.6,10.4,11.2'],
   icon: '/img/skills/sorcerer/basic/spark.png',
   transform: getSkillTransform(165, radiusSkill),

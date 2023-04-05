@@ -1,9 +1,9 @@
 <template>
   <div
-    class="absolute z-50 top-[40px] left-[40px] skill-item__tooltip w-[400px] flex flex-col text-white border-[#2d3c38] border-4 transition-opacity shadow-lg"
+    class="tooltip absolute z-50 top-[40px] left-[40px] w-[400px] flex flex-col text-white border-[#2d3c38] border-4 transition-opacity drop-shadow-lg"
     :style="{ transform: `translate(${translateX}px, ${translateY}px)`}"
   >
-    <div class="relative bg-[#151314] border-[#060604] border-2 p-4 select-none">
+    <div class="tooltip__container relative bg-[#252321] border-[#060604] border-2 p-4 select-none">
       <div class="relative w-full flex items-center justify-center -top-12 -mb-10">
         <SkillItem
           class="!block select-none"
@@ -16,7 +16,7 @@
 
       <div
         v-if="rank > 0"
-        class="py-[5px] bg-gray-700 mb-2 font-display text-center text-shadow-sm shadow-black"
+        class="tooltip__rank py-[5px] mb-2 font-display text-center text-shadow-sm shadow-black shadow-sm"
       >
         RANK {{ rank }}/{{ rankMax }}
       </div>
@@ -42,7 +42,7 @@
         </p>
         <p
           v-if="notLearnedVisible"
-          class="text-red-600 text-shadow shadow-black"
+          class="text-red-600 text-shadow-sm shadow-black font-semibold"
         >
           Not Yet Learned
         </p>
@@ -103,3 +103,19 @@ const notLearnedVisible = computed(() => {
   return props.rank <= 0
 })
 </script>
+
+<style scoped lang="postcss">
+.tooltip {
+  &__container {
+    background: url('/svg/tooltip-bg.svg');
+    background-repeat: repeat;
+    background-size: 150px 150px;
+  }
+
+  &__rank {
+    background: url('/svg/tooltip-span-bg.svg');
+    background-repeat: repeat;
+    background-size: 200px 200px;
+  }
+}
+</style>
