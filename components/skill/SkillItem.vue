@@ -12,7 +12,7 @@
       :height="56"
     >
       <g
-        class="cursor-pointer relative"
+        class="skill-item__svg cursor-pointer relative"
         @click="$emit('click')"
         @contextmenu.prevent="$emit('right-click')"
         @mouseover="$emit('mouseover')"
@@ -31,7 +31,7 @@
 
         <!-- Outer Square -->
         <rect
-          class="transition-colors"
+          class="skill-item__outer-square transition-colors"
           :class="outerSquareBg"
           width="45"
           height="45"
@@ -64,6 +64,7 @@
 
         <!-- Inner Square -->
         <rect
+          class="skill-item__inner-square"
           width="38"
           height="38"
           fill="transparent"
@@ -107,6 +108,17 @@
           fill="transparent"
           y="46.5"
           x="46.5"
+          stroke="#3e403d"
+          stroke-width="1"
+        />
+
+        <rect
+          class="skill-item__outer-square transition-colors"
+          width="45"
+          height="45"
+          fill="transparent"
+          y="5"
+          x="5"
           stroke="#3e403d"
           stroke-width="1"
         />
@@ -155,21 +167,22 @@ const props = defineProps({
   }
 })
 
-const outerSquareBg = computed(() => props.active ? 'fill-red-800' : '!fill-[#191f20]')
+const outerSquareBg = computed(() => props.active ? useActiveColor() : '!fill-[#191f20]')
 
 const iconOpacity = computed(() => props.active ? '1' : '0.6')
 
 const levelClass = computed(() => props.level <= 0 ? 'opacity-0' : 'opacity-100')
 </script>
 
-<style lang="postcss">
-.skill-item {
-  &:hover {
-    .skill-item__level {
+<style scoped lang="postcss">
+.skill-item__svg:hover {
+  .skill-item {
+    &__level {
       @apply opacity-100;
     }
-    .skill-item__tooltip {
-      @apply opacity-100;
+
+    &__outer-square {
+      @apply stroke-[#faecea];
     }
   }
 }

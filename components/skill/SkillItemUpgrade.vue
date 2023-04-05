@@ -1,8 +1,8 @@
 <template>
   <div class="skill-item-upgrade w-[36px] h-[36px] z-auto">
     <BaseSVG
-      :width="36"
-      :height="36"
+      :width="40"
+      :height="40"
       class="absolute top-0 left-0"
     >
       <defs>
@@ -16,28 +16,40 @@
           <rect
             width="18"
             height="18"
-            x="6"
-            y="10"
+            x="8"
+            y="12"
             transform="rotate(45, 12, 12)"
             fill="white"
           />
         </mask>
       </defs>
       <g
-        class="cursor-pointer"
+        class="skill-item-upgrade__svg cursor-pointer"
         @click.stop="$emit('click')"
         @contextmenu.prevent="$emit('right-click')"
       >
-        <!-- Outer Square -->
         <rect
-          class="cursor-pointer transition-colors"
+          class="skill-item-upgrade__outer-border opacity-0 transition-colors"
           :class="outerSquareBg"
           width="24"
           height="24"
           transform="rotate(45, 12, 12)"
           fill="#191f20"
-          x="6"
-          y="6"
+          x="8"
+          y="8"
+          stroke="#3e403d"
+          stroke-width="3"
+        />
+        <!-- Outer Square -->
+        <rect
+          class="skill-item-upgrade__outer-square transition-colors"
+          :class="outerSquareBg"
+          width="24"
+          height="24"
+          transform="rotate(45, 12, 12)"
+          fill="#191f20"
+          x="8"
+          y="8"
           stroke="#3e403d"
           stroke-width="2"
         />
@@ -48,16 +60,16 @@
           height="18"
           fill="#000"
           transform="rotate(45, 12, 12)"
-          x="6"
-          y="10"
+          x="8"
+          y="12"
         />
 
         <image
           v-if="icon"
           :href="icon"
           class="absolute left-[10px] top-0 transition-opacity transform-gpu"
-          x="5"
-          y="5"
+          x="7"
+          y="7"
           height="26"
           width="26"
           :opacity="iconOpacity"
@@ -70,8 +82,8 @@
           height="18"
           fill="transparent"
           transform="rotate(45, 12, 12)"
-          y="10"
-          x="6"
+          y="12"
+          x="8"
           stroke="#3e403d"
           stroke-width="1"
         />
@@ -99,7 +111,15 @@ const props = defineProps({
   }
 })
 
-const outerSquareBg = computed(() => props.active ? 'fill-red-700' : '!fill-[#191f20]')
+const outerSquareBg = computed(() => props.active ? useActiveColor() : '!fill-[#191f20]')
 
 const iconOpacity = computed(() => props.active ? '1' : '0.6')
 </script>
+
+<style scoped lang="postcss">
+.skill-item-upgrade__svg:hover {
+  .skill-item-upgrade__outer-border {
+    @apply stroke-[#faecea] opacity-100;
+  }
+}
+</style>
