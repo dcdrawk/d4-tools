@@ -15,6 +15,13 @@
       </h4>
 
       <div
+        v-if="rank > 0"
+        class="py-[5px] bg-gray-700 mb-2 font-display text-center text-shadow-sm shadow-black"
+      >
+        RANK {{ rank }}/{{ rankMax }}
+      </div>
+
+      <div
         v-if="type"
       >
         <span class="inline-block px-2 py-[5px] border border-green-500 bg-green-900 text-shadow shadow-black mr-[5px]">{{ type }}</span>
@@ -28,7 +35,10 @@
       <div class="flex flex-col items-end">
         <hr class="w-1/2 border-gray-500 my-2 select-none">
         <p v-if="damageType">
-          {{ damageType }} Damage
+          <SkillDamageIcon
+            class="mr-2"
+            :type="damageType.toLowerCase()"
+          />{{ damageType }} Damage
         </p>
         <p
           v-if="notLearnedVisible"
@@ -60,6 +70,10 @@ const props = defineProps({
     default: ''
   },
   rank: {
+    type: Number,
+    default: 0
+  },
+  rankMax: {
     type: Number,
     default: 0
   },

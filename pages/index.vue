@@ -39,6 +39,7 @@
       v-if="tooltip.visible"
       :name="tooltip.name"
       :rank="tooltip.rank"
+      :rank-max="tooltip.rankMax"
       :description="tooltip.description"
       :icon="tooltip.icon"
       :type="tooltip.type"
@@ -265,6 +266,7 @@ const tooltip = reactive({
   description: '',
   icon: '',
   rank: 0,
+  rankMax: 0,
   type,
   school: '',
   damageType: '',
@@ -279,6 +281,7 @@ function handleSkillMouseOver (skill: any) {
   const refBox = ref.$el.getBoundingClientRect()
   tooltip.name = skill.name
   tooltip.rank = skill.rank
+  tooltip.rankMax = skill.rankMax
   tooltip.school = skill.school
   tooltip.damageType = skill.damageType
 
