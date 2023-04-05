@@ -37,12 +37,12 @@
     </BaseSVG>
 
     <SkillTooltip
-      v-if="tooltipVisible"
-      :name="tooltipName"
-      :description="tooltipDescription"
-      :icon="tooltipIcon"
-      :translate-x="tooltipX"
-      :translate-y="tooltipY"
+      v-if="tooltip.visible"
+      :name="tooltip.name"
+      :description="tooltip.description"
+      :icon="tooltip.icon"
+      :translate-x="tooltip.x"
+      :translate-y="tooltip.y"
     />
 
     <SkillTier
@@ -64,8 +64,8 @@
         @click="handleSkillClick(skill)"
         @right-click="handleSkillRightClick(skill)"
         @mouseover="handleSkillMouseOver(skill)"
-        @mouseleave="tooltipVisible = false"
-        @mouseout="tooltipVisible = false"
+        @mouseleave="tooltip.visible = false"
+        @mouseout="tooltip.visible = false"
       >
         <SkillItemUpgrade
           v-for="modifier in skill.modifiers"
@@ -210,7 +210,7 @@ const skills = reactive([{
 function handleSkillClick (skill: any) {
   if (skill.level < skill.levelMax) {
     skill.level++
-    tooltipDescription.value = getTooltipDescription(skill.description, skill.descriptionValues, skill.level)
+    tooltip.description = getTooltipDescription(skill.description, skill.descriptionValues, skill.level)
   }
 }
 
@@ -221,7 +221,7 @@ function handleSkillRightClick (skill: any) {
 
   skill.level--
 
-  tooltipDescription.value = getTooltipDescription(skill.description, skill.descriptionValues, skill.level)
+  tooltip.description = getTooltipDescription(skill.description, skill.descriptionValues, skill.level)
 }
 
 function hasActiveModifiers (skill: any) {
@@ -237,6 +237,7 @@ function handleModifierClick (parent: any, modifier: any) {
   if (modifier.active) return
   if ((parent.choiceModifiers && !parent.active)) return
   if (parent.choiceModifiers && hasChoiceModifierSelected(parent)) return
+
   modifier.active = true
 }
 
@@ -245,33 +246,40 @@ function handleModifierRightClick (modifier: any) {
   modifier.active = false
 }
 
-const tooltipVisible = ref(false)
-const tooltipName = ref('')
-const tooltipDescription = ref('')
-const tooltipIcon = ref('')
-
-const tooltipX = ref(0)
-const tooltipY = ref(0)
+const tooltip = reactive({
+  visible: false,
+  name: '',
+  description: '',
+  icon: '',
+  x: 0,
+  y: 0
+})
 
 function handleSkillMouseOver (skill: any) {
-  if (tooltipVisible.value === true) return
+  if (tooltip.visible === true) return
+
   const ref = skillRefs.value[skill.name]
   const refBox = ref.$el.getBoundingClientRect()
-  tooltipName.value = skill.name
+  tooltip.name = skill.name
+
   if (skill.descriptionValues) {
-    tooltipDescription.value = getTooltipDescription(skill.description, skill.descriptionValues, skill.level)
+    tooltip.description = getTooltipDescription(skill.description, skill.descriptionValues, skill.level)
   } else {
-    tooltipDescription.value = skill.description
+    tooltip.description = skill.description
   }
-  tooltipIcon.value = skill.icon
+
+  tooltip.icon = skill.icon
+
   const offset = 20
-  tooltipX.value = refBox.left + offset
-  tooltipY.value = refBox.top + offset
-  tooltipVisible.value = true
+
+  tooltip.x = refBox.left + offset
+  tooltip.y = refBox.top + offset
+  tooltip.visible = true
 }
 
 function getTooltipDescription (description: string, values: string[], level: number) {
   let descValue = description
+
   values?.forEach((value, index) => {
     const valueArray = value.split(',')
     descValue = descValue.replace(`{${index + 1}}`, valueArray[Math.max(0, level - 1)])
