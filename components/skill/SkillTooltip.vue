@@ -58,7 +58,7 @@
             class="mr-2"
             :icon="['fas', 'caret-right']"
           />
-          <span class="text-orange-300">[{{ item }}%]</span>
+          <span class="text-orange-300">{{ item }}</span>
         </li>
       </ul>
 
