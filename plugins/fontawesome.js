@@ -4,6 +4,7 @@ import { library, config } from '@fortawesome/fontawesome-svg-core'
 
 import {
   faBars,
+  faCaretRight,
   faExternalLinkAlt,
   faTimes,
   faFire,
@@ -18,6 +19,7 @@ config.autoAddCss = false
 
 library.add(
   faBars,
+  faCaretRight,
   faExternalLinkAlt,
   faTimes,
   faFire,

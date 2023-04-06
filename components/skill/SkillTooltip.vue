@@ -32,8 +32,28 @@
       </div>
 
       <hr class="border-gray-500 my-2 select-none">
+
       <!-- eslint-disable-next-line -->
-      <p class="mb-2 subpixel-antialiased  text-shadow-sm shadow-black" v-html="description" />
+      <p class="mb-2 subpixel-antialiased  text-shadow-sm shadow-black" v-html="tooltipDescription" />
+
+      <!-- Next Rank -->
+      <ul
+        v-if="nextRankVisible"
+        class="list-disc list-inside"
+      >
+        Next Rank:
+        <li
+          v-for="(item, key) in nextRankList"
+          :key="key"
+        >
+          <span class="mr-2 capitalize">{{ key }}</span>
+          <FontAwesomeIcon
+            class="mr-2"
+            :icon="['fas', 'caret-right']"
+          />
+          <span class="text-orange-300">[{{ item }}%]</span>
+        </li>
+      </ul>
 
       <div class="flex flex-col items-end">
         <hr class="w-1/2 border-gray-500 my-2 select-none">
@@ -67,6 +87,12 @@ const props = defineProps({
   description: {
     type: String,
     default: ''
+  },
+  descriptionValues: {
+    type: Object,
+    default () {
+      return {}
+    }
   },
   icon: {
     type: String,
@@ -105,15 +131,43 @@ const props = defineProps({
 const notLearnedVisible = computed(() => {
   return props.rank <= 0
 })
+
+const tooltipDescription = computed(() => {
+  console.log(props.descriptionValues)
+  if (Object.keys(props.descriptionValues).length === 0) return props.description
+
+  let descValue = props.description
+
+  Object.entries(props.descriptionValues)?.forEach(([key, value]) => {
+    const valueArray = value.split(',')
+    descValue = descValue.replace(`{${key}}`, valueArray[Math.max(0, props.rank - 1)])
+  })
+
+  return descValue
+})
+
+const nextRankVisible = computed(() => props.rank > 0 && props.rank !== props.rankMax)
+
+const nextRankList = computed(() => {
+  const nextRankObject: { [key: string]: any } = {}
+
+  Object.entries(props.descriptionValues).forEach(([key, value]) => {
+    const valueArray = value.split(',')
+    nextRankObject[key] = valueArray[Math.min(props.rankMax, props.rank)]
+  })
+
+  return nextRankObject
+})
+
 </script>
 
 <style scoped lang="postcss">
 .tooltip {
-  &__container {
-    /* background: url('/svg/tooltip-bg.svg'); */
+  /* &__container { */
+    /* background: url('/svg/tooltip-bg.svg');
     background-repeat: repeat;
-    background-size: 150px 150px;
-  }
+    background-size: 150px 150px; */
+  /* } */
 
   &__rank {
     background: url('/svg/tooltip-span-bg.svg');

@@ -18,7 +18,7 @@ module.exports = {
       }
     },
     fontFamily: {
-      display: ['Noto Serif', 'sans-serif'],
+      display: ['Source Serif Pro', 'sans-serif'],
       sans: ['Arimo', 'sans-serif']
     },
     container: {

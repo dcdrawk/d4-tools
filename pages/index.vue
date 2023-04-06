@@ -41,6 +41,7 @@
       :rank="tooltip.rank"
       :rank-max="tooltip.rankMax"
       :description="tooltip.description"
+      :description-values="tooltip.descriptionValues"
       :icon="tooltip.icon"
       :type="tooltip.type"
       :school="tooltip.school"
@@ -128,8 +129,10 @@ const skills = reactive([{
   type,
   school: 'Shock',
   damageType: 'Lightning',
-  description: 'Launch a bolt of lightning that shocks an enemy <span class="text-orange-300">4</span> times, dealing <span class="text-orange-300">[{1}%]</span> damage each hit.',
-  descriptionValues: ['8,8.8,9.6,10.4,11.2'],
+  description: 'Launch a bolt of lightning that shocks an enemy <span class="text-orange-300">4</span> times, dealing <span class="text-orange-300">[{damage}%]</span> damage each hit.',
+  descriptionValues: {
+    damage: '8,8.8,9.6,10.4,11.2'
+  },
   icon: '/img/skills/sorcerer/basic/spark.png',
   transform: getSkillTransform(165, radiusSkill),
   rank: 0,
@@ -264,6 +267,7 @@ const tooltip = reactive({
   visible: false,
   name: '',
   description: '',
+  descriptionValues: {},
   icon: '',
   rank: 0,
   rankMax: 0,
@@ -274,7 +278,7 @@ const tooltip = reactive({
   y: 0
 })
 
-function handleSkillMouseOver (skill: any) {
+async function handleSkillMouseOver (skill: any) {
   if (tooltip.visible === true) return
 
   const ref = skillRefs.value[skill.name]
@@ -284,30 +288,17 @@ function handleSkillMouseOver (skill: any) {
   tooltip.rankMax = skill.rankMax
   tooltip.school = skill.school
   tooltip.damageType = skill.damageType
-
-  if (skill.descriptionValues) {
-    tooltip.description = getTooltipDescription(skill.description, skill.descriptionValues, skill.rank)
-  } else {
-    tooltip.description = skill.description
-  }
-
+  tooltip.description = skill.description
+  tooltip.descriptionValues = skill.descriptionValues
   tooltip.icon = skill.icon
+
+  console.log('tooltip', tooltip.descriptionValues)
 
   const offset = 20
 
   tooltip.x = refBox.left + offset
   tooltip.y = refBox.top + offset
+  await nextTick()
   tooltip.visible = true
-}
-
-function getTooltipDescription (description: string, values: string[], rank: number) {
-  let descValue = description
-
-  values?.forEach((value, index) => {
-    const valueArray = value.split(',')
-    descValue = descValue.replace(`{${index + 1}}`, valueArray[Math.max(0, rank - 1)])
-  })
-
-  return descValue
 }
 </script>
