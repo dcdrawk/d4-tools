@@ -8,7 +8,8 @@
       <div class="relative w-full flex items-center justify-center -top-12 -mb-10">
         <component
           :is="iconComponent"
-          class="!block select-none"
+          class="!block select-none relative"
+          :class="iconStyles"
           :icon="icon"
         />
       </div>
@@ -30,7 +31,7 @@
       </div>
 
       <div
-        v-if="type"
+        v-if="type && school"
       >
         <span class="inline-block px-2 py-[5px] border border-green-500 bg-green-900 text-shadow shadow-black mr-[5px]">{{ type }}</span>
         <span class="inline-block px-2 py-[5px] border border-gray-500 bg-gray-700 text-shadow shadow-black">{{ school }}</span>
@@ -80,20 +81,37 @@
         </ul>
       </div>
 
-      <!-- Damage Type -->
-      <div class="flex flex-col items-end">
-        <hr class="w-1/2 border-gray-500 my-2 select-none">
+      <!-- Choice Modifier Message -->
+      <p
+        v-if="isChoiceModifier"
+        class="text-orange-500 text-shadow-sm shadow-black align-baseline"
+      >
+        You may only select one upgrade.
+      </p>
+
+      <!-- Bottom -->
+      <div
+        v-if="damageType || notLearnedVisible"
+        class="flex flex-col items-end"
+      >
+        <hr
+          v-if="damageType"
+          class="w-1/2 border-gray-500 my-2 select-none"
+        >
+        <!-- Damage Type -->
         <p v-if="damageType">
           <SkillDamageIcon
             class="mr-2"
             :type="damageType.toLowerCase()"
           />{{ damageType }} Damage
         </p>
+
+        <!-- Not Learned Message -->
         <p
           v-if="notLearnedVisible"
-          class="text-red-600 text-shadow-sm shadow-black font-semibold"
+          class="text-red-500 mt-2 text-shadow-sm shadow-black"
         >
-          Not Yet Learned {{ category }}
+          Not Yet Learned
         </p>
       </div>
     </div>
@@ -163,7 +181,7 @@ const props = defineProps({
 })
 
 const notLearnedVisible = computed(() => {
-  return props.rank <= 0
+  return props.rank <= 0 && !props.active
 })
 
 const tooltipDescription = computed(() => {
@@ -220,8 +238,23 @@ const iconComponent = computed(() => {
     case ('skill'):
       return SkillItem
     case ('modifier'):
+    case ('choice-modifier'):
     default:
       return SkillItemModifier
+  }
+})
+
+const isModifier = computed(() => {
+  return props.category === 'modifier' || props.category === 'choice-modifier'
+})
+
+const isChoiceModifier = computed(() => {
+  return props.category === 'choice-modifier'
+})
+
+const iconStyles = computed(() => {
+  return {
+    'text-center scale-[1.75] mb-6 top-2': isModifier.value
   }
 })
 </script>
