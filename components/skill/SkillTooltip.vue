@@ -1,15 +1,19 @@
 <template>
   <div
-    class="tooltip absolute z-50 top-[40px] left-[40px] w-[400px] flex flex-col text-white border-[#2d3c38] border-4 transition-opacity drop-shadow-lg"
+    class="tooltip text-[#ddddde] absolute z-50 top-[40px] left-[40px] w-[400px] flex flex-col border-[#2d3c38] border-4 transition-opacity drop-shadow-lg"
     :style="{ transform: `translate(${translateX}px, ${translateY}px)`}"
   >
     <div class="tooltip__container relative bg-[#252321] border-[#060604] border-2 p-4 select-none">
+      <!-- Icon -->
       <div class="relative w-full flex items-center justify-center -top-12 -mb-10">
-        <SkillItem
+        <component
+          :is="iconComponent"
           class="!block select-none"
           :icon="icon"
         />
       </div>
+
+      <!-- Name -->
       <h4
         class="font-display text-xl text-center select-none shadow-black mb-2 subpixel-antialiased"
         style="backface-visibility: hidden;"
@@ -17,9 +21,10 @@
         {{ name }}
       </h4>
 
+      <!-- Rank -->
       <div
         v-if="rank > 0"
-        class="tooltip__rank py-[5px] mb-2 font-display text-center text-shadow-sm shadow-black shadow-sm"
+        class="tooltip__rank bg-[#43443f] pt-[6px] pb-[4px] mb-2 font-display text-center text-shadow-sm shadow-black shadow-sm"
       >
         RANK {{ rank }}/{{ rankMax }}
       </div>
@@ -28,7 +33,7 @@
         v-if="type"
       >
         <span class="inline-block px-2 py-[5px] border border-green-500 bg-green-900 text-shadow shadow-black mr-[5px]">{{ type }}</span>
-        <span class="inline-block px-2 py-[5px] border border-gray-500 bg-gray-800 text-shadow shadow-black">{{ school }}</span>
+        <span class="inline-block px-2 py-[5px] border border-gray-500 bg-gray-700 text-shadow shadow-black">{{ school }}</span>
       </div>
 
       <hr class="border-gray-500 my-2 select-none">
@@ -39,12 +44,13 @@
       <!-- Next Rank -->
       <ul
         v-if="nextRankVisible"
-        class="list-disc list-inside"
+        class="list-disc list-outside"
       >
         Next Rank:
         <li
           v-for="(item, key) in nextRankList"
           :key="key"
+          class="ml-4"
         >
           <span class="mr-2 capitalize">{{ key }}</span>
           <FontAwesomeIcon
@@ -55,6 +61,26 @@
         </li>
       </ul>
 
+      <div
+        v-if="tooltipModifiersVisible"
+      >
+        <div class="tooltip__modifiers bg-[#43443f] my-3 pt-[6px] pb-[4px] mb-2 font-display text-center text-shadow-sm shadow-black shadow-sm">
+          MODIFIERS
+        </div>
+        <ul
+          class="list-disc list-outside ml-4"
+        >
+          <!-- eslint-disable vue/no-v-html -->
+          <li
+            v-for="(modifier, index) in tooltipModifiers"
+            :key="index"
+            v-html="modifier"
+          />
+          <!-- eslint-enable vue/no-v-html -->
+        </ul>
+      </div>
+
+      <!-- Damage Type -->
       <div class="flex flex-col items-end">
         <hr class="w-1/2 border-gray-500 my-2 select-none">
         <p v-if="damageType">
@@ -67,7 +93,7 @@
           v-if="notLearnedVisible"
           class="text-red-600 text-shadow-sm shadow-black font-semibold"
         >
-          Not Yet Learned
+          Not Yet Learned {{ category }}
         </p>
       </div>
     </div>
@@ -106,6 +132,10 @@ const props = defineProps({
     type: Number,
     default: 0
   },
+  category: {
+    type: String,
+    default: ''
+  },
   type: {
     type: String,
     default: ''
@@ -113,6 +143,10 @@ const props = defineProps({
   school: {
     type: String,
     default: ''
+  },
+  modifiers: {
+    type: Array,
+    default: () => []
   },
   damageType: {
     type: String,
@@ -151,7 +185,7 @@ const nextRankVisible = computed(() => props.rank > 0 && props.rank !== props.ra
 const nextRankList = computed(() => {
   const nextRankObject: { [key: string]: any } = {}
 
-  Object.entries(props.descriptionValues).forEach(([key, value]) => {
+  Object.entries(props.descriptionValues)?.forEach(([key, value]) => {
     const valueArray = value.split(',')
     nextRankObject[key] = valueArray[Math.min(props.rankMax, props.rank)]
   })
@@ -159,17 +193,43 @@ const nextRankList = computed(() => {
   return nextRankObject
 })
 
+const tooltipModifiers = computed(() => {
+  const modifiers: any[] = []
+
+  props.modifiers?.forEach((modifier: any) => {
+    if (modifier.active) modifiers.push(modifier)
+
+    modifier?.choiceModifiers
+      ?.filter((choiceModifier: any) => choiceModifier.active)
+      ?.forEach((choiceModifier: any) => modifiers.push(choiceModifier))
+  })
+
+  return modifiers?.map((modifier) => {
+    if (!modifier) return ''
+    return modifier?.description
+  })
+})
+
+const tooltipModifiersVisible = computed(() => tooltipModifiers.value.length)
+
+const SkillItem = resolveComponent('SkillItem')
+const SkillItemModifier = resolveComponent('SkillItemModifier')
+
+const iconComponent = computed(() => {
+  switch (props.category) {
+    case ('skill'):
+      return SkillItem
+    case ('modifier'):
+    default:
+      return SkillItemModifier
+  }
+})
 </script>
 
 <style scoped lang="postcss">
 .tooltip {
-  /* &__container { */
-    /* background: url('/svg/tooltip-bg.svg');
-    background-repeat: repeat;
-    background-size: 150px 150px; */
-  /* } */
-
-  &__rank {
+  &__rank,
+  &__modifiers {
     background: url('/svg/tooltip-span-bg.svg');
     background-repeat: repeat;
     background-size: 200px 200px;

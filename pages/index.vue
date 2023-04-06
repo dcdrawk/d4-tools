@@ -46,6 +46,8 @@
       :type="tooltip.type"
       :school="tooltip.school"
       :damage-type="tooltip.damageType"
+      :modifiers="tooltip.modifiers"
+      :category="tooltip.category"
       :translate-x="tooltip.x"
       :translate-y="tooltip.y"
     />
@@ -72,7 +74,7 @@
         @mouseleave="tooltip.visible = false"
         @mouseout="tooltip.visible = false"
       >
-        <SkillItemUpgrade
+        <SkillItemModifier
           v-for="modifier in skill.modifiers"
           :key="modifier.name"
           :ref="el => { skillModifierRefs[modifier.name] = el }"
@@ -83,7 +85,7 @@
           @click="handleModifierClick(skill, modifier)"
           @right-click="handleModifierRightClick(modifier)"
         >
-          <SkillItemUpgrade
+          <SkillItemModifier
             v-for="choiceModifier in modifier.choiceModifiers"
             :key="choiceModifier.name"
             :ref="el => { skillModifierRefs[choiceModifier.name] = el }"
@@ -94,7 +96,7 @@
             @click="handleModifierClick(modifier, choiceModifier)"
             @right-click="handleModifierRightClick(choiceModifier)"
           />
-        </SkillItemUpgrade>
+        </SkillItemModifier>
       </SkillItem>
     </SkillTier>
   </div>
@@ -138,15 +140,18 @@ const skills = reactive([{
   rank: 0,
   rankMax: 5,
   modifiers: [{
-    name: 'enhanced-spark',
+    name: 'Enhanced Spark',
+    description: 'Each time Spark hits its primary target, it has a <span class="text-orange-300">20%</span> chance to hit up to 3 additional enemies, dealing <span class="text-orange-300">6%</span> damage. If there are no other enemies to hit, Spark instead deals <span class="text-orange-300">x20%</span> increased damage to its primary target.',
     transform: getSkillTransform(140, radiusModifier),
     active: false,
     choiceModifiers: [{
-      name: 'glinting-spark',
+      name: 'Glinting Spark',
+      description: 'Spark grants <span class="text-orange-300">+2%</span> increased Critical Strike Chance per cast for <span class="text-orange-300">3</span> seconds, up to <span class="text-orange-300">+10%.</span>',
       transform: getSkillTransform(175, radiusChoiceModifier),
       active: false
     }, {
-      name: 'flickering-spark',
+      name: 'Flickering Spark',
+      description: 'Each time Spark hits an enemy it has a <span class="text-orange-300">3%</span> chance to form a <span class="underline">Crackling Energy</span>.',
       transform: getSkillTransform(95, radiusChoiceModifier),
       active: false
     }]
@@ -208,6 +213,7 @@ const skills = reactive([{
   rankMax: 5,
   modifiers: [{
     name: 'enhanced-arc-lash',
+    description: '',
     transform: getSkillTransform(40, radiusModifier),
     active: false,
     choiceModifiers: [{
@@ -226,7 +232,6 @@ function handleSkillClick (skill: any) {
   if (skill.rank < skill.rankMax) {
     skill.rank++
     tooltip.rank = skill.rank
-    tooltip.description = getTooltipDescription(skill.description, skill.descriptionValues, skill.rank)
   }
 }
 
@@ -238,7 +243,6 @@ function handleSkillRightClick (skill: any) {
   skill.rank--
 
   tooltip.rank = skill.rank
-  tooltip.description = getTooltipDescription(skill.description, skill.descriptionValues, skill.rank)
 }
 
 function hasActiveModifiers (skill: any) {
@@ -266,6 +270,7 @@ function handleModifierRightClick (modifier: any) {
 const tooltip = reactive({
   visible: false,
   name: '',
+  category: '',
   description: '',
   descriptionValues: {},
   icon: '',
@@ -274,6 +279,7 @@ const tooltip = reactive({
   type,
   school: '',
   damageType: '',
+  modifiers: [],
   x: 0,
   y: 0
 })
@@ -290,7 +296,9 @@ async function handleSkillMouseOver (skill: any) {
   tooltip.damageType = skill.damageType
   tooltip.description = skill.description
   tooltip.descriptionValues = skill.descriptionValues
+  tooltip.modifiers = skill.modifiers
   tooltip.icon = skill.icon
+  tooltip.category = 'skill'
 
   console.log('tooltip', tooltip.descriptionValues)
 
