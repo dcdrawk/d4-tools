@@ -1,7 +1,3 @@
-export const useActiveFill = () => {
-  return 'fill-red-800'
-}
+export const useActiveFill = (): string => 'fill-red-800'
 
-export const useHighlightFill = () => {
-  return 'fill-[#faecea]'
-}
+export const useHighlightFill = (): string => 'fill-[#faecea]'

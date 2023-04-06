@@ -185,7 +185,6 @@ const notLearnedVisible = computed(() => {
 })
 
 const tooltipDescription = computed(() => {
-  console.log(props.descriptionValues)
   if (Object.keys(props.descriptionValues).length === 0) return props.description
 
   let descValue = props.description

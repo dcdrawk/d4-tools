@@ -11,6 +11,6 @@ svg * {
 }
 
 body {
-  @apply bg-gray-900;
+  @apply bg-neutral-900;
 }
 </style>
