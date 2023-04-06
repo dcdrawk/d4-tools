@@ -27,6 +27,9 @@
         class="skill-item-upgrade__svg cursor-pointer"
         @click.stop="$emit('click')"
         @contextmenu.prevent="$emit('right-click')"
+        @mouseover="$emit('mouseover')"
+        @mouseleave="$emit('mouseleave')"
+        @mouseout="$emit('mouseout')"
       >
         <rect
           class="skill-item-upgrade__outer-border opacity-0 transition-colors"
@@ -97,7 +100,10 @@
 <script lang="ts" setup>
 defineEmits([
   'click',
-  'right-click'
+  'right-click',
+  'mouseover',
+  'mouseleave',
+  'mouseout'
 ])
 
 const props = defineProps({
