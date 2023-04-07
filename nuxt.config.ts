@@ -26,5 +26,9 @@ export default defineNuxtConfig({
         { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Arimo&family=Source+Serif+Pro&display=swap' }
       ]
     }
+  },
+
+  pinia: {
+    autoImports: ['defineStore']
   }
 })
