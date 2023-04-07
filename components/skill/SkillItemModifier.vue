@@ -16,9 +16,9 @@
           <rect
             width="18"
             height="18"
-            x="8"
-            y="12"
-            transform="rotate(45, 12, 12)"
+            x="11"
+            y="11"
+            transform="rotate(45, 9, 9)"
             fill="white"
           />
         </mask>
@@ -37,7 +37,7 @@
           width="24"
           height="24"
           transform="rotate(45, 12, 12)"
-          fill="#191f20"
+          fill="transparent"
           x="8"
           y="8"
           stroke="#3e403d"
@@ -49,12 +49,12 @@
           :class="outerSquareBg"
           width="24"
           height="24"
-          transform="rotate(45, 12, 12)"
           fill="#191f20"
+          transform="rotate(45, 12, 12)"
           x="8"
           y="8"
           stroke="#3e403d"
-          stroke-width="2"
+          stroke-width="1"
         />
 
         <!-- Black Image Backdrop -->
@@ -62,9 +62,9 @@
           width="18"
           height="18"
           fill="#000"
-          transform="rotate(45, 12, 12)"
-          x="8"
-          y="12"
+          transform="rotate(45, 9, 9)"
+          x="11"
+          y="11"
         />
 
         <image
@@ -79,14 +79,59 @@
           mask="url(#iconMask)"
         />
 
+        <!-- 4 Corner Rectangles -->
+        <rect
+          width="3"
+          height="3"
+          fill="transparent"
+          transform="rotate(45, 12, 12)"
+          y="8"
+          x="8"
+          stroke="#3e403d"
+          stroke-width="1"
+        />
+
+        <rect
+          width="3"
+          height="3"
+          fill="transparent"
+          transform="rotate(135, 12, 12)"
+          y="8"
+          x="8"
+          stroke="#3e403d"
+          stroke-width="1"
+        />
+
+        <rect
+          width="3"
+          height="3"
+          fill="transparent"
+          y="8"
+          x="8"
+          stroke="#3e403d"
+          stroke-width="1"
+          transform="rotate(225, 12, 12)"
+        />
+
+        <rect
+          width="3"
+          height="3"
+          fill="transparent"
+          y="8"
+          x="8"
+          stroke="#3e403d"
+          stroke-width="1"
+          transform="rotate(315, 12, 12)"
+        />
+
         <!-- Inner Square -->
         <rect
           width="18"
           height="18"
           fill="transparent"
-          transform="rotate(45, 12, 12)"
-          y="12"
-          x="8"
+          transform="rotate(45, 9, 9)"
+          y="11"
+          x="11"
           stroke="#3e403d"
           stroke-width="1"
         />

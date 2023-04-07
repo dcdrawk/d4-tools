@@ -112,6 +112,7 @@
           stroke-width="1"
         />
 
+        <!-- Highlight Square -->
         <rect
           class="skill-item__outer-square transition-colors"
           width="45"
