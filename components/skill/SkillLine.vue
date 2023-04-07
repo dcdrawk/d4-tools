@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-export interface Props {
+interface Props {
   active?: boolean
   el1: HTMLElement,
   el2: HTMLElement

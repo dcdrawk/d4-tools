@@ -15,6 +15,7 @@ module.exports = {
     '@nuxtjs/eslint-config-typescript'
   ],
   rules: {
+    'func-call-spacing': 'off', // Fix for 'defineEmits'
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     curly: 'off',
