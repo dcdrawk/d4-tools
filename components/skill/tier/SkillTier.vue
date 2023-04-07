@@ -1,11 +1,15 @@
 <template>
-  <div class="relative">
+  <div
+    ref="skillTier"
+    class="relative w-[500px] h-[500px]"
+  >
     <!-- Connecting Lines -->
     <ClientOnly>
       <BaseSVG
+        ref="skillLines"
         :width="500"
         :height="500"
-        class="absolute top-0 left-0"
+        class="absolute top-0 left-0 pointer-events-none"
       >
         <g
           v-for="skill in skills"
@@ -14,7 +18,8 @@
           <SkillLine
             v-if="skillRefs[skill.name]"
             :active="skill.rank > 0"
-            :el1="skillTier?.$el"
+            :parent="skillTier"
+            :el1="skillTierItem?.$el"
             :el2="skillRefs[skill.name]?.$el"
           />
 
@@ -24,6 +29,7 @@
           >
             <SkillLine
               :active="modifier.active"
+              :parent="skillTier"
               :el1="skillRefs[skill.name]?.$el"
               :el2="skillModifierRefs[modifier.name]?.$el"
             />
@@ -31,6 +37,7 @@
               v-for="choiceModifier in modifier.choiceModifiers"
               :key="choiceModifier.name"
               :active="choiceModifier.active"
+              :parent="skillTier"
               :el1="skillModifierRefs[modifier.name]?.$el"
               :el2="skillModifierRefs[choiceModifier.name]?.$el"
             />
@@ -40,13 +47,13 @@
     </ClientOnly>
 
     <SkillTierNode
-      ref="skillTier"
-      class="translate-x-[230px] translate-y-[230px]"
+      ref="skillTierItem"
+      class="translate-x-[210px] translate-y-[210px]"
     >
       <SkillItem
         v-for="(skill) in skills"
         :key="skill.name"
-        :ref="el => { skillRefs[skill.name] = el }"
+        :ref="(el) => { skillRefs[skill.name] = el as ComponentPublicInstance }"
         class="absolute top-[12.5px] left-[12px]"
         :style="{ transform: skill.transform }"
         :active="skill.rank > 0"
@@ -62,7 +69,7 @@
         <SkillItemModifier
           v-for="modifier in skill.modifiers"
           :key="modifier.name"
-          :ref="el => { skillModifierRefs[modifier.name] = el }"
+          :ref="el => { skillModifierRefs[modifier.name] = el as ComponentPublicInstance }"
           :icon="skill.icon"
           class="absolute top-[10px] left-[10px]"
           :style="{ transform: modifier.transform }"
@@ -76,7 +83,7 @@
           <SkillItemModifier
             v-for="choiceModifier in modifier.choiceModifiers"
             :key="choiceModifier.name"
-            :ref="el => { skillModifierRefs[choiceModifier.name] = el }"
+            :ref="el => { skillModifierRefs[choiceModifier.name] = el as ComponentPublicInstance }"
             :icon="skill.icon"
             class="absolute top-0 left-0"
             :style="{ transform: choiceModifier.transform }"
@@ -94,23 +101,39 @@
 </template>
 
 <script setup lang="ts">
+import { ISkillItem } from '@/utils/skills'
 import { useTooltipStore } from '@/store/tooltip'
+import SkillItem from '@/components/skill/SkillItem.vue'
+import SkillItemModifier from '@/components/skill/SkillItemModifier.vue'
+
+interface Props {
+  skills: ISkillItem[]
+}
+
+withDefaults(defineProps<Props>(), {
+  skills: () => []
+})
+
+interface IRefObject {
+  [key: string]: ComponentPublicInstance | null
+}
 
 const skillTier = ref()
-const skillRefs = ref<any>({})
-const skillModifierRefs = ref<any>({})
-const skills = useSorcererBasicSkills()
+const skillTierItem = ref()
+const skillLines = ref()
+const skillRefs = ref<IRefObject>({})
+const skillModifierRefs = ref<IRefObject>({})
 
 const tooltipStore = useTooltipStore()
 
-function handleSkillClick (skill: any) {
+function handleSkillClick (skill: any): void {
   if (skill.rank < skill.rankMax) {
     skill.rank++
     tooltipStore.rank++
   }
 }
 
-function handleSkillRightClick (skill: any) {
+function handleSkillRightClick (skill: any): void {
   if (skill.rank <= 0) return
 
   if (skill.rank === 1 && hasActiveModifiers(skill)) return
@@ -119,15 +142,15 @@ function handleSkillRightClick (skill: any) {
   tooltipStore.rank--
 }
 
-function hasActiveModifiers (skill: any) {
+function hasActiveModifiers (skill: any): boolean {
   return !!skill.modifiers.find((modifier: any) => modifier.active)
 }
 
-function hasChoiceModifierSelected (modifier: any) {
+function hasChoiceModifierSelected (modifier: any): boolean {
   return !!modifier.choiceModifiers?.find((modifier: any) => modifier.active)
 }
 
-function handleModifierClick (parent: any, modifier: any) {
+function handleModifierClick (parent: any, modifier: any): void {
   if (parent.rank === 0) return
   if (modifier.active) return
   if ((parent.choiceModifiers && !parent.active)) return
@@ -137,25 +160,25 @@ function handleModifierClick (parent: any, modifier: any) {
   modifier.active = true
 }
 
-function handleModifierRightClick (modifier: any) {
+function handleModifierRightClick (modifier: any): void {
   if (modifier.choiceModifiers && hasChoiceModifierSelected(modifier)) return
 
   tooltipStore.active = false
   modifier.active = false
 }
 
-function handleSkillMouseOver (skill: any) {
+function handleSkillMouseOver (skill: any): void {
   if (tooltipStore.visible === true) return
 
-  const el = skillRefs.value[skill.name].$el
+  const el = skillRefs.value[skill.name]?.$el
 
   tooltipStore.setSkill(skill, el)
 }
 
-function handleModifierMouseOver (modifier: any, icon: string, choiceModifier = false) {
+function handleModifierMouseOver (modifier: any, icon: string, choiceModifier = false): void {
   if (tooltipStore.visible === true) return
 
-  const el = skillModifierRefs.value[modifier.name].$el
+  const el = skillModifierRefs.value[modifier.name]?.$el
 
   tooltipStore.setModifier(modifier, el, icon, choiceModifier)
 }

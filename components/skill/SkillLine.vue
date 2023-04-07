@@ -22,7 +22,8 @@
 interface Props {
   active?: boolean
   el1: HTMLElement,
-  el2: HTMLElement
+  el2: HTMLElement,
+  parent: HTMLElement
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -30,5 +31,5 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const lineStroke = computed<string>(() => props.active ? 'stroke-red-800' : 'stroke-[#191f20]')
-const { x1, y1, x2, y2 } = getLineCoordinates(props.el1, props.el2)
+const { x1, y1, x2, y2 } = computed(() => getLineCoordinates(props.parent, props.el1, props.el2)).value
 </script>

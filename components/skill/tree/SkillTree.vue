@@ -18,7 +18,7 @@
       :translate-y="tooltipStore.y"
     />
 
-    <SkillTier />
+    <SkillTier :skills="sorcererBasicSkills" />
   </div>
 </template>
 
@@ -26,4 +26,5 @@
 import { useTooltipStore } from '@/store/tooltip'
 
 const tooltipStore = useTooltipStore()
+const sorcererBasicSkills = useSorcererBasicSkills()
 </script>

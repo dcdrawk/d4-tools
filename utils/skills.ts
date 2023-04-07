@@ -32,19 +32,22 @@ export const skillChoiceModifierDistance = 50
 /**
  * Line Calculations
  */
-export const getLineCoordinates = (el1: Element, el2: Element) => {
-  if (!el1 || !el2) { return { x1: 0, y1: 0, x2: 0, y2: 0 } }
+export const getLineCoordinates = (parent: Element, el1: Element, el2: Element) => {
+  if (!el1 || !el2 || !parent) { return { x1: 0, y1: 0, x2: 0, y2: 0 } }
 
-  const { x: x1, y: y1 } = getElementCenterCoordinates(el1)
-  const { x: x2, y: y2 } = getElementCenterCoordinates(el2)
+  const { x: x1, y: y1 } = getElementCenterCoordinates(parent, el1)
+  const { x: x2, y: y2 } = getElementCenterCoordinates(parent, el2)
 
+  console.log({ x1, y1, x2, y2 })
   return { x1, y1, x2, y2 }
 }
 
-export const getElementCenterCoordinates = (el: Element) => {
+export const getElementCenterCoordinates = (parent: Element, el: Element) => {
+  const parentBox = parent.getBoundingClientRect()
   const box = el?.getBoundingClientRect()
-  const x = ((box?.left + box?.right) || 0) / 2
-  const y = ((box?.top + box?.bottom) || 0) / 2
+
+  const x = ((box?.left - parentBox.left + box?.right - parentBox.left) || 0) / 2
+  const y = ((box?.top - parentBox.top + box?.bottom - parentBox.top) || 0) / 2
 
   return { x, y }
 }
