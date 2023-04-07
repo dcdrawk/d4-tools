@@ -16,3 +16,9 @@ function getSkillPosition (degrees: number, radius: number): ISkillPosition {
 
   return { x, y }
 }
+
+export const skillItemDistance = 95
+
+export const skillModifierDistance = 70
+
+export const skillChoiceModifierDistance = 50

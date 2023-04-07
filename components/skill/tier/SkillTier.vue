@@ -1,5 +1,6 @@
 <template>
   <div class="relative">
+    <!-- Connecting Lines -->
     <BaseSVG
       :width="500"
       :height="500"

@@ -1,7 +1,4 @@
 const type = 'Basic'
-const radiusSkill = 95
-const radiusModifier = 70
-const radiusChoiceModifier = 50
 
 export const useSorcererBasicSkills = () => {
   return useState('sorcererBasicSkills', () => [{
@@ -14,23 +11,23 @@ export const useSorcererBasicSkills = () => {
     school: 'Shock',
     damageType: 'Lightning',
     icon: '/img/skills/sorcerer/basic/spark.png',
-    transform: getSkillTransform(165, radiusSkill),
+    transform: getSkillTransform(165, skillItemDistance),
     rank: 0,
     rankMax: 5,
     modifiers: [{
       name: 'Enhanced Spark',
       description: 'Each time <span class="text-white">Spark</span> hits its primary target, it has a <span class="text-orange-300">20%</span> chance to hit up to 3 additional enemies, dealing <span class="text-orange-300">6%</span> damage. If there are no other enemies to hit, Spark instead deals <span class="text-orange-300">x20%</span> increased damage to its primary target.',
-      transform: getSkillTransform(140, radiusModifier),
+      transform: getSkillTransform(140, skillModifierDistance),
       active: false,
       choiceModifiers: [{
         name: 'Glinting Spark',
         description: '<span class="text-white">Spark</span> grants <span class="text-orange-300">+2%</span> increased Critical Strike Chance per cast for <span class="text-orange-300">3</span> seconds, up to <span class="text-orange-300">+10%.</span>',
-        transform: getSkillTransform(175, radiusChoiceModifier),
+        transform: getSkillTransform(175, skillChoiceModifierDistance),
         active: false
       }, {
         name: 'Flickering Spark',
         description: 'Each time <span class="text-white">Spark</span> hits an enemy it has a <span class="text-orange-300">3%</span> chance to form a <span class="underline">Crackling Energy</span>.',
-        transform: getSkillTransform(95, radiusChoiceModifier),
+        transform: getSkillTransform(95, skillChoiceModifierDistance),
         active: false
       }]
     }]
@@ -44,23 +41,23 @@ export const useSorcererBasicSkills = () => {
     school: 'Frost',
     damageType: 'Cold',
     icon: '/img/skills/sorcerer/basic/frost-bolt.png',
-    transform: getSkillTransform(115, radiusSkill),
+    transform: getSkillTransform(115, skillItemDistance),
     rank: 0,
     rankMax: 5,
     modifiers: [{
       name: 'Enhanced Frost Bolt',
       description: '<span class="text-white">Frost Bolt</span> has a <span class="text-orange-300">15%</span> chance to explode on <span class="underline">Chilled</span> enemies, hitting surrounding enemies. Chance increased to <span class="text-orange-300">100%</span> against <span class="underline">Frozen</span> enemies.',
-      transform: getSkillTransform(114, radiusModifier),
+      transform: getSkillTransform(114, skillModifierDistance),
       active: false,
       choiceModifiers: [{
         name: 'Glinting Frost Bolt',
         description: '<span class="text-white">Frost Bolt</span> makes <span class="underline">Frozen</span> enemies <span class="underline">Vulnerable</span> for <span class="text-orange-300">3</span> seconds.',
-        transform: getSkillTransform(165, radiusChoiceModifier),
+        transform: getSkillTransform(165, skillChoiceModifierDistance),
         active: false
       }, {
         name: 'Flickering Frost Bolt',
         description: '<span class="text-white">Frost Bolt</span> makes <span class="underline">Frozen</span> enemies <span class="underline">Vulnerable</span> for <span class="text-orange-300">3</span> seconds.',
-        transform: getSkillTransform(75, radiusChoiceModifier),
+        transform: getSkillTransform(75, skillChoiceModifierDistance),
         active: false
       }]
     }]
@@ -75,29 +72,29 @@ export const useSorcererBasicSkills = () => {
     school: 'Pyromancy',
     damageType: 'Fire',
     icon: '/img/skills/sorcerer/basic/fire-bolt.png',
-    transform: getSkillTransform(65, radiusSkill),
+    transform: getSkillTransform(65, skillItemDistance),
     rank: 0,
     rankMax: 5,
     modifiers: [{
       name: 'Enhanced Fire Bolt',
       description: '<span class="text-white">Fire Bolt</span> pierces through Burning enemies.',
-      transform: getSkillTransform(69, radiusModifier),
+      transform: getSkillTransform(69, skillModifierDistance),
       active: false,
       choiceModifiers: [{
         name: 'Glinting Fire Bolt',
         description: 'Critical Strikes with <span class="text-white">Fire Bolt</span> increase the Burning damage you deal to the enemy by <span class="text-orange-300">x20%</span> for <span class="text-orange-300">4</span> seconds.',
-        transform: getSkillTransform(110, radiusChoiceModifier),
+        transform: getSkillTransform(110, skillChoiceModifierDistance),
         active: false
       }, {
         name: 'Flickering Fire Bolt',
         description: '<span class="text-white">Fire Bolt</span> generates <span class="text-orange-300">2</span> Mana when hitting a Burning enemy.',
-        transform: getSkillTransform(15, radiusChoiceModifier),
+        transform: getSkillTransform(15, skillChoiceModifierDistance),
         active: false
       }]
     }]
   }, {
     name: 'Arc Lash',
-    description: 'Unleash arcing lightning that deals <span class="text-orange-300">[{damage}]</span> damage to enemies in front of you. Every <span class="text-orange-300">10</span> times Arc Lash swipes, it Stuns all enemies hit for <span class="text-orange-300">2</span> seconds.',
+    description: 'Unleash arcing lightning that deals <span class="text-orange-300">[{damage}]</span> damage to enemies in front of you. Every <span class="text-orange-300">10</span> times <span class="text-white">Arc Lash</span> swipes, it Stuns all enemies hit for <span class="text-orange-300">2</span> seconds.',
     descriptionValues: {
       damage: '42%,46.2%,50.4%,54.6%,58.8%'
     },
@@ -105,23 +102,23 @@ export const useSorcererBasicSkills = () => {
     school: 'Shock',
     damageType: 'Lightning',
     icon: '/img/skills/sorcerer/basic/arc-lash.png',
-    transform: getSkillTransform(15, radiusSkill),
+    transform: getSkillTransform(15, skillItemDistance),
     rank: 0,
     rankMax: 5,
     modifiers: [{
-      name: 'enhanced-arc-lash',
+      name: 'Enhanced Arc Lash',
       description: 'If <span class="text-white">Arc Lash</span>’s initial swipe Critically Strikes, it swipes an additional time.',
-      transform: getSkillTransform(40, radiusModifier),
+      transform: getSkillTransform(40, skillModifierDistance),
       active: false,
       choiceModifiers: [{
         name: 'Glinting Arc Lash',
         description: 'Hitting a Stunned enemy with <span class="text-white">Arc Lash</span> reduces your Cooldowns by <span class="text-orange-300">0.25</span> seconds.',
-        transform: getSkillTransform(85, radiusChoiceModifier),
+        transform: getSkillTransform(85, skillChoiceModifierDistance),
         active: false
       }, {
         name: 'Flickering Arc Lash',
         description: 'Gain <span class="text-orange-300">+6%</span> Movement Speed for <span class="text-orange-300">5</span> seconds per enemy hit with <span class="text-white">Arc Lash</span>, up to <span class="text-orange-300">+18%</span>.',
-        transform: getSkillTransform(5, radiusChoiceModifier),
+        transform: getSkillTransform(5, skillChoiceModifierDistance),
         active: false
       }]
     }]
