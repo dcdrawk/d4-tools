@@ -26,8 +26,13 @@
     "@fortawesome/free-solid-svg-icons": "^6.3.0",
     "@fortawesome/vue-fontawesome": "^3.0.3",
     "@nuxtjs/tailwindcss": "^6.6.4",
+    "@pinia/nuxt": "^0.4.7",
     "@svgdotjs/svg.js": "^3.1.2",
+    "pinia": "^2.0.33",
     "svg.js": "^2.7.1",
     "svgdom": "^0.1.13"
+  },
+  "overrides": {
+    "vue": "latest"
   }
 }
