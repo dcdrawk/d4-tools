@@ -4,6 +4,7 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev --max-old-space-size=1024",
+    "lint": "npx eslint ./ --ext .js,.vue --ignore-path .gitignore",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"

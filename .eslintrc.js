@@ -10,7 +10,7 @@ module.exports = {
     ecmaVersion: 'latest'
   },
   extends: [
-    'plugin:vue/vue3-essential',
+    'plugin:vue/vue3-strongly-recommended',
     'plugin:nuxt/recommended',
     '@nuxtjs/eslint-config-typescript'
   ],
