@@ -1,3 +1,6 @@
+/**
+ * Transform Functions
+ */
 interface ISkillPosition {
   x: number
   y: number
@@ -17,6 +20,9 @@ function getSkillPosition (degrees: number, radius: number): ISkillPosition {
   return { x, y }
 }
 
+/**
+ * Distance Values
+ */
 export const skillItemDistance = 95
 
 export const skillModifierDistance = 70
@@ -24,7 +30,27 @@ export const skillModifierDistance = 70
 export const skillChoiceModifierDistance = 50
 
 /**
- * Skill Interfaces
+ * Line Calculations
+ */
+export const getLineCoordinates = (el1: Element, el2: Element) => {
+  if (!el1 || !el2) { return { x1: 0, y1: 0, x2: 0, y2: 0 } }
+
+  const { x: x1, y: y1 } = getElementCenterCoordinates(el1)
+  const { x: x2, y: y2 } = getElementCenterCoordinates(el2)
+
+  return { x1, y1, x2, y2 }
+}
+
+export const getElementCenterCoordinates = (el: Element) => {
+  const box = el?.getBoundingClientRect()
+  const x = ((box?.left + box?.right) || 0) / 2
+  const y = ((box?.top + box?.bottom) || 0) / 2
+
+  return { x, y }
+}
+
+/**
+ * Interfaces
  */
 export interface ISkillDescriptionValues {
   [key: string]: string

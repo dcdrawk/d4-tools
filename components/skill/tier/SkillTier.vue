@@ -1,40 +1,43 @@
 <template>
   <div class="relative">
     <!-- Connecting Lines -->
-    <BaseSVG
-      :width="500"
-      :height="500"
-      class="absolute top-0 left-0"
-    >
-      <g
-        v-for="skill in skills"
-        :key="skill.name"
+    <ClientOnly>
+      <BaseSVG
+        :width="500"
+        :height="500"
+        class="absolute top-0 left-0"
       >
-        <SkillLine
-          :active="skill.rank > 0"
-          :el1="skillTier?.$el"
-          :el2="skillRefs[skill.name]?.$el"
-        />
-
         <g
-          v-for="modifier in skill.modifiers"
-          :key="modifier.name"
+          v-for="skill in skills"
+          :key="skill.name"
         >
           <SkillLine
-            :active="modifier.active"
-            :el1="skillRefs[skill.name]?.$el"
-            :el2="skillModifierRefs[modifier.name]?.$el"
+            v-if="skillRefs[skill.name]"
+            :active="skill.rank > 0"
+            :el1="skillTier?.$el"
+            :el2="skillRefs[skill.name]?.$el"
           />
-          <SkillLine
-            v-for="choiceModifier in modifier.choiceModifiers"
-            :key="choiceModifier.name"
-            :active="choiceModifier.active"
-            :el1="skillModifierRefs[modifier.name]?.$el"
-            :el2="skillModifierRefs[choiceModifier.name]?.$el"
-          />
+
+          <g
+            v-for="modifier in skill.modifiers"
+            :key="modifier.name"
+          >
+            <SkillLine
+              :active="modifier.active"
+              :el1="skillRefs[skill.name]?.$el"
+              :el2="skillModifierRefs[modifier.name]?.$el"
+            />
+            <SkillLine
+              v-for="choiceModifier in modifier.choiceModifiers"
+              :key="choiceModifier.name"
+              :active="choiceModifier.active"
+              :el1="skillModifierRefs[modifier.name]?.$el"
+              :el2="skillModifierRefs[choiceModifier.name]?.$el"
+            />
+          </g>
         </g>
-      </g>
-    </BaseSVG>
+      </BaseSVG>
+    </ClientOnly>
 
     <SkillTierNode
       ref="skillTier"
