@@ -1,7 +1,7 @@
 /**
  * Transform Functions
  */
-interface ISkillPosition {
+interface ICoordinates {
   x: number
   y: number
 }
@@ -12,7 +12,7 @@ export const getSkillTransform = (degrees: number, radius: number): string => {
   return `translate(${x}px, ${y}px)`
 }
 
-function getSkillPosition (degrees: number, radius: number): ISkillPosition {
+function getSkillPosition (degrees: number, radius: number): ICoordinates {
   const radians = (360 - degrees) * (Math.PI / 180)
   const x = radius * Math.cos(radians)
   const y = radius * Math.sin(radians)

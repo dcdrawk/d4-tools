@@ -19,37 +19,16 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
-  active: {
-    type: Boolean,
-    default: false
-  },
-  x1: {
-    type: Number,
-    default: 0
-  },
-  x2: {
-    type: Number,
-    default: 0
-  },
-  y1: {
-    type: Number,
-    default: 0
-  },
-  y2: {
-    type: Number,
-    default: 0
-  },
-  el1: {
-    type: [HTMLElement],
-    required: true
-  },
-  el2: {
-    type: [HTMLElement],
-    required: true
-  }
+export interface Props {
+  active?: boolean
+  el1: HTMLElement,
+  el2: HTMLElement
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  active: false
 })
 
-const lineStroke = computed(() => props.active ? 'stroke-red-800' : 'stroke-[#191f20]')
+const lineStroke = computed<string>(() => props.active ? 'stroke-red-800' : 'stroke-[#191f20]')
 const { x1, y1, x2, y2 } = getLineCoordinates(props.el1, props.el2)
 </script>
