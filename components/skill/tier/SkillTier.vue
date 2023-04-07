@@ -36,21 +36,21 @@
     </BaseSVG>
 
     <SkillTooltip
-      v-if="tooltip.visible || tooltip.name === 'Enhanced Spark'"
-      :name="tooltip.name"
-      :active="tooltip.active"
-      :rank="tooltip.rank"
-      :rank-max="tooltip.rankMax"
-      :description="tooltip.description"
-      :description-values="tooltip.descriptionValues"
-      :icon="tooltip.icon"
-      :type="tooltip.type"
-      :school="tooltip.school"
-      :damage-type="tooltip.damageType"
-      :modifiers="tooltip.modifiers"
-      :category="tooltip.category"
-      :translate-x="tooltip.x"
-      :translate-y="tooltip.y"
+      v-if="tooltipStore.visible || tooltipStore.name === 'Enhanced Spark'"
+      :name="tooltipStore.name"
+      :active="tooltipStore.active"
+      :rank="tooltipStore.rank"
+      :rank-max="tooltipStore.rankMax"
+      :description="tooltipStore.description"
+      :description-values="tooltipStore.descriptionValues"
+      :icon="tooltipStore.icon"
+      :type="tooltipStore.type"
+      :school="tooltipStore.school"
+      :damage-type="tooltipStore.damageType"
+      :modifiers="tooltipStore.modifiers"
+      :category="tooltipStore.category"
+      :translate-x="tooltipStore.x"
+      :translate-y="tooltipStore.y"
     />
 
     <SkillTierNode
@@ -72,8 +72,8 @@
         @click="handleSkillClick(skill)"
         @right-click="handleSkillRightClick(skill)"
         @mouseover="handleSkillMouseOver(skill)"
-        @mouseleave="tooltip.visible = false"
-        @mouseout="tooltip.visible = false"
+        @mouseleave="tooltipStore.visible = false"
+        @mouseout="tooltipStore.visible = false"
       >
         <SkillItemModifier
           v-for="modifier in skill.modifiers"
@@ -86,8 +86,8 @@
           @click="handleModifierClick(skill, modifier)"
           @right-click="handleModifierRightClick(modifier)"
           @mouseover="handleModifierMouseOver(modifier, skill.icon)"
-          @mouseleave="tooltip.visible = false"
-          @mouseout="tooltip.visible = false"
+          @mouseleave="tooltipStore.visible = false"
+          @mouseout="tooltipStore.visible = false"
         >
           <SkillItemModifier
             v-for="choiceModifier in modifier.choiceModifiers"
@@ -100,8 +100,8 @@
             @click="handleModifierClick(modifier, choiceModifier)"
             @right-click="handleModifierRightClick(choiceModifier)"
             @mouseover="handleModifierMouseOver(choiceModifier, skill.icon, true)"
-            @mouseleave="tooltip.visible = false"
-            @mouseout="tooltip.visible = false"
+            @mouseleave="tooltipStore.visible = false"
+            @mouseout="tooltipStore.visible = false"
           />
         </SkillItemModifier>
       </SkillItem>
@@ -110,6 +110,8 @@
 </template>
 
 <script setup lang="ts">
+import { useTooltipStore } from '~~/store/tooltip'
+
 const skillTier = ref()
 const skillRefs = ref<any>({})
 const skillModifierRefs = ref<any>({})
@@ -256,10 +258,12 @@ const skills = reactive([{
   }]
 }])
 
+const tooltipStore = useTooltipStore()
+
 function handleSkillClick (skill: any) {
   if (skill.rank < skill.rankMax) {
     skill.rank++
-    tooltip.rank = skill.rank
+    tooltipStore.rank++
   }
 }
 
@@ -269,8 +273,7 @@ function handleSkillRightClick (skill: any) {
   if (skill.rank === 1 && hasActiveModifiers(skill)) return
 
   skill.rank--
-
-  tooltip.rank = skill.rank
+  tooltipStore.rank--
 }
 
 function hasActiveModifiers (skill: any) {
@@ -287,81 +290,30 @@ function handleModifierClick (parent: any, modifier: any) {
   if ((parent.choiceModifiers && !parent.active)) return
   if (parent.choiceModifiers && hasChoiceModifierSelected(parent)) return
 
-  tooltip.active = true
+  tooltipStore.active = true
   modifier.active = true
 }
 
 function handleModifierRightClick (modifier: any) {
   if (modifier.choiceModifiers && hasChoiceModifierSelected(modifier)) return
 
-  tooltip.active = false
+  tooltipStore.active = false
   modifier.active = false
 }
 
-const tooltip = reactive({
-  visible: false,
-  active: false,
-  name: '',
-  category: '',
-  description: '',
-  descriptionValues: {},
-  icon: '',
-  rank: 0,
-  rankMax: 0,
-  type,
-  school: '',
-  damageType: '',
-  modifiers: [],
-  x: 0,
-  y: 0
-})
-
 function handleSkillMouseOver (skill: any) {
-  if (tooltip.visible === true) return
+  if (tooltipStore.visible === true) return
 
-  const ref = skillRefs.value[skill.name]
-  const refBox = ref.$el.getBoundingClientRect()
+  const el = skillRefs.value[skill.name].$el
 
-  tooltip.name = skill.name
-  tooltip.active = false
-  tooltip.rank = skill.rank
-  tooltip.rankMax = skill.rankMax
-  tooltip.school = skill.school
-  tooltip.damageType = skill.damageType
-  tooltip.description = skill.description
-  tooltip.descriptionValues = skill.descriptionValues
-  tooltip.modifiers = skill.modifiers
-  tooltip.icon = skill.icon
-  tooltip.category = 'skill'
-
-  const offset = 20
-
-  tooltip.x = refBox.left + offset
-  tooltip.y = refBox.top + offset
-  tooltip.visible = true
+  tooltipStore.setSkill(skill, el)
 }
 
 function handleModifierMouseOver (modifier: any, icon: string, choiceModifier = false) {
-  if (tooltip.visible === true) return
+  if (tooltipStore.visible === true) return
 
-  tooltip.name = modifier.name
-  tooltip.rank = 0
-  tooltip.rankMax = 0
-  tooltip.school = ''
-  tooltip.damageType = ''
-  tooltip.active = modifier.active
-  tooltip.description = modifier.description
-  tooltip.descriptionValues = {}
-  tooltip.modifiers = []
-  tooltip.icon = icon
-  tooltip.category = choiceModifier ? 'choice-modifier' : 'modifier'
+  const el = skillModifierRefs.value[modifier.name].$el
 
-  const ref = skillModifierRefs.value[modifier.name]
-  const refBox = ref.$el.getBoundingClientRect()
-  const offset = 20
-
-  tooltip.x = refBox.left + offset
-  tooltip.y = refBox.top + offset
-  tooltip.visible = true
+  tooltipStore.setModifier(modifier, el, icon, choiceModifier)
 }
 </script>
