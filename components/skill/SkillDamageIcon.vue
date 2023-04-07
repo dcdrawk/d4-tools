@@ -6,14 +6,24 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
-  type: {
-    type: String,
-    default: 'lightning'
-  }
+interface Props {
+  type?: string
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  type: 'lightning'
 })
 
-const iconMap = {
+interface IIconMapItem {
+  icon: string,
+  style: string
+}
+
+interface IIconMap {
+  [key: string]: IIconMapItem
+}
+
+const iconMap: IIconMap = {
   lightning: {
     icon: 'bolt',
     style: 'text-blue-500/90'
@@ -28,12 +38,7 @@ const iconMap = {
   }
 }
 
-const icon = computed(() => {
-  return iconMap[props.type as keyof typeof iconMap].icon
-})
+const icon = computed<string>(() => iconMap[props.type as keyof typeof iconMap].icon)
 
-const iconStyle = computed(() => {
-  return iconMap[props.type as keyof typeof iconMap].style
-})
-
+const iconStyle = computed<string>(() => iconMap[props.type as keyof typeof iconMap].style)
 </script>

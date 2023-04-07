@@ -1,5 +1,5 @@
 <template>
-  <div class="skill-item-upgrade w-[40px] h-[40px] z-auto">
+  <div class="skill-item-modifier w-[40px] h-[40px] z-auto">
     <BaseSVG
       :width="40"
       :height="40"
@@ -23,8 +23,9 @@
           />
         </mask>
       </defs>
+
       <g
-        class="skill-item-upgrade__svg cursor-pointer"
+        class="skill-item-modifier__svg cursor-pointer"
         @click.stop="$emit('click')"
         @contextmenu.prevent="$emit('right-click')"
         @mouseover="$emit('mouseover')"
@@ -32,7 +33,7 @@
         @mouseout="$emit('mouseout')"
       >
         <rect
-          class="skill-item-upgrade__outer-border opacity-0 transition-colors"
+          class="skill-item-modifier__outer-border opacity-0 transition-colors"
           :class="outerSquareBg"
           width="24"
           height="24"
@@ -45,7 +46,7 @@
         />
         <!-- Outer Square -->
         <rect
-          class="skill-item-upgrade__outer-square transition-colors"
+          class="skill-item-modifier__outer-square transition-colors"
           :class="outerSquareBg"
           width="24"
           height="24"
@@ -143,37 +144,34 @@
 </template>
 
 <script lang="ts" setup>
-defineEmits([
-  'click',
-  'right-click',
-  'mouseover',
-  'mouseleave',
-  'mouseout'
-])
+defineEmits<{
+  (e: 'click'): void
+  (e: 'right-click'): void
+  (e: 'mouseover'): void
+  (e: 'mouseleave'): void
+  (e: 'mouseout'): void
+}>()
 
-const props = defineProps({
-  active: {
-    type: Boolean,
-    default: false
-  },
-  tooltip: {
-    type: Boolean,
-    default: false
-  },
-  icon: {
-    type: String,
-    default: ''
-  }
+interface Props {
+  active?: boolean
+  tooltip?: boolean,
+  icon?: string
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  active: false,
+  tooltip: false,
+  icon: ''
 })
 
-const outerSquareBg = computed(() => props.active ? useActiveFill() : '!fill-[#191f20]')
+const outerSquareBg = computed<string>(() => props.active ? useActiveFill() : '!fill-[#191f20]')
 
-const iconOpacity = computed(() => props.active || props.tooltip ? '1' : '0.6')
+const iconOpacity = computed<string>(() => props.active || props.tooltip ? '1' : '0.6')
 </script>
 
 <style scoped lang="postcss">
-.skill-item-upgrade__svg:hover {
-  .skill-item-upgrade__outer-border {
+.skill-item-modifier__svg:hover {
+  .skill-item-modifier__outer-border {
     @apply stroke-[#faecea] opacity-100;
   }
 }

@@ -1,7 +1,9 @@
+import { ISkillItem } from '@/utils/skills'
+
 const type = 'Basic'
 
-export const useSorcererBasicSkills = () => {
-  return useState('sorcererBasicSkills', () => [{
+export const useSorcererBasicSkills = (): Ref<ISkillItem[]> => {
+  return useState('sorcererBasicSkills', (): ISkillItem[] => [{
     name: 'Spark',
     description: 'Launch a bolt of lightning that shocks an enemy <span class="text-orange-300">4</span> times, dealing <span class="text-orange-300">[{damage}]</span> damage each hit.',
     descriptionValues: {

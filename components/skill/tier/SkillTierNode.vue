@@ -1,5 +1,5 @@
 <template>
-  <div class="skill-tier w-[80px] h-[80px] relative z-auto">
+  <div class="skill-tier w-[80px] h-[80px] relative z-auto inline-block">
     <BaseSVG
       :width="80"
       :height="80"
@@ -55,15 +55,14 @@
   </div>
 </template>
 
-<script setup>
-defineProps({
-  active: {
-    type: Boolean,
-    default: false
-  },
-  icon: {
-    type: String,
-    default: '/svg/skill/tier/skill-tier-icon-basic.svg'
-  }
+<script setup lang="ts">
+interface Props {
+  active?: boolean
+  icon?: string
+}
+
+withDefaults(defineProps<Props>(), {
+  active: false,
+  icon: '/svg/skill/tier/skill-tier-icon-basic.svg'
 })
 </script>
