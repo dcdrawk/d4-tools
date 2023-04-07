@@ -1,35 +1,8 @@
-interface IDescriptionValues {
-  [key: string]: string
-}
-
-interface IChoiceModifier {
-  name: string
-  description: string
-  transform: string
-  active: boolean
-}
-
-interface IModifier {
-  name: string
-  description: string
-  transform: string
-  active: boolean
-  choiceModifiers: IChoiceModifier[]
-}
-
-interface ISkill {
-  name: string
-  description: string
-  descriptionValues: IDescriptionValues
-  type: string
-  school: string
-  damageType: string
-  icon: string
-  transform: string
-  rank: number
-  rankMax: number
-  modifiers: IModifier[]
-}
+import {
+  ISkillDescriptionValues,
+  ISkillModifier,
+  ISkillItem
+} from '../utils/skills'
 
 export const useTooltipStore = defineStore('tooltip', {
   state: () => ({
@@ -38,26 +11,26 @@ export const useTooltipStore = defineStore('tooltip', {
     name: '' as string,
     category: '' as string,
     description: '' as string,
-    descriptionValues: {} as IDescriptionValues,
+    descriptionValues: {} as ISkillDescriptionValues,
     icon: '' as string,
     rank: 0 as number,
     rankMax: 0 as number,
     type: '' as string,
     school: '' as string,
     damageType: '' as string,
-    modifiers: [] as IModifier[],
+    modifiers: [] as ISkillModifier[],
     x: 0 as number,
     y: 0 as number
   }),
 
   getters: {
     hasActiveModifiers (state): boolean {
-      return !!state.modifiers.find((modifier: IModifier) => modifier.active)
+      return !!state.modifiers.find((modifier: ISkillModifier) => modifier.active)
     }
   },
 
   actions: {
-    setSkill (skill: ISkill, el: Element): void {
+    setSkill (skill: ISkillItem, el: Element): void {
       if (this.visible === true) return
 
       const refBox = el.getBoundingClientRect()
