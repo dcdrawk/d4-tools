@@ -9,6 +9,7 @@
         <component
           :is="iconComponent"
           class="!block select-none relative"
+          tooltip
           :class="iconStyles"
           :icon="icon"
         />

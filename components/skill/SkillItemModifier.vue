@@ -156,6 +156,10 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  tooltip: {
+    type: Boolean,
+    default: false
+  },
   icon: {
     type: String,
     default: ''
@@ -164,7 +168,7 @@ const props = defineProps({
 
 const outerSquareBg = computed(() => props.active ? useActiveFill() : '!fill-[#191f20]')
 
-const iconOpacity = computed(() => props.active ? '1' : '0.6')
+const iconOpacity = computed(() => props.active || props.tooltip ? '1' : '0.6')
 </script>
 
 <style scoped lang="postcss">
