@@ -35,24 +35,6 @@
       </g>
     </BaseSVG>
 
-    <SkillTooltip
-      v-if="tooltipStore.visible || tooltipStore.name === 'Enhanced Spark'"
-      :name="tooltipStore.name"
-      :active="tooltipStore.active"
-      :rank="tooltipStore.rank"
-      :rank-max="tooltipStore.rankMax"
-      :description="tooltipStore.description"
-      :description-values="tooltipStore.descriptionValues"
-      :icon="tooltipStore.icon"
-      :type="tooltipStore.type"
-      :school="tooltipStore.school"
-      :damage-type="tooltipStore.damageType"
-      :modifiers="tooltipStore.modifiers"
-      :category="tooltipStore.category"
-      :translate-x="tooltipStore.x"
-      :translate-y="tooltipStore.y"
-    />
-
     <SkillTierNode
       ref="skillTier"
       class="translate-x-[230px] translate-y-[230px]"
@@ -110,7 +92,7 @@
 </template>
 
 <script setup lang="ts">
-import { useTooltipStore } from '~~/store/tooltip'
+import { useTooltipStore } from '@/store/tooltip'
 
 const skillTier = ref()
 const skillRefs = ref<any>({})
