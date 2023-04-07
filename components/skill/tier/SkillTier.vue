@@ -53,7 +53,7 @@
       :translate-y="tooltip.y"
     />
 
-    <SkillTierItem
+    <SkillTierNode
       ref="skillTier"
       class="translate-x-[230px] translate-y-[230px]"
     >
@@ -105,7 +105,7 @@
           />
         </SkillItemModifier>
       </SkillItem>
-    </SkillTierItem>
+    </SkillTierNode>
   </div>
 </template>
 
