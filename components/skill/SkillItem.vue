@@ -1,12 +1,15 @@
 <template>
   <div class="skill-item w-[55px] h-[55px] z-0">
     <slot />
+
+    <!-- Rank (shown on hover) -->
     <div
       class="skill-item__rank pointer-events-none absolute z-30 text-white translate-x-[28px] translate-y-11 font-semibold bg-gradient-to-l from-black/75 text-sm pr-[2px] select-none transition-opacity"
       :class="rankClass"
     >
       {{ rank }}/{{ rankMax }}
     </div>
+
     <BaseSVG
       :width="56"
       :height="56"
@@ -128,55 +131,36 @@
   </div>
 </template>
 
-<script setup>
-defineEmits([
-  'click',
-  'right-click',
-  'mouseover',
-  'mouseleave',
-  'mouseout'
-])
+<script setup lang="ts">
+defineEmits<{
+  (e: 'click'): void
+  (e: 'right-click'): void
+  (e: 'mouseover'): void
+  (e: 'mouseleave'): void
+  (e: 'mouseout'): void
+}>()
 
-const props = defineProps({
-  active: {
-    type: Boolean,
-    default: false
-  },
-  tooltip: {
-    type: Boolean,
-    default: false
-  },
-  name: {
-    type: String,
-    default: ''
-  },
-  description: {
-    type: String,
-    default: ''
-  },
-  descriptionValues: {
-    type: Array,
-    default: () => []
-  },
-  icon: {
-    type: String,
-    default: ''
-  },
-  rank: {
-    type: [String, Number],
-    default: '0'
-  },
-  rankMax: {
-    type: [String, Number],
-    default: '5'
-  }
+interface Props {
+  active?: boolean
+  tooltip?: boolean,
+  icon?: string
+  rank?: number
+  rankMax?: number
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  active: false,
+  tooltip: false,
+  icon: '',
+  rank: 0,
+  rankMax: 5
 })
 
-const outerSquareBg = computed(() => props.active ? useActiveFill() : '!fill-[#191f20]')
+const outerSquareBg = computed<string>(() => props.active ? useActiveFill() : '!fill-[#191f20]')
 
-const iconOpacity = computed(() => props.active || props.tooltip ? '1' : '0.6')
+const iconOpacity = computed<string>(() => props.active || props.tooltip ? '1' : '0.6')
 
-const rankClass = computed(() => props.rank <= 0 ? 'opacity-0' : 'opacity-100')
+const rankClass = computed<string>(() => props.rank <= 0 ? 'opacity-0' : 'opacity-100')
 </script>
 
 <style scoped lang="postcss">

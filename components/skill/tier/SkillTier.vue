@@ -49,8 +49,6 @@
         :ref="el => { skillRefs[skill.name] = el }"
         class="absolute top-[12.5px] left-[12px]"
         :style="{ transform: skill.transform }"
-        :name="skill.name"
-        :description="skill.description"
         :active="skill.rank > 0"
         :icon="skill.icon"
         :rank="skill.rank"

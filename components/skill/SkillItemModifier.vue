@@ -23,6 +23,7 @@
           />
         </mask>
       </defs>
+
       <g
         class="skill-item-modifier__svg cursor-pointer"
         @click.stop="$emit('click')"
