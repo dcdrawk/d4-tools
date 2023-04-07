@@ -22,3 +22,35 @@ export const skillItemDistance = 95
 export const skillModifierDistance = 70
 
 export const skillChoiceModifierDistance = 50
+
+/**
+ * Skill Interfaces
+ */
+export interface ISkillDescriptionValues {
+  [key: string]: string
+}
+
+export interface ISkillChoiceModifier {
+  name: string
+  description: string
+  transform: string
+  active: boolean
+}
+
+export interface ISkillModifier extends ISkillChoiceModifier {
+  choiceModifiers: ISkillChoiceModifier[]
+}
+
+export interface ISkillItem {
+  name: string
+  description: string
+  descriptionValues: ISkillDescriptionValues
+  type: string
+  school: string
+  damageType: string
+  icon: string
+  transform: string
+  rank: number
+  rankMax: number
+  modifiers: ISkillModifier[]
+}
