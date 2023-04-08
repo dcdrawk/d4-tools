@@ -12,7 +12,7 @@ beforeEach(() => {
   })
 })
 
-describe('BaseSVG.vue', () => {
+describe('SkillDamageIcon.vue', () => {
   test('has correct default icon', () => {
     const iconWrapper = wrapper.find('font-awesome-icon-stub')
 
