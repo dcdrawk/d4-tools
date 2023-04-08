@@ -41,12 +41,12 @@
       <hr class="border-gray-500 my-2 select-none">
 
       <!-- eslint-disable-next-line -->
-      <p class="mb-2 subpixel-antialiased  text-shadow-sm shadow-black" v-html="tooltipDescription" />
+      <p class="tooltip__description mb-2 subpixel-antialiased  text-shadow-sm shadow-black" v-html="tooltipDescription" />
 
       <!-- Next Rank -->
       <ul
         v-if="nextRankVisible"
-        class="list-disc list-outside"
+        class="tooltip__next-rank list-disc list-outside"
       >
         Next Rank:
         <li
@@ -70,7 +70,7 @@
           MODIFIERS
         </div>
         <ul
-          class="list-disc list-outside ml-4"
+          class="tooltip__modifiers-list list-disc list-outside ml-4"
         >
           <!-- eslint-disable vue/no-v-html -->
           <li
@@ -100,7 +100,10 @@
           class="w-1/2 border-gray-500 my-2 select-none"
         >
         <!-- Damage Type -->
-        <p v-if="damageType">
+        <p
+          v-if="damageType"
+          class="tooltip__damage-type"
+        >
           <SkillDamageIcon
             class="mr-2"
             :type="damageType.toLowerCase()"
