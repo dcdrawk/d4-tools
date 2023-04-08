@@ -50,7 +50,8 @@ export default defineConfig({
         '**/__tests__/**',
         '**/{karma,rollup,webpack,vite,vitest,jest,ava,babel,nyc,cypress,tsup,build}.config.*',
         '**/.{eslint,mocha,prettier}rc.{js,cjs,yml}',
-        '.nuxt/**'
+        '.nuxt/**',
+        '**/*{.,-}config.{js,cjs,mjs,ts,tsx,jsx}'
       ]
     }
   }
