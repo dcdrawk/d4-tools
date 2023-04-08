@@ -10,10 +10,9 @@ beforeEach(() => {
 
 describe('BaseSVG.vue', () => {
   test('has correct default viewbox', () => {
-    // const svg = wrapper.get('svg')
-    // const viewBox = svg.attributes('viewBox')
+    const svg = wrapper.get('svg')
+    const viewBox = svg.attributes('viewBox')
 
-    // expect(viewBox).toBe('0 0 0 0')
-    expect(wrapper).toBeDefined()
+    expect(viewBox).toBe('0 0 0 0')
   })
 })
