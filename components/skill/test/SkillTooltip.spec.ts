@@ -159,7 +159,7 @@ describe('SkillTooltip.vue', () => {
     expect(notLearnedWrapper.exists()).toBe(true)
   })
 
-  test('hides "Not Learned" text for when props.rank is > 0', async () => {
+  test('hides "Not Learned" text for when props.rank is > 0', () => {
     createWrapper({
       name: 'hi',
       rank: 1,
