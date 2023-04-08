@@ -138,51 +138,19 @@ const emit = defineEmits<{
 }>()
 
 function handleSkillClick (skill: any): void {
-  // console.log('test')
-  // console.log(skill)
   emit('increment-rank', skill)
-  // if (skill.rank < skill.rankMax) {
-  //   skill.rank++
-  //   tooltipStore.rank++
-  // }
 }
 
 function handleSkillRightClick (skill: any): void {
   emit('decrement-rank', skill)
-  // if (skill.rank <= 0) return
-
-  // if (skill.rank === 1 && hasActiveModifiers(skill)) return
-
-  // skill.rank--
-  // tooltipStore.rank--
 }
 
-// function hasActiveModifiers (skill: any): boolean {
-//   return !!skill.modifiers.find((modifier: any) => modifier.active)
-// }
-
-// function hasChoiceModifierSelected (modifier: any): boolean {
-//   return !!modifier.choiceModifiers?.find((modifier: any) => modifier.active)
-// }
-
 function handleModifierClick (parent: any, modifier: any): void {
-  console.log(modifier)
   emit('activate-modifier', { parent, modifier })
-  // if (parent.rank === 0) return
-  // if (modifier.active) return
-  // if ((parent.choiceModifiers && !parent.active)) return
-  // if (parent.choiceModifiers && hasChoiceModifierSelected(parent)) return
-
-  // tooltipStore.active = true
-  // modifier.active = true
 }
 
 function handleModifierRightClick (modifier: any): void {
   emit('deactivate-modifier', modifier)
-  // if (modifier.choiceModifiers && hasChoiceModifierSelected(modifier)) return
-
-  // tooltipStore.active = false
-  // modifier.active = false
 }
 
 function handleSkillMouseOver (skill: any): void {
