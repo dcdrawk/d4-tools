@@ -1,5 +1,6 @@
 import { mount, VueWrapper } from '@vue/test-utils'
 import { createTestingPinia } from '@pinia/testing'
+// import { faBullseye } from '@fortawesome/free-solid-svg-icons'
 import SkillTier from '../SkillTier.vue'
 import { useTooltipStore } from '@/store/tooltip'
 // import SkillItem from '../../SkillItem.vue'
@@ -87,16 +88,7 @@ describe('SkillTier.vue', () => {
     expect(wrapper.emitted()).toHaveProperty('decrement-rank')
   })
 
-  test('right-clicking a SkillItem emits the decrement-rank event', async () => {
-    await setTestSkill()
-
-    const skillItemWrapper = wrapper.findComponent({ name: 'SkillItem' })
-    await skillItemWrapper.vm.$emit('right-click', {})
-
-    expect(wrapper.emitted()).toHaveProperty('decrement-rank')
-  })
-
-  test('mousing over a SkillItem sets the tooltip store', async () => {
+  test('mousing over a SkillItem calls "setSkill" from the tooltip store', async () => {
     await setTestSkill()
 
     const store = useTooltipStore()
@@ -106,4 +98,108 @@ describe('SkillTier.vue', () => {
 
     expect(store.setSkill).toHaveBeenCalledTimes(1)
   })
+
+  test('mousing over a SkillItem does not call "setSkill" if "tooltipStore.visible" is true', async () => {
+    await setTestSkill()
+
+    const store = useTooltipStore()
+    store.visible = true
+    const skillItemWrapper = wrapper.findComponent({ name: 'SkillItem' })
+    await skillItemWrapper.vm.$emit('mouseover', {})
+
+    expect(store.setSkill).toHaveBeenCalledTimes(0)
+  })
+
+  test('mouseleave from a SkillItem sets tooltipStore.visible to false', async () => {
+    await setTestSkill()
+
+    const store = useTooltipStore()
+    store.visible = true
+    const skillItemWrapper = wrapper.findComponent({ name: 'SkillItem' })
+    await skillItemWrapper.vm.$emit('mouseleave', {})
+
+    expect(store.visible).toBe(false)
+  })
+
+  test('mouseout from a SkillItem sets tooltipStore.visible to false', async () => {
+    await setTestSkill()
+
+    const store = useTooltipStore()
+    store.visible = true
+    const skillItemWrapper = wrapper.findComponent({ name: 'SkillItem' })
+    await skillItemWrapper.vm.$emit('mouseout', {})
+
+    expect(store.visible).toBe(false)
+  })
+
+  test('clicking a SkillItemModifier emits the "activate-modifier" event', async () => {
+    await setTestSkill()
+
+    const skillItemWrapper = wrapper.findComponent({ name: 'SkillItemModifier' })
+    await skillItemWrapper.vm.$emit('click', {})
+
+    expect(wrapper.emitted()).toHaveProperty('activate-modifier')
+  })
+
+  test('right-clicking a SkillItemModifier emits the "deactivate-modifier" event', async () => {
+    await setTestSkill()
+
+    const skillItemWrapper = wrapper.findComponent({ name: 'SkillItemModifier' })
+    await skillItemWrapper.vm.$emit('right-click', {})
+
+    expect(wrapper.emitted()).toHaveProperty('deactivate-modifier')
+  })
+
+  test('mousing over a SkillItemModifier emits the "deactivate-modifier" event', async () => {
+    await setTestSkill()
+
+    const store = useTooltipStore()
+    const skillItemWrapper = wrapper.findComponent({ name: 'SkillItemModifier' })
+    await skillItemWrapper.vm.$emit('mouseover', {})
+
+    expect(store.setModifier).toHaveBeenCalledTimes(1)
+  })
+
+  test('mousing over a SkillItemModifier does not call "setModifier" if tooltipStore.visible is true', async () => {
+    await setTestSkill()
+
+    const store = useTooltipStore()
+    store.visible = true
+    const skillItemWrapper = wrapper.findComponent({ name: 'SkillItemModifier' })
+    await skillItemWrapper.vm.$emit('mouseover', {})
+
+    expect(store.setModifier).toHaveBeenCalledTimes(0)
+  })
+
+  test('mouseleave from a SkillItemModifier sets tooltipStore.visible to false', async () => {
+    await setTestSkill()
+
+    const store = useTooltipStore()
+    store.visible = true
+    const skillItemWrapper = wrapper.findComponent({ name: 'SkillItemModifier' })
+    await skillItemWrapper.vm.$emit('mouseleave', {})
+
+    expect(store.visible).toBe(false)
+  })
+
+  test('mouseout from a SkillItemModifier sets tooltipStore.visible to false', async () => {
+    await setTestSkill()
+
+    const store = useTooltipStore()
+    store.visible = true
+    const skillItemWrapper = wrapper.findComponent({ name: 'SkillItemModifier' })
+    await skillItemWrapper.vm.$emit('mouseout', {})
+
+    expect(store.visible).toBe(false)
+  })
+
+  // test('clicking a .choice-modifier emits the "activate-modifier" event', async () => {
+  //   await setTestSkill()
+
+  //   const skillItemWrapper = wrapper.findComponent({ name: 'SkillItemModifier' })
+
+  //   await skillItemWrapper.findComponent({ name: 'SkillItemModifier' })
+
+  //   expect(wrapper.emitted()).toHaveProperty('activate-modifier')
+  // })
 })

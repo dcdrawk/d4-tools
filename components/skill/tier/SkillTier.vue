@@ -85,7 +85,7 @@
             :key="choiceModifier.name"
             :ref="el => { skillModifierRefs[choiceModifier.name] = el as ComponentPublicInstance }"
             :icon="skill.icon"
-            class="absolute top-0 left-0"
+            class="choice-modifier absolute top-0 left-0"
             :style="{ transform: choiceModifier.transform }"
             :active="choiceModifier.active"
             @click="handleModifierClick(modifier, choiceModifier)"
