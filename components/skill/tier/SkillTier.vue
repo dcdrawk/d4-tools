@@ -126,45 +126,63 @@ const skillModifierRefs = ref<IRefObject>({})
 
 const tooltipStore = useTooltipStore()
 
+const emit = defineEmits<{
+  (e: 'increment-rank', skill: any): void
+  (e: 'decrement-rank', skill: any): void
+  (e: 'activate-modifier', event: any): void
+  (e: 'deactivate-modifier', event: any): void
+  (e: 'right-click'): void
+  (e: 'mouseover'): void
+  (e: 'mouseleave'): void
+  (e: 'mouseout'): void
+}>()
+
 function handleSkillClick (skill: any): void {
-  if (skill.rank < skill.rankMax) {
-    skill.rank++
-    tooltipStore.rank++
-  }
+  // console.log('test')
+  // console.log(skill)
+  emit('increment-rank', skill)
+  // if (skill.rank < skill.rankMax) {
+  //   skill.rank++
+  //   tooltipStore.rank++
+  // }
 }
 
 function handleSkillRightClick (skill: any): void {
-  if (skill.rank <= 0) return
+  emit('decrement-rank', skill)
+  // if (skill.rank <= 0) return
 
-  if (skill.rank === 1 && hasActiveModifiers(skill)) return
+  // if (skill.rank === 1 && hasActiveModifiers(skill)) return
 
-  skill.rank--
-  tooltipStore.rank--
+  // skill.rank--
+  // tooltipStore.rank--
 }
 
-function hasActiveModifiers (skill: any): boolean {
-  return !!skill.modifiers.find((modifier: any) => modifier.active)
-}
+// function hasActiveModifiers (skill: any): boolean {
+//   return !!skill.modifiers.find((modifier: any) => modifier.active)
+// }
 
-function hasChoiceModifierSelected (modifier: any): boolean {
-  return !!modifier.choiceModifiers?.find((modifier: any) => modifier.active)
-}
+// function hasChoiceModifierSelected (modifier: any): boolean {
+//   return !!modifier.choiceModifiers?.find((modifier: any) => modifier.active)
+// }
 
 function handleModifierClick (parent: any, modifier: any): void {
-  if (parent.rank === 0) return
-  if (modifier.active) return
-  if ((parent.choiceModifiers && !parent.active)) return
-  if (parent.choiceModifiers && hasChoiceModifierSelected(parent)) return
+  console.log(modifier)
+  emit('activate-modifier', { parent, modifier })
+  // if (parent.rank === 0) return
+  // if (modifier.active) return
+  // if ((parent.choiceModifiers && !parent.active)) return
+  // if (parent.choiceModifiers && hasChoiceModifierSelected(parent)) return
 
-  tooltipStore.active = true
-  modifier.active = true
+  // tooltipStore.active = true
+  // modifier.active = true
 }
 
 function handleModifierRightClick (modifier: any): void {
-  if (modifier.choiceModifiers && hasChoiceModifierSelected(modifier)) return
+  emit('deactivate-modifier', modifier)
+  // if (modifier.choiceModifiers && hasChoiceModifierSelected(modifier)) return
 
-  tooltipStore.active = false
-  modifier.active = false
+  // tooltipStore.active = false
+  // modifier.active = false
 }
 
 function handleSkillMouseOver (skill: any): void {

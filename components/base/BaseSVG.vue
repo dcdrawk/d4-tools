@@ -10,16 +10,15 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
-  width: {
-    type: Number,
-    default: 0
-  },
-  height: {
-    type: Number,
-    default: 0
-  }
+interface Props {
+  width?: number
+  height?: number
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  width: 0,
+  height: 0
 })
 
-const viewBox = computed(() => `0 0 ${props.width} ${props.height}`)
+const viewBox = computed<string>(() => `0 0 ${props.width} ${props.height}`)
 </script>
