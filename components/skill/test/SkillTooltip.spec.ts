@@ -1,22 +1,23 @@
-import { shallowMount, VueWrapper } from '@vue/test-utils'
+import { mount, VueWrapper } from '@vue/test-utils'
 import { test, expect } from 'vitest'
 import SkillTooltip from '../SkillTooltip.vue'
 
 let wrapper: VueWrapper
 
-beforeEach(() => {
-  wrapper = shallowMount(SkillTooltip as any, {
+const createWrapper = (props = {}) => {
+  wrapper = mount(SkillTooltip as any, {
+    props,
     global: {
       stubs: ['SkillDamageIcon', 'SkillItem', 'SkillItemModifier', 'FontAwesomeIcon']
     }
   })
+}
+
+beforeEach(() => {
+  createWrapper()
 })
 
 describe('SkillTooltip.vue', () => {
-  test('wrapper is defined', () => {
-    expect(wrapper).toBeDefined()
-  })
-
   test('no rank is shown when level is 0', () => {
     const rankWrapper = wrapper.find('.tooltip__rank')
 
@@ -88,16 +89,43 @@ describe('SkillTooltip.vue', () => {
       description: 'Hello {text}',
       modifiers: [{
         active: true,
-        description: 'My Modifier'
+        description: 'My Modifier',
+        choiceModifiers: [{
+          active: false,
+          description: 'Choice 1'
+        }, {
+          active: true,
+          description: 'Choice 2'
+        }]
       }]
     })
 
     const modifiersListWrapper = wrapper.find('.tooltip__modifiers-list')
 
-    expect(modifiersListWrapper.text()).toBe('My Modifier')
+    expect(modifiersListWrapper.text()).toBe('My ModifierChoice 2')
   })
 
   test('dispays the correct default icon', () => {
+    const iconWrapper = wrapper.find('skill-item-modifier-stub')
+
+    expect(iconWrapper.exists()).toBe(true)
+  })
+
+  test('dispays the correct modifier icon', async () => {
+    await wrapper.setProps({
+      category: 'modifier'
+    })
+
+    const iconWrapper = wrapper.find('skill-item-modifier-stub')
+
+    expect(iconWrapper.exists()).toBe(true)
+  })
+
+  test('dispays the correct choice-modifier icon', async () => {
+    await wrapper.setProps({
+      category: 'choice-modifier'
+    })
+
     const iconWrapper = wrapper.find('skill-item-modifier-stub')
 
     expect(iconWrapper.exists()).toBe(true)
@@ -111,5 +139,35 @@ describe('SkillTooltip.vue', () => {
     const iconWrapper = wrapper.find('skill-item-stub')
 
     expect(iconWrapper.exists()).toBe(true)
+  })
+
+  test('dispays "choose 1" text for when props.category is "choice-modifier"', async () => {
+    await wrapper.setProps({
+      category: 'choice-modifier'
+    })
+
+    expect(wrapper.text()).includes('You may only select one upgrade.')
+  })
+
+  test('dispays "Not Learned" text for when props.rank is 0', async () => {
+    await wrapper.setProps({
+      rank: 0
+    })
+
+    const notLearnedWrapper = wrapper.find('.tooltip__not-learned')
+
+    expect(notLearnedWrapper.exists()).toBe(true)
+  })
+
+  test('hides "Not Learned" text for when props.rank is > 0', async () => {
+    createWrapper({
+      name: 'hi',
+      rank: 1,
+      rankMax: 5,
+      category: 'skill',
+      damageType: 'fire'
+    })
+
+    expect(wrapper.find('.tooltip__not-learned').exists()).toBe(false)
   })
 })

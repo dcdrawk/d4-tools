@@ -113,7 +113,7 @@
         <!-- Not Learned Message -->
         <p
           v-if="notLearnedVisible"
-          class="text-red-500 mt-2 text-shadow-sm shadow-black"
+          class="tooltip__not-learned text-red-500 mt-2 text-shadow-sm shadow-black"
         >
           Not Yet Learned
         </p>
@@ -226,7 +226,6 @@ const tooltipModifiers = computed(() => {
   })
 
   return modifiers?.map((modifier) => {
-    if (!modifier) return ''
     return modifier?.description
   })
 })
