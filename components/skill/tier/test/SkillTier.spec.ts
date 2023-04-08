@@ -88,7 +88,7 @@ describe('SkillTier.vue', () => {
     expect(wrapper.emitted()).toHaveProperty('decrement-rank')
   })
 
-  test('mousing over a SkillItem calls "setSkill" from the tooltip store', async () => {
+  test('mouseover a SkillItem calls "setSkill" from the tooltip store', async () => {
     await setTestSkill()
 
     const store = useTooltipStore()
@@ -99,7 +99,7 @@ describe('SkillTier.vue', () => {
     expect(store.setSkill).toHaveBeenCalledTimes(1)
   })
 
-  test('mousing over a SkillItem does not call "setSkill" if "tooltipStore.visible" is true', async () => {
+  test('mouseover a SkillItem does not call "setSkill" if "tooltipStore.visible" is true', async () => {
     await setTestSkill()
 
     const store = useTooltipStore()
@@ -150,7 +150,7 @@ describe('SkillTier.vue', () => {
     expect(wrapper.emitted()).toHaveProperty('deactivate-modifier')
   })
 
-  test('mousing over a SkillItemModifier emits the "deactivate-modifier" event', async () => {
+  test('mouseover a SkillItemModifier calls "setModifier" from the tooltip store', async () => {
     await setTestSkill()
 
     const store = useTooltipStore()
@@ -160,7 +160,7 @@ describe('SkillTier.vue', () => {
     expect(store.setModifier).toHaveBeenCalledTimes(1)
   })
 
-  test('mousing over a SkillItemModifier does not call "setModifier" if tooltipStore.visible is true', async () => {
+  test('mouseover a SkillItemModifier does not call "setModifier" if tooltipStore.visible is true', async () => {
     await setTestSkill()
 
     const store = useTooltipStore()
@@ -193,13 +193,66 @@ describe('SkillTier.vue', () => {
     expect(store.visible).toBe(false)
   })
 
-  // test('clicking a .choice-modifier emits the "activate-modifier" event', async () => {
-  //   await setTestSkill()
+  test('clicking a .choice-modifier emits the "activate-modifier" event', async () => {
+    await setTestSkill()
 
-  //   const skillItemWrapper = wrapper.findComponent({ name: 'SkillItemModifier' })
+    const choiceModifierWrapper = wrapper.findComponent('.choice-modifier') as VueWrapper
 
-  //   await skillItemWrapper.findComponent({ name: 'SkillItemModifier' })
+    choiceModifierWrapper.vm.$emit('click', {})
 
-  //   expect(wrapper.emitted()).toHaveProperty('activate-modifier')
-  // })
+    expect(wrapper.emitted()).toHaveProperty('activate-modifier')
+  })
+
+  test('right-clicking a .choice-modifier emits the "deactivate-modifier" event', async () => {
+    await setTestSkill()
+
+    const choiceModifierWrapper = wrapper.findComponent('.choice-modifier') as VueWrapper
+
+    choiceModifierWrapper.vm.$emit('right-click', {})
+
+    expect(wrapper.emitted()).toHaveProperty('deactivate-modifier')
+  })
+
+  test('mouseover a .choice-modifier calls "setModifier" from the tooltip store', async () => {
+    await setTestSkill()
+
+    const store = useTooltipStore()
+    const choiceModifierWrapper = wrapper.findComponent('.choice-modifier') as VueWrapper
+    choiceModifierWrapper.vm.$emit('mouseover', {})
+
+    expect(store.setModifier).toHaveBeenCalledTimes(1)
+  })
+
+  test('mouseover a .choice-modifier does not call "setModifier" if tooltipStore.visible is true', async () => {
+    await setTestSkill()
+
+    const store = useTooltipStore()
+    store.visible = true
+    const choiceModifierWrapper = wrapper.findComponent('.choice-modifier') as VueWrapper
+    choiceModifierWrapper.vm.$emit('mouseover', {})
+
+    expect(store.setModifier).toHaveBeenCalledTimes(0)
+  })
+
+  test('mouseleave from a .choice-modifier sets tooltipStore.visible to false', async () => {
+    await setTestSkill()
+
+    const store = useTooltipStore()
+    store.visible = true
+    const choiceModifierWrapper = wrapper.findComponent('.choice-modifier') as VueWrapper
+    choiceModifierWrapper.vm.$emit('mouseleave', {})
+
+    expect(store.visible).toBe(false)
+  })
+
+  test('mouseout from a .choice-modifier sets tooltipStore.visible to false', async () => {
+    await setTestSkill()
+
+    const store = useTooltipStore()
+    store.visible = true
+    const choiceModifierWrapper = wrapper.findComponent('.choice-modifier') as VueWrapper
+    choiceModifierWrapper.vm.$emit('mouseout', {})
+
+    expect(store.visible).toBe(false)
+  })
 })
