@@ -3,13 +3,14 @@
   "private": true,
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev --max-old-space-size=1024",
+    "dev": "nuxt dev --dotenv .env.development.local --max-old-space-size=1024",
     "lint": "npx eslint ./ --ext .js,.vue --ignore-path .gitignore",
-    "generate": "nuxt generate",
+    "generate": "nuxt generate --dotenv .env.production.local",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "test": "vitest",
-    "coverage": "vitest run --coverage"
+    "coverage": "vitest run --coverage",
+    "deploy": "cp .github/_config.yml dist/_config.yml && gh-pages -d dist"
   },
   "devDependencies": {
     "@nuxt/image-edge": "^1.0.0-27991759.1a5eea1",
@@ -21,6 +22,7 @@
     "@vue/test-utils": "^2.3.2",
     "eslint-plugin-nuxt": "^4.0.0",
     "eslint-plugin-vue": "^9.10.0",
+    "gh-pages": "^5.0.0",
     "happy-dom": "^9.1.9",
     "nuxt": "^3.3.2",
     "nuxt-vitest": "^0.6.9",

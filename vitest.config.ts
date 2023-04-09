@@ -42,6 +42,10 @@ export default defineConfig({
     environment: 'happy-dom',
     coverage: {
       all: true,
+      lines: 80,
+      functions: 80,
+      branches: 80,
+      statements: 80,
       exclude: [
         'coverage/**',
         'dist/**',
@@ -56,6 +60,7 @@ export default defineConfig({
         '**/{karma,rollup,webpack,vite,vitest,jest,ava,babel,nyc,cypress,tsup,build}.config.*',
         '**/.{eslint,mocha,prettier}rc.{js,cjs,yml}',
         '.nuxt/**',
+        '.output/**',
         '**/*{.,-}config.{js,cjs,mjs,ts,tsx,jsx}'
       ]
     }

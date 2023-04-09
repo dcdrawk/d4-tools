@@ -1,9 +1,7 @@
 import { mount, VueWrapper } from '@vue/test-utils'
 import { createTestingPinia } from '@pinia/testing'
-// import { faBullseye } from '@fortawesome/free-solid-svg-icons'
 import SkillTier from '../SkillTier.vue'
 import { useTooltipStore } from '@/store/tooltip'
-// import SkillItem from '../../SkillItem.vue'
 
 let wrapper: VueWrapper
 
@@ -12,14 +10,17 @@ const createWrapper = (props = {}) => {
     props,
     global: {
       stubs: ['ClientOnly'],
+      mocks: {
+        useRuntimeConfig: vi.fn(() => {
+          return { public: {}, app: { baseUrl: '/' } }
+        })
+      },
       plugins: [createTestingPinia({
         stubActions: false
       })]
     }
   })
 }
-
-// const store = useTooltipStore()
 
 const testSkill = {
   name: 'Spark',

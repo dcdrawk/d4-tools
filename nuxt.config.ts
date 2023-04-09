@@ -31,5 +31,9 @@ export default defineNuxtConfig({
 
   pinia: {
     autoImports: ['defineStore']
+  },
+
+  vite: {
+    base: process.env.NUXT_APP_BASE_URL
   }
 })
