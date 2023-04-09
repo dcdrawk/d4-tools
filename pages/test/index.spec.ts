@@ -1,7 +1,5 @@
 import { mount, VueWrapper } from '@vue/test-utils'
-// import { createTestingPinia } from '@pinia/testing'
 import index from '../index.vue'
-// import { useTooltipStore } from '@/store/tooltip'
 
 let wrapper: VueWrapper
 

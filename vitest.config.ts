@@ -38,6 +38,7 @@ export default defineConfig({
 
   test: {
     globals: true,
+    setupFiles: ['./test/vitest-setup.ts'],
     environment: 'happy-dom',
     coverage: {
       all: true,
