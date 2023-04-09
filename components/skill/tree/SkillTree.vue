@@ -32,7 +32,6 @@
 import { useTooltipStore } from '@/store/tooltip'
 
 const tooltipStore = useTooltipStore()
-// console.log('hihihi', tooltipStore)
 const sorcererBasicSkills = useSorcererBasicSkills()
 
 function handleIncrementRank (skill: any): void {
@@ -42,6 +41,10 @@ function handleIncrementRank (skill: any): void {
   }
 }
 
+function hasActiveModifiers (skill: any): boolean {
+  return !!skill.modifiers.find((modifier: any) => modifier.active)
+}
+
 function handleDecrementRank (skill: any): void {
   if (skill.rank <= 0) return
 
@@ -49,10 +52,6 @@ function handleDecrementRank (skill: any): void {
 
   skill.rank--
   tooltipStore.rank--
-}
-
-function hasActiveModifiers (skill: any): boolean {
-  return !!skill.modifiers.find((modifier: any) => modifier.active)
 }
 
 function hasChoiceModifierSelected (modifier: any): boolean {

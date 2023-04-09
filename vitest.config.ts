@@ -21,7 +21,7 @@ export default defineConfig({
         './composables',
         './utils'
       ],
-      dts: '.nuxt/nuxt.d.ts'
+      dts: '.nuxt/vitest.d.ts'
     }),
     Components({
       dirs: ['./components'],
