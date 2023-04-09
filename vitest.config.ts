@@ -17,6 +17,10 @@ export default defineConfig({
           '@/store/tooltip': ['useTooltipStore']
         }
       ],
+      dirs: [
+        './composables',
+        './utils'
+      ],
       dts: '.nuxt/imports.d.ts'
     }),
     Components({

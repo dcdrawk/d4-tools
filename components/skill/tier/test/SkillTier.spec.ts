@@ -83,7 +83,7 @@ describe('SkillTier.vue', () => {
     await setTestSkill()
 
     const skillItemWrapper = wrapper.findComponent({ name: 'SkillItem' })
-    await skillItemWrapper.vm.$emit('right-click', {})
+    await skillItemWrapper.vm.$emit('contextmenu', {})
 
     expect(wrapper.emitted()).toHaveProperty('decrement-rank')
   })

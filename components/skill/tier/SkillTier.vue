@@ -61,7 +61,7 @@
         :rank="skill.rank"
         :rank-max="skill.rankMax"
         @click="handleSkillClick(skill)"
-        @right-click="handleSkillRightClick(skill)"
+        @contextmenu="handleSkillRightClick(skill)"
         @mouseover="handleSkillMouseOver(skill)"
         @mouseleave="tooltipStore.visible = false"
         @mouseout="tooltipStore.visible = false"
