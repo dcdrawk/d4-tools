@@ -23,16 +23,8 @@ export const useTooltipStore = defineStore('tooltip', {
     y: 0 as number
   }),
 
-  getters: {
-    hasActiveModifiers (state): boolean {
-      return !!state.modifiers.find((modifier: ISkillModifier) => modifier.active)
-    }
-  },
-
   actions: {
     setSkill (skill: ISkillItem, el: Element): void {
-      if (this.visible === true) return
-
       const refBox = el.getBoundingClientRect()
       const offset = 20
 
@@ -53,8 +45,6 @@ export const useTooltipStore = defineStore('tooltip', {
     },
 
     setModifier (modifier: any, el: Element, icon: string, choiceModifier = false): void {
-      if (this.visible === true) return
-
       const refBox = el.getBoundingClientRect()
       const offset = 20
 
