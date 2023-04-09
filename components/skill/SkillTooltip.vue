@@ -1,6 +1,6 @@
 <template>
   <div
-    class="tooltip text-[#ddddde] absolute z-50 top-[40px] left-[40px] w-[400px] flex flex-col border-[#2d3c38] border-4 transition-opacity drop-shadow-lg"
+    class="tooltip fixed text-[#ddddde] z-50 top-[40px] left-[40px] w-[400px] flex flex-col border-[#2d3c38] border-4 transition-opacity drop-shadow-lg"
     :style="{ transform: `translate(${translateX}px, ${translateY}px)`}"
   >
     <div class="tooltip__container relative bg-[#252321] border-[#060604] border-2 p-4 select-none">
