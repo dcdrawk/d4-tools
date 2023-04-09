@@ -1,7 +1,7 @@
 <template>
   <div class="relative">
     <SkillTooltip
-      v-if="tooltipStore.visible || tooltipStore.name === 'Enhanced Spark'"
+      v-if="tooltipStore?.visible"
       :name="tooltipStore.name"
       :active="tooltipStore.active"
       :rank="tooltipStore.rank"
@@ -32,6 +32,7 @@
 import { useTooltipStore } from '@/store/tooltip'
 
 const tooltipStore = useTooltipStore()
+// console.log('hihihi', tooltipStore)
 const sorcererBasicSkills = useSorcererBasicSkills()
 
 function handleIncrementRank (skill: any): void {

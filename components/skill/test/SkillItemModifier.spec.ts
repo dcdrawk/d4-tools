@@ -7,7 +7,6 @@ let wrapper: VueWrapper
 beforeEach(() => {
   wrapper = mount(SkillItemModifier as any, {
     global: {
-      // stubs: ['FontAwesomeIcon']
       mocks: {
         useActiveFill: () => 'fill-red-800'
       }
@@ -15,7 +14,7 @@ beforeEach(() => {
   })
 })
 
-describe('SkillItem.vue', () => {
+describe('SkillItemModifier.vue', () => {
   test('outer square has the correct default styles', () => {
     const outerSquareWrapper = wrapper.find('.skill-item-modifier__outer-square')
 
