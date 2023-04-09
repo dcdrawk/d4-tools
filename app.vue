@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="app h-full flex flex-col">
     <SeoKit />
 
     <section class="container">
@@ -9,7 +9,12 @@
 
       <hr class="border-gray-400">
     </section>
-    <NuxtPage />
+
+    <main class="flex-grow">
+      <NuxtPage />
+    </main>
+
+    <TheFooter class=" flex-grow-0 flex-shrink-0" />
   </div>
 </template>
 
@@ -20,5 +25,10 @@ svg * {
 
 body {
   @apply bg-neutral-900;
+}
+
+html,
+body, body > div {
+  @apply h-full;
 }
 </style>
