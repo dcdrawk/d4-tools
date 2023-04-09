@@ -75,7 +75,7 @@
           :style="{ transform: modifier.transform }"
           :active="modifier.active"
           @click="handleModifierClick(skill, modifier)"
-          @right-click="handleModifierRightClick(modifier)"
+          @contextmenu="handleModifierRightClick(modifier)"
           @mouseover="handleModifierMouseOver(modifier, skill.icon)"
           @mouseleave="tooltipStore.visible = false"
           @mouseout="tooltipStore.visible = false"
@@ -89,7 +89,7 @@
             :style="{ transform: choiceModifier.transform }"
             :active="choiceModifier.active"
             @click="handleModifierClick(modifier, choiceModifier)"
-            @right-click="handleModifierRightClick(choiceModifier)"
+            @contextmenu="handleModifierRightClick(choiceModifier)"
             @mouseover="handleModifierMouseOver(choiceModifier, skill.icon, true)"
             @mouseleave="tooltipStore.visible = false"
             @mouseout="tooltipStore.visible = false"
@@ -131,7 +131,7 @@ const emit = defineEmits<{
   (e: 'decrement-rank', skill: any): void
   (e: 'activate-modifier', event: any): void
   (e: 'deactivate-modifier', event: any): void
-  (e: 'right-click'): void
+  (e: 'contextmenu'): void
   (e: 'mouseover'): void
   (e: 'mouseleave'): void
   (e: 'mouseout'): void
