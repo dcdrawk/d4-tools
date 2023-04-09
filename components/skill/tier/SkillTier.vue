@@ -48,6 +48,7 @@
 
     <SkillTierNode
       ref="skillTierItem"
+      :icon="`${useRuntimeConfig().app.baseURL}svg/skill/tier/skill-tier-icon-basic.svg`"
       class="translate-x-[210px] translate-y-[210px]"
     >
       <SkillItem
