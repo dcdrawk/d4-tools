@@ -21,8 +21,4 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: npm run generate
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+      - run: npm run deploy
