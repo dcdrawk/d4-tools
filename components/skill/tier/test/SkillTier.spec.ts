@@ -145,7 +145,7 @@ describe('SkillTier.vue', () => {
     await setTestSkill()
 
     const skillItemWrapper = wrapper.findComponent({ name: 'SkillItemModifier' })
-    await skillItemWrapper.vm.$emit('right-click', {})
+    await skillItemWrapper.vm.$emit('contextmenu', {})
 
     expect(wrapper.emitted()).toHaveProperty('deactivate-modifier')
   })
@@ -208,7 +208,7 @@ describe('SkillTier.vue', () => {
 
     const choiceModifierWrapper = wrapper.findComponent('.choice-modifier') as VueWrapper
 
-    choiceModifierWrapper.vm.$emit('right-click', {})
+    choiceModifierWrapper.vm.$emit('contextmenu', {})
 
     expect(wrapper.emitted()).toHaveProperty('deactivate-modifier')
   })
