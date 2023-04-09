@@ -62,14 +62,14 @@ function handleActivateModifier (parent: any, modifier: any): void {
   if (parent.rank === 0) return
   if (modifier.active) return
   if ((parent.choiceModifiers && !parent.active)) return
-  if (parent.choiceModifiers && hasChoiceModifierSelected(parent)) return
+  if (hasChoiceModifierSelected(parent)) return
 
   tooltipStore.active = true
   modifier.active = true
 }
 
 function handleDeactivateModifier (modifier: any): void {
-  if (modifier.choiceModifiers && hasChoiceModifierSelected(modifier)) return
+  if (hasChoiceModifierSelected(modifier)) return
 
   tooltipStore.active = false
   modifier.active = false

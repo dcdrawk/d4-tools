@@ -1,9 +1,7 @@
 import { mount, VueWrapper } from '@vue/test-utils'
 import { createTestingPinia } from '@pinia/testing'
-// import { faBullseye } from '@fortawesome/free-solid-svg-icons'
 import SkillTree from '../SkillTree.vue'
-// import { useTooltipStore } from '@/store/tooltip'
-// import SkillItem from '../../SkillItem.vue'
+import { useTooltipStore } from '@/store/tooltip'
 
 let wrapper: VueWrapper
 
@@ -24,11 +22,7 @@ const createWrapper = (props = {}) => {
     shallow: true,
     global: {
       plugins: [
-        createTestingPinia({
-          initialState: {
-            counter: { n: 20 } // start the counter at 20 instead of 0
-          }
-        })
+        createTestingPinia()
       ]
     }
   })
@@ -99,5 +93,83 @@ describe('SkillTree.vue', () => {
     await skillItemWrapper.vm.$emit('activate-modifier', { parent, modifier })
 
     expect(modifier.active).toBe(true)
+  })
+
+  test('when SkillTier emits activate-modifier, do nothing if parent is an in-active modifier', async () => {
+    const skillItemWrapper = wrapper.findComponent({ name: 'SkillTier' })
+
+    const parent = { active: false, choiceModifiers: [] }
+    const modifier = { active: false }
+
+    await skillItemWrapper.vm.$emit('activate-modifier', { parent, modifier })
+
+    expect(modifier.active).toBe(false)
+  })
+
+  test('when SkillTier emits activate-modifier, do nothing if another choice modifier is selected', async () => {
+    const skillItemWrapper = wrapper.findComponent({ name: 'SkillTier' })
+
+    const parent = { active: true, choiceModifiers: [{ active: true }] }
+    const modifier = { active: false }
+
+    await skillItemWrapper.vm.$emit('activate-modifier', { parent, modifier })
+
+    expect(modifier.active).toBe(false)
+  })
+
+  test('when SkillTier emits activate-modifier and parent is a SkillItem, set modifier.active to true', async () => {
+    const skillItemWrapper = wrapper.findComponent({ name: 'SkillTier' })
+
+    const parent = { active: true, choiceModifiers: [{ active: false }] }
+    const modifier = { active: false }
+    const tooltipStore = useTooltipStore()
+
+    await skillItemWrapper.vm.$emit('activate-modifier', { parent, modifier })
+
+    expect(tooltipStore.active).toBe(true)
+    expect(modifier.active).toBe(true)
+  })
+
+  test('when SkillTier emits activate-modifier and parent is a SkillModifier, set modifier.active to true', async () => {
+    const skillItemWrapper = wrapper.findComponent({ name: 'SkillTier' })
+
+    const parent = { active: true }
+    const modifier = { active: false }
+    const tooltipStore = useTooltipStore()
+
+    await skillItemWrapper.vm.$emit('activate-modifier', { parent, modifier })
+
+    expect(tooltipStore.active).toBe(true)
+    expect(modifier.active).toBe(true)
+  })
+
+  test('when SkillTier emits deactivate-modifier, do nothing if a ChoiceModifier is active', async () => {
+    const skillItemWrapper = wrapper.findComponent({ name: 'SkillTier' })
+
+    const modifier = { active: true, choiceModifiers: [{ active: true }] }
+
+    await skillItemWrapper.vm.$emit('deactivate-modifier', modifier)
+
+    expect(modifier.active).toBe(true)
+  })
+
+  test('when SkillTier emits deactivate-modifier, set modifier.active to false', async () => {
+    const skillItemWrapper = wrapper.findComponent({ name: 'SkillTier' })
+
+    const modifier = { active: true, choiceModifiers: [{ active: false }] }
+
+    await skillItemWrapper.vm.$emit('deactivate-modifier', modifier)
+
+    expect(modifier.active).toBe(false)
+  })
+
+  test('when SkillTier emits deactivate-modifier for a ChoiceModifier, set modifier.active to false', async () => {
+    const skillItemWrapper = wrapper.findComponent({ name: 'SkillTier' })
+
+    const modifier = { active: true }
+
+    await skillItemWrapper.vm.$emit('deactivate-modifier', modifier)
+
+    expect(modifier.active).toBe(false)
   })
 })
