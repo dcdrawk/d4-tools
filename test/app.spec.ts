@@ -7,7 +7,7 @@ let wrapper: VueWrapper
 beforeEach(() => {
   wrapper = shallowMount(App as any, {
     global: {
-      stubs: ['NuxtPage']
+      stubs: ['NuxtPage', 'SeoKit']
     }
   })
 })
