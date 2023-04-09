@@ -1,5 +1,0 @@
-include:
-  - _nuxt
-  - _ipx
-  - _ipx/_
-  - _payload.js
