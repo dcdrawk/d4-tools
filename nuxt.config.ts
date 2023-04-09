@@ -1,5 +1,15 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  runtimeConfig: {
+    public: {
+      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://dcdrawk.github.io/d4-tools/',
+      siteName: 'D4 Tools',
+      siteDescription: 'Unofficial Skill Calculator for Diablo 4',
+      titleSeparator: '|',
+      language: 'en'
+    }
+  },
+
   sourcemap: false,
 
   css: [
@@ -14,6 +24,10 @@ export default defineNuxtConfig({
     'nuxt-vitest'
   ],
 
+  extends: [
+    'nuxt-seo-kit'
+  ],
+
   app: {
     pageTransition: { name: 'page', mode: 'out-in' },
     head: {
@@ -21,7 +35,7 @@ export default defineNuxtConfig({
         lang: 'en'
       },
       link: [
-        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+        { rel: 'icon', type: 'image/png', href: '/favicon-32x32.png' },
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
         { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Arimo&family=Source+Serif+Pro&display=swap' }
@@ -31,9 +45,5 @@ export default defineNuxtConfig({
 
   pinia: {
     autoImports: ['defineStore']
-  },
-
-  vite: {
-    base: process.env.NUXT_APP_BASE_URL
   }
 })
