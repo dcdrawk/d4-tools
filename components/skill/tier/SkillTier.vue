@@ -61,7 +61,7 @@
         :rank="skill.rank"
         :rank-max="skill.rankMax"
         @click="handleSkillClick(skill)"
-        @right-click="handleSkillRightClick(skill)"
+        @contextmenu="handleSkillRightClick(skill)"
         @mouseover="handleSkillMouseOver(skill)"
         @mouseleave="tooltipStore.visible = false"
         @mouseout="tooltipStore.visible = false"
@@ -75,7 +75,7 @@
           :style="{ transform: modifier.transform }"
           :active="modifier.active"
           @click="handleModifierClick(skill, modifier)"
-          @right-click="handleModifierRightClick(modifier)"
+          @contextmenu="handleModifierRightClick(modifier)"
           @mouseover="handleModifierMouseOver(modifier, skill.icon)"
           @mouseleave="tooltipStore.visible = false"
           @mouseout="tooltipStore.visible = false"
@@ -85,11 +85,11 @@
             :key="choiceModifier.name"
             :ref="el => { skillModifierRefs[choiceModifier.name] = el as ComponentPublicInstance }"
             :icon="skill.icon"
-            class="absolute top-0 left-0"
+            class="choice-modifier absolute top-0 left-0"
             :style="{ transform: choiceModifier.transform }"
             :active="choiceModifier.active"
             @click="handleModifierClick(modifier, choiceModifier)"
-            @right-click="handleModifierRightClick(choiceModifier)"
+            @contextmenu="handleModifierRightClick(choiceModifier)"
             @mouseover="handleModifierMouseOver(choiceModifier, skill.icon, true)"
             @mouseleave="tooltipStore.visible = false"
             @mouseout="tooltipStore.visible = false"
@@ -126,45 +126,31 @@ const skillModifierRefs = ref<IRefObject>({})
 
 const tooltipStore = useTooltipStore()
 
+const emit = defineEmits<{
+  (e: 'increment-rank', skill: any): void
+  (e: 'decrement-rank', skill: any): void
+  (e: 'activate-modifier', event: any): void
+  (e: 'deactivate-modifier', event: any): void
+  (e: 'contextmenu'): void
+  (e: 'mouseover'): void
+  (e: 'mouseleave'): void
+  (e: 'mouseout'): void
+}>()
+
 function handleSkillClick (skill: any): void {
-  if (skill.rank < skill.rankMax) {
-    skill.rank++
-    tooltipStore.rank++
-  }
+  emit('increment-rank', skill)
 }
 
 function handleSkillRightClick (skill: any): void {
-  if (skill.rank <= 0) return
-
-  if (skill.rank === 1 && hasActiveModifiers(skill)) return
-
-  skill.rank--
-  tooltipStore.rank--
-}
-
-function hasActiveModifiers (skill: any): boolean {
-  return !!skill.modifiers.find((modifier: any) => modifier.active)
-}
-
-function hasChoiceModifierSelected (modifier: any): boolean {
-  return !!modifier.choiceModifiers?.find((modifier: any) => modifier.active)
+  emit('decrement-rank', skill)
 }
 
 function handleModifierClick (parent: any, modifier: any): void {
-  if (parent.rank === 0) return
-  if (modifier.active) return
-  if ((parent.choiceModifiers && !parent.active)) return
-  if (parent.choiceModifiers && hasChoiceModifierSelected(parent)) return
-
-  tooltipStore.active = true
-  modifier.active = true
+  emit('activate-modifier', { parent, modifier })
 }
 
 function handleModifierRightClick (modifier: any): void {
-  if (modifier.choiceModifiers && hasChoiceModifierSelected(modifier)) return
-
-  tooltipStore.active = false
-  modifier.active = false
+  emit('deactivate-modifier', modifier)
 }
 
 function handleSkillMouseOver (skill: any): void {

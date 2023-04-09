@@ -27,5 +27,10 @@ module.exports = {
         max: 1
       }
     }]
+  },
+  settings: {
+    'import/ignore': [
+      '*vue-fontawesome*'
+    ]
   }
 }

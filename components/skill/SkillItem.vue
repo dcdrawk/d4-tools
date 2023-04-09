@@ -17,7 +17,7 @@
       <g
         class="skill-item__svg cursor-pointer relative"
         @click="$emit('click')"
-        @contextmenu.prevent="$emit('right-click')"
+        @contextmenu.prevent="$emit('contextmenu')"
         @mouseover="$emit('mouseover')"
         @mouseleave="$emit('mouseleave')"
         @mouseout="$emit('mouseout')"
@@ -134,7 +134,7 @@
 <script setup lang="ts">
 defineEmits<{
   (e: 'click'): void
-  (e: 'right-click'): void
+  (e: 'contextmenu'): void
   (e: 'mouseover'): void
   (e: 'mouseleave'): void
   (e: 'mouseout'): void
