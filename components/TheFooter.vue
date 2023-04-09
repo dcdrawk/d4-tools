@@ -4,7 +4,3 @@
     <p><small>D4 Tools is not affiliated with or endorsed by Activision Blizzard, Inc</small></p>
   </footer>
 </template>
-
-<script setup lang="ts">
-
-</script>
