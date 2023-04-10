@@ -125,5 +125,65 @@ export const useSorcererCoreSkills = (): Ref<ISkillItem[]> => {
         active: false
       }]
     }]
+  }, {
+    name: 'Chain Lightning',
+    description: 'Unleash a stream of lightning that deals <span class="text-orange-300">{damage}</span> damage and chains between Nearby enemies and you up to <span class="text-orange-300">6</span> times, prioritizing enemies.',
+    descriptionValues: {
+      damage: '42%,46.2%,50.4%,54.6%,58.8%'
+    },
+    type,
+    school: 'Shock',
+    damageType: 'Lightning',
+    icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/core/chain-lightning.png`,
+    transform: getSkillTransform(-107.5, 125),
+    rank: 0,
+    rankMax: 5,
+    modifiers: [{
+      name: 'Enhanced Chain Lightning',
+      description: '<span class="text-white">Chain Lightning</span> gains a <span class="text-orange-300">+3%</span> increased Critical Strike Chance per bounce.',
+      transform: getSkillTransform(-115, skillModifierDistance),
+      active: false,
+      choiceModifiers: [{
+        name: 'Destructive Chain Lightning',
+        description: 'When <span class="text-white">Chain Lightning</span> Critically Strikes, it has a <span class="text-orange-300">25%</span> chance to form a <span class="underline">Crackling Energy</span>.',
+        transform: getSkillTransform(-78, skillChoiceModifierDistance),
+        active: false
+      }, {
+        name: 'Greater Chain Lightning',
+        description: 'If <span class="text-white">Chain Lightning</span> bounces off of you, its next hit deals <span class="text-orange-300">25%</span> increased damage.',
+        transform: getSkillTransform(-158, skillChoiceModifierDistance),
+        active: false
+      }]
+    }]
+  }, {
+    name: 'Charged Bolts',
+    description: 'Release <span class="text-orange-300">5</span> bolts of lightning that course along the ground in an erratic pattern, dealing <span class="text-orange-300">{damage}</span> each.',
+    descriptionValues: {
+      damage: '17.5%,19.2%,21%,22.7%,24.5'
+    },
+    type,
+    school: 'Shock',
+    damageType: 'Lightning',
+    icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/core/charged-bolts.png`,
+    transform: getSkillTransform(-77, 120),
+    rank: 0,
+    rankMax: 5,
+    modifiers: [{
+      name: 'Enhanced Charged Bolts',
+      description: 'Hitting an enemy at least <span class="text-orange-300">3<span> times with the same cast of <span class="text-white">Charged Bolts</span> releases a lightning nova, dealing <span class="text-orange-300">15%</span> damage to enemies around them.',
+      transform: getSkillTransform(-80, skillModifierDistance),
+      active: false,
+      choiceModifiers: [{
+        name: 'Destructive Charged Bolts',
+        description: 'Hitting an enemy with <span class="text-white">Charged Bolts</span> reduces their damage dealt by <span class="text-orange-300">20%</span> for <span class="text-orange-300">3</span> seconds.',
+        transform: getSkillTransform(-38, skillChoiceModifierDistance),
+        active: false
+      }, {
+        name: 'Greater Charged Bolts',
+        description: 'When you Stun an enemy, there\'s a <span class="text-orange-300">40%</span> chance to release <span class="text-orange-300">3</span> <span class="text-white">Charged Bolts</span> from them.',
+        transform: getSkillTransform(-117, skillChoiceModifierDistance),
+        active: false
+      }]
+    }]
   }])
 }
