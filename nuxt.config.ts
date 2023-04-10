@@ -44,6 +44,10 @@ export default defineNuxtConfig({
     }
   },
 
+  nitro: {
+    baseURL: isDev ? '/' : '/d4-tools'
+  },
+
   pinia: {
     autoImports: ['defineStore']
   },
