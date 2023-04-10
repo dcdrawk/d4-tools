@@ -265,7 +265,7 @@ const iconStyles = computed(() => {
 })
 
 const greyBackgroundStyle = computed(() => (
-  { background: `url('${useRuntimeConfig().app.baseURL}/svg/tooltip-span-bg.svg')` }
+  { background: `url('${useRuntimeConfig().app.baseURL}svg/tooltip-span-bg.svg')` }
 ))
 </script>
 

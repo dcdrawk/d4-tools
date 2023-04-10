@@ -29,10 +29,6 @@ export default defineNuxtConfig({
     'nuxt-vitest'
   ],
 
-  extends: [
-    'nuxt-seo-kit'
-  ],
-
   app: {
     pageTransition: { name: 'page', mode: 'out-in' },
     head: {

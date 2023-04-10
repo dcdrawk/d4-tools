@@ -12,7 +12,7 @@
           height="80"
         >
           <image
-            href="/svg/skill/tier/skill-tier-bg.svg"
+            :href="`${useRuntimeConfig().app.baseURL}svg/skill/tier/skill-tier-bg.svg`"
             width="80"
             height="80"
           />
