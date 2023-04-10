@@ -27,7 +27,6 @@
       <div
         v-if="rank > 0"
         class="tooltip__rank bg-[#43443f] pt-[6px] pb-[4px] mb-2 font-display text-center text-shadow-sm shadow-black shadow-sm"
-        :style="greyBackgroundStyle"
       >
         RANK {{ rank }}/{{ rankMax }}
       </div>
@@ -69,7 +68,6 @@
       >
         <div
           class="tooltip__modifiers bg-[#43443f] my-3 pt-[6px] pb-[4px] mb-2 font-display text-center text-shadow-sm shadow-black shadow-sm"
-          :style="greyBackgroundStyle"
         >
           MODIFIERS
         </div>
@@ -263,18 +261,4 @@ const iconStyles = computed(() => {
     'text-center scale-[1.75] mb-6 top-2': isModifier.value
   }
 })
-
-const greyBackgroundStyle = computed(() => (
-  { background: `url('${useRuntimeConfig().app.baseURL}svg/tooltip-span-bg.svg')` }
-))
 </script>
-
-<style scoped lang="postcss">
-.tooltip {
-  &__rank,
-  &__modifiers {
-    background-repeat: repeat;
-    background-size: 200px 200px;
-  }
-}
-</style>
