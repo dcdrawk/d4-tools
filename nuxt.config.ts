@@ -1,4 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+const isDev = process.env.NODE_ENV === 'development'
+
 export default defineNuxtConfig({
   runtimeConfig: {
     public: {
@@ -7,6 +9,9 @@ export default defineNuxtConfig({
       siteDescription: 'Unofficial Skill Calculator for Diablo 4',
       titleSeparator: '|',
       language: 'en'
+    },
+    app: {
+      baseURL: isDev ? '/' : '/d4-tools/'
     }
   },
 
