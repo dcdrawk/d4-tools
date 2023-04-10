@@ -3,7 +3,7 @@
     <SeoKit />
 
     <section class="container">
-      <h1 class="my-2 text-3xl font-display text-white">
+      <h1 class="my-2 text-3xl font-display text-white font-semibold">
         D4 Tools
       </h1>
 
