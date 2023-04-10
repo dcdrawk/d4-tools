@@ -25,6 +25,14 @@
       @activate-modifier="handleActivateModifier($event.parent, $event.modifier)"
       @deactivate-modifier="handleDeactivateModifier($event)"
     />
+
+    <SkillTier
+      :skills="sorcererCoreSkills"
+      @increment-rank="handleIncrementRank($event)"
+      @decrement-rank="handleDecrementRank($event)"
+      @activate-modifier="handleActivateModifier($event.parent, $event.modifier)"
+      @deactivate-modifier="handleDeactivateModifier($event)"
+    />
   </div>
 </template>
 
@@ -33,6 +41,7 @@ import { useTooltipStore } from '@/store/tooltip'
 
 const tooltipStore = useTooltipStore()
 const sorcererBasicSkills = useSorcererBasicSkills()
+const sorcererCoreSkills = useSorcererCoreSkills()
 
 function handleIncrementRank (skill: any): void {
   if (skill.rank < skill.rankMax) {
