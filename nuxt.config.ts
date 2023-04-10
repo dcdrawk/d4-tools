@@ -4,7 +4,7 @@ const isDev = process.env.NODE_ENV === 'development'
 export default defineNuxtConfig({
   runtimeConfig: {
     public: {
-      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://dcdrawk.github.io/d4-tools/',
+      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://dcdrawk.github.io/d4-tools',
       siteName: 'D4 Tools',
       siteDescription: 'Unofficial Skill Calculator for Diablo 4',
       titleSeparator: '|',
@@ -50,5 +50,9 @@ export default defineNuxtConfig({
 
   pinia: {
     autoImports: ['defineStore']
+  },
+
+  linkChecker: {
+    trailingSlash: true
   }
 })
