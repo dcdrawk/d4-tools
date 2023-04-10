@@ -185,5 +185,16 @@ export const useSorcererCoreSkills = (): Ref<ISkillItem[]> => {
         active: false
       }]
     }]
+  }, {
+    name: 'Potent Warding',
+    description: 'After casting a Non-Basic Skill, you gain 2%/4%/6% Resistance to all elements and 1%/2%/3% additional Resistance to that Skill\'s element for 3 seconds.',
+    descriptionValues: {
+      damage: '17.5%,19.2%,21%,22.7%,24.5'
+    },
+    icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/core/passive/potent-warding.webp`,
+    transform: getSkillTransform(0, 120),
+    rank: 0,
+    rankMax: 3,
+    passive: true
   }])
 }

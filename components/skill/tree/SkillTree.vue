@@ -33,6 +33,12 @@
       @activate-modifier="handleActivateModifier($event.parent, $event.modifier)"
       @deactivate-modifier="handleDeactivateModifier($event)"
     />
+
+    <SkillItemPassive
+      name="Potent Warding"
+      icon="/img/skills/sorcerer/core/passive/potent-warding.webp"
+      active
+    />
   </div>
 </template>
 

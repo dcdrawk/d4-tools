@@ -71,12 +71,14 @@ export interface ISkillItem {
   name: string
   description: string
   descriptionValues: ISkillDescriptionValues
-  type: string
-  school: string
-  damageType: string
+  type?: string
+  school?: string
+  damageType?: string
   icon: string
   transform: string
   rank: number
   rankMax: number
-  modifiers: ISkillModifier[]
+  modifiers?: ISkillModifier[],
+  passive?: boolean,
+  children?: ISkillItem[]
 }
