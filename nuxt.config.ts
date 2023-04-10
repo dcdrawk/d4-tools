@@ -11,7 +11,7 @@ export default defineNuxtConfig({
       language: 'en'
     },
     app: {
-      baseURL: isDev ? '/' : '/d4-tools/'
+      baseURL: isDev ? '/' : '/d4-tools'
     }
   },
 
