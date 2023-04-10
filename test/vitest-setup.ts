@@ -5,3 +5,5 @@ vi.stubGlobal('defineNuxtPlugin', vi.fn((app: any) => {
 vi.stubGlobal('useRuntimeConfig', vi.fn(() => {
   return { public: {}, app: { baseUrl: '' } }
 }))
+
+vi.stubGlobal('useHead', vi.fn())
