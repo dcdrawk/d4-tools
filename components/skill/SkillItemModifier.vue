@@ -16,9 +16,9 @@
           <rect
             width="18"
             height="18"
-            x="11"
-            y="11"
-            transform="rotate(45, 9, 9)"
+            class="translate-x-[11px] translate-y-[11px] rotate-45 origin-center"
+            x="0"
+            y="0"
             fill="white"
           />
         </mask>
@@ -62,7 +62,7 @@
         <rect
           width="18"
           height="18"
-          fill="#000"
+          fill="transparent"
           transform="rotate(45, 9, 9)"
           x="11"
           y="11"
