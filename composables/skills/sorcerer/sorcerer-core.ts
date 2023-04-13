@@ -1,9 +1,9 @@
-import { ISkillItem } from '@/utils/skills'
+import { ISkillItem, ISkillPassiveGroup } from '@/utils/skills'
 
 const type = 'Core'
 
-export const useSorcererCoreSkills = (): Ref<ISkillItem[]> => {
-  return useState('sorcererCoreSkills', (): ISkillItem[] => [{
+export const useSorcererCoreSkills = (): Ref<(ISkillItem | ISkillPassiveGroup)[]> => {
+  return useState('sorcererCoreSkills', (): (ISkillItem | ISkillPassiveGroup)[] => [{
     name: 'Incinerate',
     description: 'Channel a beam of fire, Burning enemies for <span class="text-orange-300">{burning damage}</span> damage per second. Damage per second increases over <span class="text-orange-300">4</span> seconds, up to <span class="text-orange-300">{burning damage maximum}</span>.',
     descriptionValues: {
@@ -186,15 +186,53 @@ export const useSorcererCoreSkills = (): Ref<ISkillItem[]> => {
       }]
     }]
   }, {
-    name: 'Potent Warding',
-    description: 'After casting a Non-Basic Skill, you gain 2%/4%/6% Resistance to all elements and 1%/2%/3% additional Resistance to that Skill\'s element for 3 seconds.',
-    descriptionValues: {
-      damage: '17.5%,19.2%,21%,22.7%,24.5'
-    },
-    icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/core/passive/potent-warding.webp`,
-    transform: getSkillTransform(0, 120),
-    rank: 0,
-    rankMax: 3,
-    passive: true
+    name: 'warding',
+    items: [{
+      name: 'Potent Warding',
+      description: 'After casting a Non-<span class="text-white">Basic</span> Skill, you gain <span class="text-orange-300">{resistance}</span> Resistance to all elements and <span class="text-orange-300">{additional resistance}</span> additional Resistance to that Skill\'s element for <span class="text-orange-300">3</span> seconds.',
+      descriptionValues: {
+        resistance: '2%,4%,6%',
+        'additional resistance': '1%,2%,3%'
+      },
+      icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/core/passive/potent-warding.webp`,
+      transform: getSkillTransform(0, 120),
+      rank: 0,
+      rankMax: 3,
+      connected: true
+    }]
   }])
 }
+
+// const passives = [
+//   {
+//     group: 'frost-passives',
+//     items: [{
+//       active: false,
+//       name: 'foo',
+//       description: '',
+//       descriptionValues: {
+//         damage: ''
+//       },
+//       transform: '',
+//       connected: true,
+//       connections: ['bar', 'baz']
+//     }, {
+//       active: false,
+//       name: 'bar',
+//       transform: '',
+//       connected: false,
+//       connections: ['fek']
+//     }, {
+//       active: false,
+//       name: 'baz',
+//       transform: '',
+//       connected: false,
+//       connections: ['fek']
+//     }, {
+//       active: false,
+//       name: 'fek',
+//       transform: '',
+//       connected: false
+//     }]
+//   }
+// ]

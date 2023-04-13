@@ -57,7 +57,7 @@ function handleIncrementRank (skill: any): void {
 }
 
 function hasActiveModifiers (skill: any): boolean {
-  return !!skill.modifiers.find((modifier: any) => modifier.active)
+  return !!skill.modifiers?.find((modifier: any) => modifier.active)
 }
 
 function handleDecrementRank (skill: any): void {

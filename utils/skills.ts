@@ -78,7 +78,58 @@ export interface ISkillItem {
   transform: string
   rank: number
   rankMax: number
-  modifiers?: ISkillModifier[],
-  passive?: boolean,
+  modifiers?: ISkillModifier[]
+  passive?: boolean
   children?: ISkillItem[]
 }
+
+export interface ISkillPassive {
+  name: string
+  description: string
+  descriptionValues: ISkillDescriptionValues
+  icon: string
+  transform: string
+  rank: number
+  rankMax: number
+  connections?: string[]
+  connected: boolean
+}
+
+export interface ISkillPassiveGroup {
+  name: string
+  items: ISkillPassive[]
+}
+
+// const passives = [
+//   {
+//     group: 'frost-passives',
+//     items: [{
+//       active: false,
+//       name: 'foo',
+//       description: '',
+//       descriptionValues: {
+//         damage: ''
+//       },
+//       transform: '',
+//       connected: true,
+//       connections: ['bar', 'baz']
+//     }, {
+//       active: false,
+//       name: 'bar',
+//       transform: '',
+//       connected: false,
+//       connections: ['fek']
+//     }, {
+//       active: false,
+//       name: 'baz',
+//       transform: '',
+//       connected: false,
+//       connections: ['fek']
+//     }, {
+//       active: false,
+//       name: 'fek',
+//       transform: '',
+//       connected: false
+//     }]
+//   }
+// ]

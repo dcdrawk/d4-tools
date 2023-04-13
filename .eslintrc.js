@@ -30,7 +30,7 @@ module.exports = {
   },
   settings: {
     'import/ignore': [
-      '*vue-fontawesome*'
+      'vue-fontawesome'
     ]
   }
 }
