@@ -85,9 +85,11 @@ const props = withDefaults(defineProps<Props>(), {
   rankMax: 5
 })
 
-const outerSquareBg = computed<string>(() => props.active ? useActiveFill() : '!fill-[#191f20]')
+const isActive = computed<boolean>(() => props.rank > 0)
 
-const iconOpacity = computed<string>(() => props.active || props.tooltip ? '1' : '0.6')
+const outerSquareBg = computed<string>(() => isActive.value ? useActiveFill() : '!fill-[#191f20]')
+
+const iconOpacity = computed<string>(() => isActive.value || props.tooltip ? '1' : '0.6')
 
 const rankClass = computed<string>(() => props.rank <= 0 ? 'opacity-0' : 'opacity-100')
 </script>

@@ -60,7 +60,6 @@
           :ref="(el) => { skillRefs[skill.name] = el as ComponentPublicInstance }"
           class="absolute top-[12.5px] left-[12px]"
           :style="{ transform: (skill as ISkillItem).transform }"
-          :active="(skill as ISkillItem).rank > 0"
           :icon="(skill as ISkillItem).icon"
           :rank="(skill as ISkillItem).rank"
           :rank-max="(skill as ISkillItem).rankMax"

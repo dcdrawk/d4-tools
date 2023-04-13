@@ -5,6 +5,8 @@
       :key="passive.name"
       :style="{ transform: passive.transform }"
       :icon="passive.icon"
+      :rank="passive.rank"
+      :rank-max="passive.rankMax"
       @click="$emit('click', passive)"
       @contextmenu="$emit('contextmenu', passive)"
       @mouseover="$emit('mouseover', passive)"
