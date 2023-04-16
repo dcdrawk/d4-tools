@@ -62,6 +62,7 @@
               :el2="skillRefs[passive.name]?.$el"
               :direct="(passive as ISkillPassive).direct"
               :direction="line.direction"
+              :path="line.path"
             />
           </g>
         </template>
@@ -235,14 +236,22 @@ const skillItemLines = computed(() => props.skills.filter(skill => !(skill as IS
 
 const skillPassiveLines = computed(() => props.skills.filter(skill => (skill as ISkillPassiveGroup).items))
 
-function getPassiveLine (passive: ISkillPassive, group: ISkillPassiveGroup) {
-  if (passive.connected) return [{ el: skillTierItem.value?.$el, direction: '', active: passive.rank > 0 }]
+interface IPassiveLine {
+  active: boolean
+  el: HTMLElement
+  path?: string
+  direction?: string
+  name?: string
+}
+
+function getPassiveLine (passive: ISkillPassive, group: ISkillPassiveGroup): IPassiveLine[] {
+  if (passive.connected) return [{ el: skillTierItem.value?.$el, direction: '', active: passive.rank > 0, path: passive.path }]
 
   const connectedPassives = group.items.filter((passiveItem) => {
     return (passiveItem as ISkillPassive).requiredFor?.find(requirement => requirement.name === passive.name)
   })
 
-  return connectedPassives.map((passiveItem) => {
+  return connectedPassives.map((passiveItem: ISkillPassive) => {
     return {
       active: passiveItem.rank > 0 && passive.rank > 0,
       el: skillRefs.value[passiveItem.name]?.$el,

@@ -195,11 +195,12 @@ export const useSorcererCoreSkills = (): Ref<(ISkillItem | ISkillPassiveGroup)[]
         'additional resistance': '1%,2%,3%'
       },
       icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/core/passive/potent-warding.webp`,
-      transform: getSkillTransform(0, 120),
+      transform: getSkillTransform(15, 120),
       rank: 0,
       rankMax: 3,
       connected: true,
-      direct: true,
+      direct: false,
+      path: 'M 250,250 L 320,250 L 320,220 L 375,220',
       requiredFor: [
         { name: 'Potent Warding 2', direction: 'YX' },
         { name: 'Potent Warding 3', direction: 'YX' }

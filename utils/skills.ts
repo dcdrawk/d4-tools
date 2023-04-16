@@ -98,46 +98,13 @@ export interface ISkillPassive {
   rankMax: number
   connections?: string[]
   connected: boolean
-  direct?: boolean,
-  direction?: string,
+  direct?: boolean
+  direction?: string
   requiredFor?: IPassiveRequiredFor[]
+  path?: string
 }
 
 export interface ISkillPassiveGroup {
   name: string
   items: ISkillPassive[]
 }
-
-// const passives = [
-//   {
-//     group: 'frost-passives',
-//     items: [{
-//       active: false,
-//       name: 'foo',
-//       description: '',
-//       descriptionValues: {
-//         damage: ''
-//       },
-//       transform: '',
-//       connected: true,
-//       connections: ['bar', 'baz']
-//     }, {
-//       active: false,
-//       name: 'bar',
-//       transform: '',
-//       connected: false,
-//       connections: ['fek']
-//     }, {
-//       active: false,
-//       name: 'baz',
-//       transform: '',
-//       connected: false,
-//       connections: ['fek']
-//     }, {
-//       active: false,
-//       name: 'fek',
-//       transform: '',
-//       connected: false
-//     }]
-//   }
-// ]
