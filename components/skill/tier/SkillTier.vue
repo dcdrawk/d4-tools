@@ -3,9 +3,6 @@
     ref="skillTier"
     class="relative w-[500px] h-[500px]"
   >
-    <!-- <div class="static top-0 left-0 text-white">
-      {{ skillPassiveLines }}
-    </div> -->
     <!-- Connecting Lines -->
     <ClientOnly>
       <BaseSVG
@@ -57,17 +54,15 @@
             :key="passive.name"
           >
             <SkillPassiveLine
-              v-for="(line, index) in getPassiveLineEl1(passive, (skill as ISkillPassiveGroup))"
+              v-for="(line, index) in getPassiveLine(passive, (skill as ISkillPassiveGroup))"
               :key="`${passive.name}${index}`"
               :parent="skillTier"
+              :active="line.active"
               :el1="line.el"
               :el2="skillRefs[passive.name]?.$el"
               :direct="(passive as ISkillPassive).direct"
               :direction="line.direction"
             />
-            <!-- <div v-if="passive.connected">
-              Hi
-            </div> -->
           </g>
         </template>
       </BaseSVG>
@@ -243,26 +238,20 @@ const skillItemLines = computed(() => props.skills.filter(skill => !(skill as IS
 
 const skillPassiveLines = computed(() => props.skills.filter(skill => (skill as ISkillPassiveGroup).items))
 
-function getPassiveLineEl1 (passive: ISkillPassive, group: ISkillPassiveGroup) {
-  if (passive.connected) return [{ el: skillTierItem.value?.$el, direction: '' }]
-  else {
-    const connectedPassives = group.items.filter((passiveItem) => {
-      return (passiveItem as ISkillPassive).requiredFor?.find(requirement => requirement.name === passive.name)
-    })
+function getPassiveLine (passive: ISkillPassive, group: ISkillPassiveGroup) {
+  if (passive.connected) return [{ el: skillTierItem.value?.$el, direction: '', active: passive.rank > 0 }]
 
-    return connectedPassives.map((passiveItem) => {
-      console.log({
-        el: skillRefs.value[passiveItem.name]?.$el,
-        name: passiveItem.name,
-        direction: passiveItem.requiredFor?.find(requirement => requirement.name === passive.name)?.direction
-      })
-      // return skillRefs.value[passive.name]?.$el
-      return {
-        el: skillRefs.value[passiveItem.name]?.$el,
-        name: passiveItem.name,
-        direction: passiveItem.requiredFor?.find(requirement => requirement.name === passive.name)?.direction
-      }
-    })
-  }
+  const connectedPassives = group.items.filter((passiveItem) => {
+    return (passiveItem as ISkillPassive).requiredFor?.find(requirement => requirement.name === passive.name)
+  })
+
+  return connectedPassives.map((passiveItem) => {
+    return {
+      active: passiveItem.rank > 0 && passive.rank > 0,
+      el: skillRefs.value[passiveItem.name]?.$el,
+      name: passiveItem.name,
+      direction: passiveItem.requiredFor?.find(requirement => requirement.name === passive.name)?.direction
+    }
+  })
 }
 </script>

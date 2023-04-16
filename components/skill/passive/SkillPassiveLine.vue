@@ -2,8 +2,15 @@
   <path
     :d="dpath"
     fill="none"
-    stroke="red"
-    stroke-width="2"
+    stroke="#3e403d"
+    stroke-width="10"
+  />
+  <path
+    class="transition-all"
+    :class="lineStroke"
+    :d="dpath"
+    fill="none"
+    stroke-width="5"
   />
 </template>
 
@@ -26,8 +33,6 @@ const props = withDefaults(defineProps<Props>(), {
 const { x: el1x, y: el1y } = computed(() => getElementCenterCoordinates(props.parent, props.el1)).value
 const { x: el2x, y: el2y } = computed(() => getElementCenterCoordinates(props.parent, props.el2)).value
 
-console.log(props.el1)
-console.log(props.el2)
 const dpath = computed(() => {
   const moveTo = `M ${el1x},${el1y}`
   if (props.direct) return `${moveTo} L ${el2x},${el2y}`
@@ -42,6 +47,5 @@ const dpath = computed(() => {
   }
 })
 
-// const lineStroke = computed<string>(() => props.active ? 'stroke-red-800' : 'stroke-[#191f20]')
-// const { x1, y1, x2, y2 } = computed(() => getLineCoordinates(props.parent, props.el1, props.el2)).value
+const lineStroke = computed<string>(() => props.active ? 'stroke-red-800' : 'stroke-[#191f20]')
 </script>
