@@ -28,6 +28,7 @@
 
     <SkillTier
       :skills="sorcererCoreSkills"
+      :icon="`${useRuntimeConfig().app.baseURL}svg/skill/tier/skill-tier-icon-core.svg`"
       @increment-skill="handleIncrementSkill($event)"
       @decrement-skill="handleDecrementSkill($event)"
       @activate-modifier="handleActivateModifier($event.parent, $event.modifier)"
@@ -35,12 +36,6 @@
       @increment-passive="handleIncrementPassive($event)"
       @decrement-passive="handleDecrementPassive($event)"
     />
-
-    <!-- <SkillItemPassive
-      name="Potent Warding"
-      icon="/img/skills/sorcerer/core/passive/potent-warding.webp"
-      active
-    /> -->
   </div>
 </template>
 

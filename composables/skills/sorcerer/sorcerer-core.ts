@@ -186,7 +186,7 @@ export const useSorcererCoreSkills = (): Ref<(ISkillItem | ISkillPassiveGroup)[]
       }]
     }]
   }, {
-    name: 'warding',
+    name: 'core-warding',
     items: [{
       name: 'Potent Warding',
       description: 'After casting a Non-<span class="text-white">Basic</span> Skill, you gain <span class="text-orange-300">{resistance}</span> Resistance to all elements and <span class="text-orange-300">{additional resistance}</span> additional Resistance to that Skill\'s element for <span class="text-orange-300">3</span> seconds.',
@@ -195,92 +195,41 @@ export const useSorcererCoreSkills = (): Ref<(ISkillItem | ISkillPassiveGroup)[]
         'additional resistance': '1%,2%,3%'
       },
       icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/core/passive/potent-warding.webp`,
-      transform: getSkillTransform(15, 120),
+      transform: getSkillTransform(0, 120),
       rank: 0,
       rankMax: 3,
       connected: true,
-      direct: false,
-      path: 'M 250,250 L 320,250 L 320,220 L 375,220',
+      direct: true
+    }]
+  }, {
+    name: 'core-elemental',
+    items: [{
+      name: 'Devastation',
+      description: 'Your Maximum Mana is increased by <span class="text-orange-300">{maxMana}</span>',
+      descriptionValues: {
+        maxMana: '3,6,9'
+      },
+      icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/core/passive/devastation.webp`,
+      transform: getSkillTransform(-137.5, 135),
+      rank: 0,
+      rankMax: 3,
+      connected: true,
+      direct: true,
       requiredFor: [
-        { name: 'Potent Warding 2', direction: 'YX' },
-        { name: 'Potent Warding 3', direction: 'YX' }
+        { name: 'Elemental Dominance' }
       ]
     }, {
-      name: 'Potent Warding 2',
-      description: 'After casting a Non-<span class="text-white">Basic</span> Skill, you gain <span class="text-orange-300">{resistance}</span> Resistance to all elements and <span class="text-orange-300">{additional resistance}</span> additional Resistance to that Skill\'s element for <span class="text-orange-300">3</span> seconds.',
+      name: 'Elemental Dominance',
+      description: 'Your<span class="text-white">Core</span> Skills, deal <span class="text-orange-300">{damage}</span>increased damage when cast above <span class="text-orange-300">50</span> Mana',
       descriptionValues: {
-        resistance: '2%,4%,6%',
-        'additional resistance': '1%,2%,3%'
+        damage: '4%,8%,12%'
       },
-      icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/core/passive/potent-warding.webp`,
-      transform: getSkillTransform(15, 185),
+      icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/core/passive/elemental-dominance.webp`,
+      transform: getSkillTransform(-137.5, 215),
       rank: 0,
       rankMax: 3,
       connected: false,
-      direct: false,
-      // direction: 'TR',
-      requiredFor: [{ name: 'Potent Warding 4', direction: 'XY' }]
-    }, {
-      name: 'Potent Warding 3',
-      description: 'After casting a Non-<span class="text-white">Basic</span> Skill, you gain <span class="text-orange-300">{resistance}</span> Resistance to all elements and <span class="text-orange-300">{additional resistance}</span> additional Resistance to that Skill\'s element for <span class="text-orange-300">3</span> seconds.',
-      descriptionValues: {
-        resistance: '2%,4%,6%',
-        'additional resistance': '1%,2%,3%'
-      },
-      icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/core/passive/potent-warding.webp`,
-      transform: getSkillTransform(-15, 185),
-      rank: 0,
-      rankMax: 3,
-      connected: false,
-      direct: false,
-      requiredFor: [{ name: 'Potent Warding 4', direction: 'XY' }]
-    }, {
-      name: 'Potent Warding 4',
-      description: 'After casting a Non-<span class="text-white">Basic</span> Skill, you gain <span class="text-orange-300">{resistance}</span> Resistance to all elements and <span class="text-orange-300">{additional resistance}</span> additional Resistance to that Skill\'s element for <span class="text-orange-300">3</span> seconds.',
-      descriptionValues: {
-        resistance: '2%,4%,6%',
-        'additional resistance': '1%,2%,3%'
-      },
-      icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/core/passive/potent-warding.webp`,
-      transform: getSkillTransform(0, 240),
-      rank: 0,
-      rankMax: 3,
-      connected: false,
-      direct: false
+      direct: true
     }]
   }])
 }
-
-// const passives = [
-//   {
-//     group: 'frost-passives',
-//     items: [{
-//       active: false,
-//       name: 'foo',
-//       description: '',
-//       descriptionValues: {
-//         damage: ''
-//       },
-//       transform: '',
-//       connected: true,
-//       connections: ['bar', 'baz']
-//     }, {
-//       active: false,
-//       name: 'bar',
-//       transform: '',
-//       connected: false,
-//       connections: ['fek']
-//     }, {
-//       active: false,
-//       name: 'baz',
-//       transform: '',
-//       connected: false,
-//       connections: ['fek']
-//     }, {
-//       active: false,
-//       name: 'fek',
-//       transform: '',
-//       connected: false
-//     }]
-//   }
-// ]

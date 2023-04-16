@@ -71,7 +71,7 @@
 
     <SkillTierNode
       ref="skillTierItem"
-      :icon="`${useRuntimeConfig().app.baseURL}svg/skill/tier/skill-tier-icon-basic.svg`"
+      :icon="icon"
       class="translate-x-[210px] translate-y-[210px]"
     >
       <template
@@ -153,10 +153,12 @@ import SkillItemModifier from '@/components/skill/SkillItemModifier.vue'
 
 interface Props {
   skills: (ISkillItem | ISkillPassiveGroup)[]
+  icon?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  skills: () => []
+  skills: () => [],
+  icon: () => `${useRuntimeConfig().app.baseURL}svg/skill/tier/skill-tier-icon-basic.svg`
 })
 
 interface IRefObject {

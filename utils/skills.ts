@@ -85,7 +85,7 @@ export interface ISkillItem {
 
 export interface IPassiveRequiredFor {
   name: string
-  direction: string
+  direction?: string
 }
 
 export interface ISkillPassive {
