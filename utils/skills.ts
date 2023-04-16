@@ -40,11 +40,11 @@ export const getLineCoordinates = (parent: Element, el1: Element, el2: Element) 
 }
 
 export const getElementCenterCoordinates = (parent: Element, el: Element) => {
-  const parentBox = parent.getBoundingClientRect()
-  const box = el.getBoundingClientRect()
+  const parentBox = parent?.getBoundingClientRect()
+  const box = el?.getBoundingClientRect()
 
-  const x = ((box.left - parentBox.left + box.right - parentBox.left) || 0) / 2
-  const y = ((box.top - parentBox.top + box.bottom - parentBox.top) || 0) / 2
+  const x = ((box?.left - parentBox?.left + box?.right - parentBox?.left) || 0) / 2
+  const y = ((box?.top - parentBox?.top + box?.bottom - parentBox?.top) || 0) / 2
 
   return { x, y }
 }
@@ -83,6 +83,11 @@ export interface ISkillItem {
   children?: ISkillItem[]
 }
 
+export interface IPassiveRequiredFor {
+  name: string
+  direction: string
+}
+
 export interface ISkillPassive {
   name: string
   description: string
@@ -93,6 +98,9 @@ export interface ISkillPassive {
   rankMax: number
   connections?: string[]
   connected: boolean
+  direct?: boolean,
+  direction?: string,
+  requiredFor?: IPassiveRequiredFor[]
 }
 
 export interface ISkillPassiveGroup {

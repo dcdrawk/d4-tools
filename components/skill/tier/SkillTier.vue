@@ -3,6 +3,9 @@
     ref="skillTier"
     class="relative w-[500px] h-[500px]"
   >
+    <!-- <div class="static top-0 left-0 text-white">
+      {{ skillPassiveLines }}
+    </div> -->
     <!-- Connecting Lines -->
     <ClientOnly>
       <BaseSVG
@@ -11,8 +14,9 @@
         :height="500"
         class="absolute top-0 left-0 pointer-events-none"
       >
+        <!-- Skill Lines -->
         <g
-          v-for="skill in skills"
+          v-for="skill in skillItemLines"
           :key="skill.name"
         >
           <SkillLine
@@ -43,6 +47,29 @@
             />
           </g>
         </g>
+        <!-- Passive Lines -->
+        <template
+          v-for="skill in skillPassiveLines"
+          :key="skill.name"
+        >
+          <g
+            v-for="passive in (skill as ISkillPassiveGroup).items"
+            :key="passive.name"
+          >
+            <SkillPassiveLine
+              v-for="(line, index) in getPassiveLineEl1(passive, (skill as ISkillPassiveGroup))"
+              :key="`${passive.name}${index}`"
+              :parent="skillTier"
+              :el1="line.el"
+              :el2="skillRefs[passive.name]?.$el"
+              :direct="(passive as ISkillPassive).direct"
+              :direction="line.direction"
+            />
+            <!-- <div v-if="passive.connected">
+              Hi
+            </div> -->
+          </g>
+        </template>
       </BaseSVG>
     </ClientOnly>
 
@@ -100,7 +127,25 @@
           </SkillItemModifier>
         </SkillItem>
 
-        <SkillPassiveGroup
+        <template v-else>
+          <SkillPassive
+            v-for="passive in (skill as ISkillPassiveGroup).items"
+            :ref="(el) => { skillRefs[passive.name] = el as ComponentPublicInstance }"
+            :key="passive.name"
+            class="absolute top-[24px] left-[24px]"
+            :style="{ transform: passive.transform }"
+            :icon="passive.icon"
+            :rank="passive.rank"
+            :rank-max="passive.rankMax"
+            @click="handleSkillClick(passive)"
+            @contextmenu="handleSkillRightClick(passive)"
+            @mouseover="handlePassiveMouseOver(passive)"
+            @mouseleave="tooltipStore.visible = false"
+            @mouseout="tooltipStore.visible = false"
+          />
+        </template>
+
+        <!-- <SkillPassiveGroup
           v-else
           :ref="(el) => { skillRefs[skill.name] = el as ComponentPublicInstance }"
           :parent="skillTier?.$el"
@@ -111,14 +156,14 @@
           @mouseover="handlePassiveMouseOver(skill, $event)"
           @mouseleave="tooltipStore.visible = false"
           @mouseout="tooltipStore.visible = false"
-        />
+        /> -->
       </template>
     </SkillTierNode>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ISkillItem, ISkillPassiveGroup } from '@/utils/skills'
+import { ISkillItem, ISkillPassive, ISkillPassiveGroup } from '@/utils/skills'
 import { useTooltipStore } from '@/store/tooltip'
 import SkillItem from '@/components/skill/SkillItem.vue'
 import SkillItemModifier from '@/components/skill/SkillItemModifier.vue'
@@ -127,7 +172,7 @@ interface Props {
   skills: (ISkillItem | ISkillPassiveGroup)[]
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   skills: () => []
 })
 
@@ -186,11 +231,38 @@ function handleModifierMouseOver (modifier: any, icon: string, choiceModifier = 
   tooltipStore.setModifier(modifier, el, icon, choiceModifier)
 }
 
-function handlePassiveMouseOver (skill: any, passive: any): void {
+function handlePassiveMouseOver (passive: any): void {
   if (tooltipStore.visible === true) return
 
-  const el = skillRefs.value[skill.name]?.$el
+  const el = skillRefs.value[passive.name]?.$el
 
   tooltipStore.setSkill(passive, el)
+}
+
+const skillItemLines = computed(() => props.skills.filter(skill => !(skill as ISkillPassiveGroup).items))
+
+const skillPassiveLines = computed(() => props.skills.filter(skill => (skill as ISkillPassiveGroup).items))
+
+function getPassiveLineEl1 (passive: ISkillPassive, group: ISkillPassiveGroup) {
+  if (passive.connected) return [{ el: skillTierItem.value?.$el, direction: '' }]
+  else {
+    const connectedPassives = group.items.filter((passiveItem) => {
+      return (passiveItem as ISkillPassive).requiredFor?.find(requirement => requirement.name === passive.name)
+    })
+
+    return connectedPassives.map((passiveItem) => {
+      console.log({
+        el: skillRefs.value[passiveItem.name]?.$el,
+        name: passiveItem.name,
+        direction: passiveItem.requiredFor?.find(requirement => requirement.name === passive.name)?.direction
+      })
+      // return skillRefs.value[passive.name]?.$el
+      return {
+        el: skillRefs.value[passiveItem.name]?.$el,
+        name: passiveItem.name,
+        direction: passiveItem.requiredFor?.find(requirement => requirement.name === passive.name)?.direction
+      }
+    })
+  }
 }
 </script>

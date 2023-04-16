@@ -198,7 +198,54 @@ export const useSorcererCoreSkills = (): Ref<(ISkillItem | ISkillPassiveGroup)[]
       transform: getSkillTransform(0, 120),
       rank: 0,
       rankMax: 3,
-      connected: true
+      connected: true,
+      direct: true,
+      requiredFor: [
+        { name: 'Potent Warding 2', direction: 'YX' },
+        { name: 'Potent Warding 3', direction: 'YX' }
+      ]
+    }, {
+      name: 'Potent Warding 2',
+      description: 'After casting a Non-<span class="text-white">Basic</span> Skill, you gain <span class="text-orange-300">{resistance}</span> Resistance to all elements and <span class="text-orange-300">{additional resistance}</span> additional Resistance to that Skill\'s element for <span class="text-orange-300">3</span> seconds.',
+      descriptionValues: {
+        resistance: '2%,4%,6%',
+        'additional resistance': '1%,2%,3%'
+      },
+      icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/core/passive/potent-warding.webp`,
+      transform: getSkillTransform(15, 185),
+      rank: 0,
+      rankMax: 3,
+      connected: false,
+      direct: false,
+      // direction: 'TR',
+      requiredFor: [{ name: 'Potent Warding 4', direction: 'XY' }]
+    }, {
+      name: 'Potent Warding 3',
+      description: 'After casting a Non-<span class="text-white">Basic</span> Skill, you gain <span class="text-orange-300">{resistance}</span> Resistance to all elements and <span class="text-orange-300">{additional resistance}</span> additional Resistance to that Skill\'s element for <span class="text-orange-300">3</span> seconds.',
+      descriptionValues: {
+        resistance: '2%,4%,6%',
+        'additional resistance': '1%,2%,3%'
+      },
+      icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/core/passive/potent-warding.webp`,
+      transform: getSkillTransform(-15, 185),
+      rank: 0,
+      rankMax: 3,
+      connected: false,
+      direct: false,
+      requiredFor: [{ name: 'Potent Warding 4', direction: 'XY' }]
+    }, {
+      name: 'Potent Warding 4',
+      description: 'After casting a Non-<span class="text-white">Basic</span> Skill, you gain <span class="text-orange-300">{resistance}</span> Resistance to all elements and <span class="text-orange-300">{additional resistance}</span> additional Resistance to that Skill\'s element for <span class="text-orange-300">3</span> seconds.',
+      descriptionValues: {
+        resistance: '2%,4%,6%',
+        'additional resistance': '1%,2%,3%'
+      },
+      icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/core/passive/potent-warding.webp`,
+      transform: getSkillTransform(0, 240),
+      rank: 0,
+      rankMax: 3,
+      connected: false,
+      direct: false
     }]
   }])
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="skill-item-passive w-[56px] h-[56px] z-0">
+  <div class="skill-item-passive w-[32px] h-[32px] z-0">
     <slot />
 
     <!-- Rank (shown on hover) -->
