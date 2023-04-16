@@ -132,26 +132,13 @@
             :icon="passive.icon"
             :rank="passive.rank"
             :rank-max="passive.rankMax"
-            @click="handleSkillClick(passive)"
-            @contextmenu="handleSkillRightClick(passive)"
+            @click="handlePassiveClick(passive, skill)"
+            @contextmenu="handlePassiveRightClick(passive, skill)"
             @mouseover="handlePassiveMouseOver(passive)"
             @mouseleave="tooltipStore.visible = false"
             @mouseout="tooltipStore.visible = false"
           />
         </template>
-
-        <!-- <SkillPassiveGroup
-          v-else
-          :ref="(el) => { skillRefs[skill.name] = el as ComponentPublicInstance }"
-          :parent="skillTier?.$el"
-          :passive-group="skill as ISkillPassiveGroup"
-          class="absolute top-[24px] left-[24px]"
-          @click="handleSkillClick($event)"
-          @contextmenu="handleSkillRightClick($event)"
-          @mouseover="handlePassiveMouseOver(skill, $event)"
-          @mouseleave="tooltipStore.visible = false"
-          @mouseout="tooltipStore.visible = false"
-        /> -->
       </template>
     </SkillTierNode>
   </div>
@@ -184,8 +171,10 @@ const skillModifierRefs = ref<IRefObject>({})
 const tooltipStore = useTooltipStore()
 
 const emit = defineEmits<{
-  (e: 'increment-rank', skill: any): void
-  (e: 'decrement-rank', skill: any): void
+  (e: 'increment-skill', skill: any): void
+  (e: 'increment-passive', skill: any): void
+  (e: 'decrement-skill', skill: any): void
+  (e: 'decrement-passive', skill: any): void
   (e: 'activate-modifier', event: any): void
   (e: 'deactivate-modifier', event: any): void
   (e: 'contextmenu'): void
@@ -195,11 +184,11 @@ const emit = defineEmits<{
 }>()
 
 function handleSkillClick (skill: any): void {
-  emit('increment-rank', skill)
+  emit('increment-skill', skill)
 }
 
 function handleSkillRightClick (skill: any): void {
-  emit('decrement-rank', skill)
+  emit('decrement-skill', skill)
 }
 
 function handleModifierClick (parent: any, modifier: any): void {
@@ -208,6 +197,14 @@ function handleModifierClick (parent: any, modifier: any): void {
 
 function handleModifierRightClick (modifier: any): void {
   emit('deactivate-modifier', modifier)
+}
+
+function handlePassiveClick (passive: any, group: any): void {
+  emit('increment-passive', { passive, group })
+}
+
+function handlePassiveRightClick (passive: any, group: any): void {
+  emit('decrement-passive', { passive, group })
 }
 
 function handleSkillMouseOver (skill: any): void {

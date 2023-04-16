@@ -20,25 +20,27 @@
 
     <SkillTier
       :skills="sorcererBasicSkills"
-      @increment-rank="handleIncrementRank($event)"
-      @decrement-rank="handleDecrementRank($event)"
+      @increment-skill="handleIncrementSkill($event)"
+      @decrement-skill="handleDecrementSkill($event)"
       @activate-modifier="handleActivateModifier($event.parent, $event.modifier)"
       @deactivate-modifier="handleDeactivateModifier($event)"
     />
 
     <SkillTier
       :skills="sorcererCoreSkills"
-      @increment-rank="handleIncrementRank($event)"
-      @decrement-rank="handleDecrementRank($event)"
+      @increment-skill="handleIncrementSkill($event)"
+      @decrement-skill="handleDecrementSkill($event)"
       @activate-modifier="handleActivateModifier($event.parent, $event.modifier)"
       @deactivate-modifier="handleDeactivateModifier($event)"
+      @increment-passive="handleIncrementPassive($event)"
+      @decrement-passive="handleDecrementPassive($event)"
     />
 
-    <SkillItemPassive
+    <!-- <SkillItemPassive
       name="Potent Warding"
       icon="/img/skills/sorcerer/core/passive/potent-warding.webp"
       active
-    />
+    /> -->
   </div>
 </template>
 
@@ -49,7 +51,7 @@ const tooltipStore = useTooltipStore()
 const sorcererBasicSkills = useSorcererBasicSkills()
 const sorcererCoreSkills = useSorcererCoreSkills()
 
-function handleIncrementRank (skill: any): void {
+function handleIncrementSkill (skill: any): void {
   if (skill.rank < skill.rankMax) {
     skill.rank++
     tooltipStore.rank++
@@ -60,7 +62,7 @@ function hasActiveModifiers (skill: any): boolean {
   return !!skill.modifiers?.find((modifier: any) => modifier.active)
 }
 
-function handleDecrementRank (skill: any): void {
+function handleDecrementSkill (skill: any): void {
   if (skill.rank <= 0) return
 
   if (skill.rank === 1 && hasActiveModifiers(skill)) return
@@ -88,5 +90,31 @@ function handleDeactivateModifier (modifier: any): void {
 
   tooltipStore.active = false
   modifier.active = false
+}
+
+function handleIncrementPassive ({ passive, group }: any): void {
+  const isLessThanRankMax = passive.rank < passive.rankMax
+
+  const meetsRequirements = passive.connected || (group.items
+    .filter((passiveItem: any) => passiveItem?.requiredFor?.find((requirement: any) => requirement.name === passive.name))
+    .reduce((accumulator: number, currentValue: any) => accumulator + currentValue.rank, 0) > 0 && isLessThanRankMax)
+
+  if (meetsRequirements) {
+    passive.rank++
+    tooltipStore.rank++
+  }
+}
+
+function handleDecrementPassive ({ passive, group }: any): void {
+  if (passive.rank <= 0) return
+
+  const hasActiveRequirement = passive.requiredFor?.filter((requiremnt: any) => {
+    return group.items.find((groupItem: any) => groupItem.name === requiremnt.name && groupItem.rank > 0)
+  }).length > 0
+
+  if (passive.rank === 1 && hasActiveRequirement) return
+
+  passive.rank--
+  tooltipStore.rank--
 }
 </script>
