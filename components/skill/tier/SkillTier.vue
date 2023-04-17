@@ -231,7 +231,7 @@ function handlePassiveMouseOver (passive: any): void {
 
   const el = skillRefs.value[passive.name]?.$el
 
-  tooltipStore.setSkill(passive, el)
+  tooltipStore.setPassive(passive, el)
 }
 
 const skillItemLines = computed(() => props.skills.filter(skill => !(skill as ISkillPassiveGroup).items))

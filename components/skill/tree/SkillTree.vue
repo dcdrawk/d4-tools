@@ -90,7 +90,7 @@ function handleDeactivateModifier (modifier: any): void {
 function handleIncrementPassive ({ passive, group }: any): void {
   const isLessThanRankMax = passive.rank < passive.rankMax
 
-  const meetsRequirements = passive.connected || (group.items
+  const meetsRequirements = (passive.connected && isLessThanRankMax) || (group.items
     .filter((passiveItem: any) => passiveItem?.requiredFor?.find((requirement: any) => requirement.name === passive.name))
     .reduce((accumulator: number, currentValue: any) => accumulator + currentValue.rank, 0) > 0 && isLessThanRankMax)
 

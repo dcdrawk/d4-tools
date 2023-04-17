@@ -32,13 +32,33 @@ export const useTooltipStore = defineStore('tooltip', {
       this.active = false
       this.rank = skill.rank
       this.rankMax = skill.rankMax
-      this.school = skill.school
-      this.damageType = skill.damageType
+      this.school = skill.school || ''
+      this.damageType = skill.damageType || ''
       this.description = skill.description
       this.descriptionValues = skill.descriptionValues
-      this.modifiers = skill.modifiers
+      this.modifiers = skill.modifiers || []
       this.icon = skill.icon
       this.category = 'skill'
+      this.x = refBox.left + offset
+      this.y = refBox.top + offset
+      this.visible = true
+    },
+
+    setPassive (skill: ISkillItem, el: Element): void {
+      const refBox = el.getBoundingClientRect()
+      const offset = 20
+
+      this.name = skill.name
+      this.active = false
+      this.rank = skill.rank
+      this.rankMax = skill.rankMax
+      this.school = ''
+      this.damageType = ''
+      this.description = skill.description
+      this.descriptionValues = skill.descriptionValues
+      this.modifiers = []
+      this.icon = skill.icon
+      this.category = 'passive'
       this.x = refBox.left + offset
       this.y = refBox.top + offset
       this.visible = true
