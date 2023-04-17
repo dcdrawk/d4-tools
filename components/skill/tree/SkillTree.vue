@@ -1,5 +1,26 @@
 <template>
-  <div class="relative">
+  <div
+    ref="skillTreeRef"
+    class="relative"
+  >
+    <div
+      v-if="skillTreeRef"
+      class="text-white absolute top-0 left-0 z-50"
+    >
+      {{ rank }}
+      <button
+        class="w-10 h-10 bg-gray-700 border border-white"
+        @click="rank++"
+      >
+        +
+      </button>
+      <button
+        class="w-10 h-10 bg-gray-700 border border-white"
+        @click="rank--"
+      >
+        -
+      </button>
+    </div>
     <SkillTooltip
       v-if="tooltipStore?.visible"
       :name="tooltipStore.name"
@@ -18,7 +39,36 @@
       :translate-y="tooltipStore.y"
     />
 
+    <ClientOnly>
+      <div class="absolute inline-block top-0 left-0 w-full h-[1000px]">
+        <BaseSVG
+          v-if="skillTreeRef"
+          class="inline-block"
+          :width="1280"
+          :height="1000"
+        >
+          <SkillTierLine
+            :parent="skillTreeRef"
+            :el1="basic?.$el"
+            :el2="core?.$el"
+            :rank="rank"
+            :rank-required="5"
+          />
+
+          <!-- <rect
+          x="0"
+          y="0"
+          width="1280"
+          height="1000"
+          fill="red"
+        /> -->
+        </BaseSVG>
+      </div>
+    </ClientOnly>
+
     <SkillTier
+      ref="basic"
+      class=" translate-x-[500px]"
       :skills="sorcererBasicSkills"
       @increment-skill="handleIncrementSkill($event)"
       @decrement-skill="handleDecrementSkill($event)"
@@ -27,6 +77,7 @@
     />
 
     <SkillTier
+      ref="core"
       :skills="sorcererCoreSkills"
       :icon="`${useRuntimeConfig().app.baseURL}svg/skill/tier/skill-tier-icon-core.svg`"
       @increment-skill="handleIncrementSkill($event)"
@@ -41,10 +92,15 @@
 
 <script setup lang="ts">
 import { useTooltipStore } from '@/store/tooltip'
+const rank = ref(2)
 
 const tooltipStore = useTooltipStore()
 const sorcererBasicSkills = useSorcererBasicSkills()
 const sorcererCoreSkills = useSorcererCoreSkills()
+
+const skillTreeRef = ref()
+const basic = ref()
+const core = ref()
 
 function handleIncrementSkill (skill: any): void {
   if (skill.rank < skill.rankMax) {
