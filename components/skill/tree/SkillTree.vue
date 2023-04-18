@@ -3,24 +3,6 @@
     ref="skillTreeRef"
     class="relative"
   >
-    <div
-      v-if="skillTreeRef"
-      class="text-white absolute top-0 left-0 z-50"
-    >
-      {{ rank }}
-      <button
-        class="w-10 h-10 bg-gray-700 border border-white"
-        @click="rank++"
-      >
-        +
-      </button>
-      <button
-        class="w-10 h-10 bg-gray-700 border border-white"
-        @click="rank--"
-      >
-        -
-      </button>
-    </div>
     <SkillTooltip
       v-if="tooltipStore?.visible"
       :name="tooltipStore.name"
