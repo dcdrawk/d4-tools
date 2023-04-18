@@ -54,21 +54,13 @@
             :rank="rank"
             :rank-required="5"
           />
-
-          <!-- <rect
-          x="0"
-          y="0"
-          width="1280"
-          height="1000"
-          fill="red"
-        /> -->
         </BaseSVG>
       </div>
     </ClientOnly>
 
     <SkillTier
       ref="basic"
-      class=" translate-x-[500px]"
+      class="translate-x-[500px]"
       :skills="sorcererBasicSkills"
       @increment-skill="handleIncrementSkill($event)"
       @decrement-skill="handleDecrementSkill($event)"
@@ -78,6 +70,7 @@
 
     <SkillTier
       ref="core"
+      class="translate-x-[250px] translate-y-[-250px]"
       :skills="sorcererCoreSkills"
       :icon="`${useRuntimeConfig().app.baseURL}svg/skill/tier/skill-tier-icon-core.svg`"
       @increment-skill="handleIncrementSkill($event)"
