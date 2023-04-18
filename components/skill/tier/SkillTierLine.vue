@@ -138,11 +138,12 @@ const animationY2 = ref()
 const animationDuration = '250ms'
 const animationKeySplines = '0.5 0 0.5 1;'
 
-// const lineStroke = computed<string>(() => props.active ? 'stroke-red-800' : 'stroke-[#191f20]')
 const { x1, y1, x2, y2 } = computed(() => getLineCoordinates(props.parent, props.el1, props.el2)).value
 
 const percentage = computed(() => {
-  return props.rank / props.rankRequired
+  return Math.max(0, (
+    Math.min(props.rank, props.rankRequired) - props.rankStart) / (props.rankRequired - props.rankStart)
+  )
 })
 
 const oldRank = ref(props.rank)
@@ -163,8 +164,13 @@ const filledLinePrevoius = computed(() => {
   return { x, y }
 })
 
+const rankCapped = computed(() => {
+  if (props.rank < props.rankStart) return props.rankStart
+  return Math.min(props.rank, props.rankRequired)
+})
+
 watch(
-  () => props.rank,
+  () => rankCapped.value,
   (newValue, oldValue) => {
     if (newValue === undefined || animating.value) return
 
