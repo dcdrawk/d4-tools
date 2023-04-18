@@ -120,14 +120,15 @@ interface Props {
   el1: HTMLElement
   el2: HTMLElement
   parent: HTMLElement
-  rank: number
+  rank?: number
   rankRequired: number
   rankStart?: number
 }
 
 const props = withDefaults(defineProps<Props>(), {
   active: false,
-  rankStart: 0
+  rankStart: 0,
+  rank: 0
 })
 
 const animating = ref(false)

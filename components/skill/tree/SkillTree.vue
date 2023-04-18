@@ -85,15 +85,38 @@
 
 <script setup lang="ts">
 import { useTooltipStore } from '@/store/tooltip'
-const rank = ref(2)
-
-const tooltipStore = useTooltipStore()
-const sorcererBasicSkills = useSorcererBasicSkills()
-const sorcererCoreSkills = useSorcererCoreSkills()
-
+/**
+ * Template Refs
+ */
 const skillTreeRef = ref()
 const basic = ref()
 const core = ref()
+
+/**
+ * Skills / Tooltip
+ */
+const sorcererBasicSkills = useSorcererBasicSkills()
+const sorcererCoreSkills = useSorcererCoreSkills()
+const tooltipStore = useTooltipStore()
+
+const allSorcererSkills = computed(() => ([
+  ...sorcererBasicSkills.value,
+  ...sorcererCoreSkills.value
+]))
+
+/**
+ * Rank
+ */
+const rank = computed(() => {
+  return allSorcererSkills.value.reduce((accumulator: number, skill: any) => {
+    if (skill.rank) {
+      const modifierValue = skill.modifiers[0].active ? 1 : 0
+      const choiceModifierValue = skill.modifiers[0].choiceModifiers.find((modifier: any) => modifier.active) ? 1 : 0
+      return accumulator + skill.rank + modifierValue + choiceModifierValue
+    }
+    return accumulator
+  }, 0)
+})
 
 function handleIncrementSkill (skill: any): void {
   if (skill.rank < skill.rankMax) {
