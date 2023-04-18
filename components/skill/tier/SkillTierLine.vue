@@ -1,26 +1,52 @@
 <template>
+  <defs>
+    <filter
+      id="shadowFilter"
+      x="0"
+      y="0"
+      width="200%"
+      height="200%"
+    >
+      <feOffset
+        result="offOut"
+        in="SourceAlpha"
+        dx="0"
+        dy="0"
+      />
+      <feGaussianBlur
+        result="blurOut"
+        in="offOut"
+        stdDeviation="2"
+      />
+      <feBlend
+        in="SourceGraphic"
+        in2="blurOut"
+        mode="normal"
+      />
+    </filter>
+  </defs>
   <line
+    class="shadow-lg shadow-red-500"
     :x1="x1"
     :y1="y1"
     :x2="x2"
     :y2="y2"
     stroke="#3e403d"
     stroke-width="30"
-    :data-test1="filledLine.x"
-    :data-test2="filledLine.y"
-    :data-percent="percentage"
+    filter="url(#shadowFilter)"
   />
   <line
-    class="transition-all"
+    class="transition-all text-shadow shadow-red-200"
     :x1="x1"
     :y1="y1"
     :x2="x2"
     :y2="y2"
-    :class="lineStroke"
+    stroke="#191f20"
     stroke-width="15"
   />
+
   <line
-    class="stroke-red-800 origin-top-right transition-all"
+    class="origin-top-right transition-all stroke-[#541113]"
     :x1="x1"
     :y1="y1"
     :x2="filledLine.x"
@@ -28,29 +54,67 @@
     stroke-width="15"
   >
     <animate
-      ref="animationX"
+      ref="animationX1"
       attributeName="x2"
       duration="5s"
       :from="filledLinePrevoius.x"
       :to="filledLine.x"
       begin="indefinite"
+      calcMode="spline"
+      keyTimes="0; 0.25"
+      :keySplines="animationKeySplines"
       :dur="animationDuration"
     />
     <animate
-      ref="animationY"
+      ref="animationY1"
       attributeName="y2"
       duration="5s"
       :from="filledLinePrevoius.y"
       :to="filledLine.y"
       begin="indefinite"
+      calcMode="spline"
+      keyTimes="0; 0.25"
+      :keySplines="animationKeySplines"
+      :dur="animationDuration"
+    />
+  </line>
+
+  <line
+    class="origin-top-right transition-all stroke-[#871B1E]"
+    :x1="x1"
+    :y1="y1"
+    :x2="filledLine.x"
+    :y2="filledLine.y"
+    stroke-width="13"
+  >
+    <animate
+      ref="animationX2"
+      attributeName="x2"
+      duration="5s"
+      :from="filledLinePrevoius.x"
+      :to="filledLine.x"
+      begin="indefinite"
+      calcMode="spline"
+      keyTimes="0; 0.25"
+      :keySplines="animationKeySplines"
+      :dur="animationDuration"
+    />
+    <animate
+      ref="animationY2"
+      attributeName="y2"
+      duration="5s"
+      :from="filledLinePrevoius.y"
+      :to="filledLine.y"
+      begin="indefinite"
+      calcMode="spline"
+      keyTimes="0; 0.25"
+      :keySplines="animationKeySplines"
       :dur="animationDuration"
     />
   </line>
 </template>
 
 <script setup lang="ts">
-// import { faRankingStar } from '@fortawesome/free-solid-svg-icons'
-
 interface Props {
   active?: boolean
   el1: HTMLElement
@@ -66,11 +130,15 @@ const props = withDefaults(defineProps<Props>(), {
   rankStart: 0
 })
 
-const animationX = ref()
-const animationY = ref()
-const animationDuration = '0.5s'
+const animating = ref(false)
+const animationX1 = ref()
+const animationY1 = ref()
+const animationX2 = ref()
+const animationY2 = ref()
+const animationDuration = '250ms'
+const animationKeySplines = '0.5 0 0.5 1;'
 
-const lineStroke = computed<string>(() => props.active ? 'stroke-red-800' : 'stroke-[#191f20]')
+// const lineStroke = computed<string>(() => props.active ? 'stroke-red-800' : 'stroke-[#191f20]')
 const { x1, y1, x2, y2 } = computed(() => getLineCoordinates(props.parent, props.el1, props.el2)).value
 
 const percentage = computed(() => {
@@ -98,11 +166,20 @@ const filledLinePrevoius = computed(() => {
 watch(
   () => props.rank,
   (newValue, oldValue) => {
-    if (newValue !== oldRank.value) {
-      oldRank.value = oldValue
-      animationX.value?.beginElement()
-      animationY.value?.beginElement()
-    }
+    if (newValue === undefined || animating.value) return
+
+    oldRank.value = oldValue
+
+    animationX1.value?.beginElement()
+    animationY1.value?.beginElement()
+    animationX2.value?.beginElement()
+    animationY2.value?.beginElement()
+
+    animating.value = true
+
+    setTimeout(() => {
+      animating.value = false
+    }, 150)
   }
 )
 </script>
