@@ -1,5 +1,5 @@
 <template>
-  <div class="skill-tier w-[80px] h-[80px] relative z-auto inline-block">
+  <div class="skill-tier w-[80px] h-[80px] relative z-auto inline-block select-none">
     <BaseSVG
       :width="80"
       :height="80"
@@ -43,12 +43,30 @@
       />
 
       <image
+        v-if="isActive"
         :href="icon"
         width="44"
         height="44"
         y="18"
         x="18"
       />
+
+      <g v-else>
+        <image
+          href="/svg/skill/skill-point.svg"
+          width="18"
+          height="18"
+          y="32"
+          x="20"
+        />
+        <text
+          x="42"
+          y="47"
+          class="fill-red-600 text-2xl font-display font-semibold"
+        >
+          {{ skillPointsRequired }}
+        </text>
+      </g>
     </BaseSVG>
 
     <slot />
@@ -57,12 +75,20 @@
 
 <script setup lang="ts">
 interface Props {
-  active?: boolean
   icon?: string
+  rank: number
+  rankRequired: number
 }
 
-withDefaults(defineProps<Props>(), {
-  active: false,
+const props = withDefaults(defineProps<Props>(), {
   icon: '/svg/skill/tier/skill-tier-icon-basic.svg'
+})
+
+const isActive = computed(() => {
+  return props.rank >= props.rankRequired
+})
+
+const skillPointsRequired = computed(() => {
+  return props.rankRequired - props.rank
 })
 </script>

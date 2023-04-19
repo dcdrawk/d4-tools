@@ -34,7 +34,7 @@
             :el1="basic?.$el"
             :el2="core?.$el"
             :rank="rank"
-            :rank-required="5"
+            :rank-required="2"
           />
         </BaseSVG>
       </div>
@@ -54,6 +54,8 @@
       ref="core"
       class="translate-x-[270px] translate-y-[-270px]"
       :skills="sorcererCoreSkills"
+      :rank="rank"
+      :rank-required="2"
       :icon="`${useRuntimeConfig().app.baseURL}svg/skill/tier/skill-tier-icon-core.svg`"
       @increment-skill="handleIncrementSkill($event)"
       @decrement-skill="handleDecrementSkill($event)"

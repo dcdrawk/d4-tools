@@ -72,6 +72,8 @@
     <SkillTierNode
       ref="skillTierItem"
       :icon="icon"
+      :rank="rank"
+      :rank-required="rankRequired"
       class="translate-x-[210px] translate-y-[210px] pointer-events-auto"
     >
       <template
@@ -153,11 +155,15 @@ import SkillItemModifier from '@/components/skill/SkillItemModifier.vue'
 
 interface Props {
   skills: (ISkillItem | ISkillPassiveGroup)[]
+  rank?: number
+  rankRequired?: number
   icon?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
   skills: () => [],
+  rank: 0,
+  rankRequired: 0,
   icon: () => `${useRuntimeConfig().app.baseURL}svg/skill/tier/skill-tier-icon-basic.svg`
 })
 
