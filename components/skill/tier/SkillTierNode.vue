@@ -42,31 +42,35 @@
         transform="rotate(45, 21, 21)"
       />
 
-      <image
-        v-if="isActive"
-        :href="icon"
-        width="44"
-        height="44"
-        y="18"
-        x="18"
-      />
-
-      <g v-else>
+      <transition
+        name="fade"
+      >
         <image
-          href="/svg/skill/skill-point.svg"
-          width="18"
-          height="18"
-          y="32"
-          x="20"
+          v-if="isActive"
+          :href="icon"
+          width="44"
+          height="44"
+          y="18"
+          x="18"
         />
-        <text
-          x="42"
-          y="47"
-          class="fill-red-600 text-2xl font-display font-semibold"
-        >
-          {{ skillPointsRequired }}
-        </text>
-      </g>
+
+        <g v-else>
+          <image
+            href="/svg/skill/skill-point.svg"
+            width="18"
+            height="18"
+            y="32"
+            x="20"
+          />
+          <text
+            x="42"
+            y="47"
+            class="fill-red-600 text-2xl font-display font-semibold"
+          >
+            {{ skillPointsRequired }}
+          </text>
+        </g>
+      </transition>
     </BaseSVG>
 
     <slot />
@@ -92,3 +96,15 @@ const skillPointsRequired = computed(() => {
   return props.rankRequired - props.rank
 })
 </script>
+
+<style scoped lang="postcss">
+.fade-enter-active,
+.fade-leave-active {
+  @apply transition-opacity;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  @apply opacity-0;
+}
+</style>
