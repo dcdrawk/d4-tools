@@ -192,28 +192,30 @@ const emit = defineEmits<{
   (e: 'mouseout'): void
 }>()
 
+const isActive = computed(() => props.rank >= props.rankRequired)
+
 function handleSkillClick (skill: any): void {
-  emit('increment-skill', skill)
+  if (isActive.value) emit('increment-skill', skill)
 }
 
 function handleSkillRightClick (skill: any): void {
-  emit('decrement-skill', skill)
+  if (isActive.value) emit('decrement-skill', skill)
 }
 
 function handleModifierClick (parent: any, modifier: any): void {
-  emit('activate-modifier', { parent, modifier })
+  if (isActive.value) emit('activate-modifier', { parent, modifier })
 }
 
 function handleModifierRightClick (modifier: any): void {
-  emit('deactivate-modifier', modifier)
+  if (isActive.value) emit('deactivate-modifier', modifier)
 }
 
 function handlePassiveClick (passive: any, group: any): void {
-  emit('increment-passive', { passive, group })
+  if (isActive.value) emit('increment-passive', { passive, group })
 }
 
 function handlePassiveRightClick (passive: any, group: any): void {
-  emit('decrement-passive', { passive, group })
+  if (isActive.value) emit('decrement-passive', { passive, group })
 }
 
 function handleSkillMouseOver (skill: any): void {
