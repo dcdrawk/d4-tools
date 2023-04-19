@@ -1,39 +1,20 @@
 <template>
-  <defs>
-    <filter
-      id="shadowFilter"
-      x="0"
-      y="0"
-      width="200%"
-      height="200%"
-    >
-      <feOffset
-        result="offOut"
-        in="SourceAlpha"
-        dx="0"
-        dy="0"
-      />
-      <feGaussianBlur
-        result="blurOut"
-        in="offOut"
-        stdDeviation="2"
-      />
-      <feBlend
-        in="SourceGraphic"
-        in2="blurOut"
-        mode="normal"
-      />
-    </filter>
-  </defs>
   <line
-    class="shadow-lg shadow-red-500"
+    :x1="x1"
+    :y1="y1"
+    :x2="x2"
+    :y2="y2"
+    stroke="#000"
+    stroke-width="32"
+  />
+  <line
+    class="shadow-lg"
     :x1="x1"
     :y1="y1"
     :x2="x2"
     :y2="y2"
     stroke="#3e403d"
     stroke-width="30"
-    filter="url(#shadowFilter)"
   />
   <line
     class="transition-all text-shadow shadow-red-200"
