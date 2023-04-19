@@ -52,7 +52,7 @@
 
     <SkillTier
       ref="core"
-      class="translate-x-[250px] translate-y-[-250px]"
+      class="translate-x-[270px] translate-y-[-270px]"
       :skills="sorcererCoreSkills"
       :icon="`${useRuntimeConfig().app.baseURL}svg/skill/tier/skill-tier-icon-core.svg`"
       @increment-skill="handleIncrementSkill($event)"

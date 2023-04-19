@@ -1,7 +1,7 @@
 <template>
   <div
     ref="skillTier"
-    class="relative w-[500px] h-[500px]"
+    class="relative w-[500px] h-[500px] pointer-events-none"
   >
     <!-- Connecting Lines -->
     <ClientOnly>
@@ -72,7 +72,7 @@
     <SkillTierNode
       ref="skillTierItem"
       :icon="icon"
-      class="translate-x-[210px] translate-y-[210px]"
+      class="translate-x-[210px] translate-y-[210px] pointer-events-auto"
     >
       <template
         v-for="(skill) in skills"
