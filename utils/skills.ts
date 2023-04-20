@@ -136,3 +136,28 @@ export function getSkillCount (tier: ISkillTier) {
 
   return skillTotal + passiveTotal
 }
+
+interface IPassiveLine {
+  active: boolean
+  el: HTMLElement
+  path?: string
+  direction?: string
+  name?: string
+}
+
+export function getPassiveLine (passive: ISkillPassive, group: ISkillPassiveGroup, nodeEl: HTMLElement, refs: any): IPassiveLine[] {
+  if (passive.connected) return [{ el: nodeEl, direction: '', active: passive.rank > 0, path: passive.path }]
+
+  const connectedPassives = group.items.filter((passiveItem) => {
+    return (passiveItem as ISkillPassive).requiredFor?.find(requirement => requirement.name === passive.name)
+  })
+
+  return connectedPassives.map((passiveItem: ISkillPassive) => {
+    return {
+      active: passiveItem.rank > 0 && passive.rank > 0,
+      el: refs[passiveItem.name]?.$el,
+      name: passiveItem.name,
+      direction: passiveItem.requiredFor?.find(requirement => requirement.name === passive.name)?.direction
+    }
+  })
+}

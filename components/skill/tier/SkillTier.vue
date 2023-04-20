@@ -20,7 +20,7 @@
             v-if="skillRefs[skill.name]"
             :active="skill.rank > 0"
             :parent="skillTier"
-            :el1="skillTierItem?.$el"
+            :el1="skillTierNode?.$el"
             :el2="skillRefs[skill.name]?.$el"
           />
 
@@ -51,7 +51,7 @@
             :key="passive.name"
           >
             <SkillPassiveLine
-              v-for="(line, index) in getPassiveLine(passive, passiveGroup)"
+              v-for="(line, index) in getPassiveLine(passive, passiveGroup, skillTierNode.$el, skillRefs)"
               :key="`${passive.name}${index}`"
               :parent="skillTier"
               :active="line.active"
@@ -67,7 +67,7 @@
     </ClientOnly>
 
     <SkillTierNode
-      ref="skillTierItem"
+      ref="skillTierNode"
       :icon="icon"
       :rank="rank"
       :rank-required="rankRequired"
@@ -145,7 +145,7 @@
 </template>
 
 <script setup lang="ts">
-import { ISkillPassive, ISkillPassiveGroup, ISkillTier } from '@/utils/skills'
+import { ISkillTier } from '@/utils/skills'
 import { useTooltipStore } from '@/store/tooltip'
 import SkillItem from '@/components/skill/SkillItem.vue'
 import SkillItemModifier from '@/components/skill/SkillItemModifier.vue'
@@ -171,7 +171,7 @@ interface IRefObject {
 }
 
 const skillTier = ref()
-const skillTierItem = ref()
+const skillTierNode = ref()
 const skillLines = ref()
 const skillRefs = ref<IRefObject>({})
 const skillModifierRefs = ref<IRefObject>({})
@@ -201,8 +201,10 @@ const tierPointsTotal = computed(() => tierPoints.value + props.rankRequired)
 
 const nextRankGate = computed(() => rankRequirementGates
   .filter((rank: number) => rank > props.rankRequired)
-  .reduce((prev, curr) =>
-    (Math.abs(curr - props.rankRequired) < Math.abs(prev - props.rankRequired) ? curr : prev))
+  .reduce(
+    (prev, curr) => (Math.abs(curr - props.rankRequired) < Math.abs(prev - props.rankRequired) ? curr : prev),
+    rankRequirementGates[0]
+  )
 )
 
 // May need to adjust the logic after adding more skill tiers...
@@ -258,28 +260,28 @@ function handlePassiveMouseOver (passive: any): void {
   tooltipStore.setPassive(passive, el)
 }
 
-interface IPassiveLine {
-  active: boolean
-  el: HTMLElement
-  path?: string
-  direction?: string
-  name?: string
-}
+// interface IPassiveLine {
+//   active: boolean
+//   el: HTMLElement
+//   path?: string
+//   direction?: string
+//   name?: string
+// }
 
-function getPassiveLine (passive: ISkillPassive, group: ISkillPassiveGroup): IPassiveLine[] {
-  if (passive.connected) return [{ el: skillTierItem.value?.$el, direction: '', active: passive.rank > 0, path: passive.path }]
+// function getPassiveLine (passive: ISkillPassive, group: ISkillPassiveGroup): IPassiveLine[] {
+//   if (passive.connected) return [{ el: skillTierNode.value?.$el, direction: '', active: passive.rank > 0, path: passive.path }]
 
-  const connectedPassives = group.items.filter((passiveItem) => {
-    return (passiveItem as ISkillPassive).requiredFor?.find(requirement => requirement.name === passive.name)
-  })
+//   const connectedPassives = group.items.filter((passiveItem) => {
+//     return (passiveItem as ISkillPassive).requiredFor?.find(requirement => requirement.name === passive.name)
+//   })
 
-  return connectedPassives.map((passiveItem: ISkillPassive) => {
-    return {
-      active: passiveItem.rank > 0 && passive.rank > 0,
-      el: skillRefs.value[passiveItem.name]?.$el,
-      name: passiveItem.name,
-      direction: passiveItem.requiredFor?.find(requirement => requirement.name === passive.name)?.direction
-    }
-  })
-}
+//   return connectedPassives.map((passiveItem: ISkillPassive) => {
+//     return {
+//       active: passiveItem.rank > 0 && passive.rank > 0,
+//       el: skillRefs.value[passiveItem.name]?.$el,
+//       name: passiveItem.name,
+//       direction: passiveItem.requiredFor?.find(requirement => requirement.name === passive.name)?.direction
+//     }
+//   })
+// }
 </script>

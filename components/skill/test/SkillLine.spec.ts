@@ -20,7 +20,7 @@ beforeEach(() => {
     },
     el2: {
       getBoundingClientRect: vi.fn(() => ({ left: 5, right: 10, top: 5, bottom: 10 }))
-    },
+    }
   })
 })
 

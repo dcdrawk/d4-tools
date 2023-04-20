@@ -63,7 +63,15 @@ const testTier = {
   name: 'basic',
   skills: [testSkill],
   rankRequired: 0,
-  passives: []
+  passives: [{
+    name: 'crab damage',
+    items: [{
+      name: 'Passive',
+      desription: 'test',
+      transform: '',
+      rank: 0
+    }]
+  }]
 }
 
 const testTierWithRank = {
@@ -80,6 +88,13 @@ const testTierRankUpNotAllowed = {
   passives: []
 }
 
+const testTierRankDown = {
+  name: 'basic',
+  skills: [testLearnedSkill],
+  rankRequired: 2,
+  passives: []
+}
+
 async function setTestTier (tier = testTier) {
   await wrapper.setProps({
     tier
@@ -88,7 +103,8 @@ async function setTestTier (tier = testTier) {
 
 beforeEach(() => {
   createWrapper({
-    skills: []
+    skills: [],
+    rankRequired: 2
   })
 })
 
@@ -124,10 +140,11 @@ describe('SkillTier.vue', () => {
     expect(wrapper.emitted()).toHaveProperty('decrement-skill')
   })
 
-  test('right-clicking a SkillItem does not emit decrement-skill event if allowUnlearnSkill is false', async () => {
+  test('right-clicking a SkillItem does not emit an event if allowUnlearnSkill is false', async () => {
     await setTestTier(testTierWithRank)
 
     await wrapper.setProps({
+      rankRequired: 0,
       higherTierInvested: true
     })
 
@@ -135,6 +152,20 @@ describe('SkillTier.vue', () => {
     await skillItemWrapper.vm.$emit('contextmenu', {})
 
     expect(wrapper.emitted()).not.toHaveProperty('decrement-skill')
+  })
+
+  test('right-clicking a SkillItem does not emit an event if allowUnlearnSkill is false 2', async () => {
+    await setTestTier(testTierRankDown)
+
+    await wrapper.setProps({
+      higherTierInvested: false,
+      rankRequired: 25
+    })
+
+    const skillItemWrapper = wrapper.findComponent({ name: 'SkillItem' })
+    await skillItemWrapper.vm.$emit('contextmenu', {})
+
+    expect(wrapper.emitted()).toHaveProperty('decrement-skill')
   })
 
   test('mouseover a SkillItem calls "setSkill" from the tooltip store', async () => {
@@ -242,6 +273,67 @@ describe('SkillTier.vue', () => {
     expect(store.visible).toBe(false)
   })
 
+  test('clicking a SkillPassive emits the "increment-passive" event', async () => {
+    await setTestTier()
+
+    const skillItemWrapper = wrapper.findComponent({ name: 'SkillPassive' })
+    await skillItemWrapper.vm.$emit('click', {})
+
+    expect(wrapper.emitted()).toHaveProperty('increment-passive')
+  })
+
+  test('right-clicking a SkillPassive emits the "decrement-passive" event', async () => {
+    await setTestTier()
+
+    const skillItemWrapper = wrapper.findComponent({ name: 'SkillPassive' })
+    await skillItemWrapper.vm.$emit('contextmenu', {})
+
+    expect(wrapper.emitted()).toHaveProperty('decrement-passive')
+  })
+
+  test('mouseover a SkillPassive calls "setPassive" from the tooltip store', async () => {
+    await setTestTier()
+
+    const store = useTooltipStore()
+    const skillItemWrapper = wrapper.findComponent({ name: 'SkillPassive' })
+    await skillItemWrapper.vm.$emit('mouseover', {})
+
+    expect(store.setPassive).toHaveBeenCalledTimes(1)
+  })
+
+  test('mouseover a SkillPassive does not call "setPassive" if tooltipStore.visible is true', async () => {
+    await setTestTier()
+
+    const store = useTooltipStore()
+    store.visible = true
+    const skillItemWrapper = wrapper.findComponent({ name: 'SkillPassive' })
+    await skillItemWrapper.vm.$emit('mouseover', {})
+
+    expect(store.setPassive).toHaveBeenCalledTimes(0)
+  })
+
+  test('mouseleave from a SkillPassive sets tooltipStore.visible to false', async () => {
+    await setTestTier()
+
+    const store = useTooltipStore()
+    store.visible = true
+    const skillItemWrapper = wrapper.findComponent({ name: 'SkillPassive' })
+    await skillItemWrapper.vm.$emit('mouseleave', {})
+
+    expect(store.visible).toBe(false)
+  })
+
+  test('mouseout from a SkillPassive sets tooltipStore.visible to false', async () => {
+    await setTestTier()
+
+    const store = useTooltipStore()
+    store.visible = true
+    const skillItemWrapper = wrapper.findComponent({ name: 'SkillPassive' })
+    await skillItemWrapper.vm.$emit('mouseout', {})
+
+    expect(store.visible).toBe(false)
+  })
+
   test('clicking a .choice-modifier emits the "activate-modifier" event', async () => {
     await setTestTier()
 
@@ -304,4 +396,18 @@ describe('SkillTier.vue', () => {
 
     expect(store.visible).toBe(false)
   })
+
+  // test('renders SkillPassiveLine between the node and passives', async () => {
+  //   await setTestTier()
+
+  //   // const store = useTooltipStore()
+  //   // store.visible = true
+  //   // const skillPassiveLineWrapper = wrapper.findComponent({ name: 'SkillPassiveLine' }) as VueWrapper
+  //   // console.log(wrapper.html())
+  //   // choiceModifierWrapper.vm.$emit('mouseout', {})
+
+  //   // expect(store.visible).toBe(false)
+
+  //   expect(true).toBe(true)
+  // })
 })
