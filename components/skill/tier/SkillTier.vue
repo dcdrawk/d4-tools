@@ -157,6 +157,7 @@ interface Props {
   skills: (ISkillItem | ISkillPassiveGroup)[]
   rank?: number
   rankRequired?: number
+  higherTierInvested?: boolean
   icon?: string
 }
 
@@ -164,6 +165,7 @@ const props = withDefaults(defineProps<Props>(), {
   skills: () => [],
   rank: 0,
   rankRequired: 0,
+  higherTierInvested: false,
   icon: () => `${useRuntimeConfig().app.baseURL}svg/skill/tier/skill-tier-icon-basic.svg`
 })
 
@@ -192,30 +194,47 @@ const emit = defineEmits<{
   (e: 'mouseout'): void
 }>()
 
-const isActive = computed(() => props.rank >= props.rankRequired)
+const allowLearnSkill = computed(() => props.rank >= props.rankRequired)
+
+const rankRequirementGates = [2, 6, 11, 16, 23, 33]
+
+const tierPoints = computed(() => getSkillCount(props.skills))
+
+const tierPointsTotal = computed(() => tierPoints.value + props.rankRequired)
+
+const nextRankGate = computed(() => rankRequirementGates
+  .filter((rank: number) => rank > props.rankRequired)
+  .reduce((prev, curr) =>
+    (Math.abs(curr - props.rankRequired) < Math.abs(prev - props.rankRequired) ? curr : prev))
+)
+
+const preventUnlearnSkill = computed(() => (
+  tierPointsTotal.value === nextRankGate.value && props.higherTierInvested
+))
 
 function handleSkillClick (skill: any): void {
-  if (isActive.value) emit('increment-skill', skill)
+  if (allowLearnSkill.value) emit('increment-skill', skill)
 }
 
 function handleSkillRightClick (skill: any): void {
-  if (isActive.value) emit('decrement-skill', skill)
+  if (preventUnlearnSkill.value) return
+  if (allowLearnSkill.value) emit('decrement-skill', skill)
 }
 
 function handleModifierClick (parent: any, modifier: any): void {
-  if (isActive.value) emit('activate-modifier', { parent, modifier })
+  if (allowLearnSkill.value) emit('activate-modifier', { parent, modifier })
 }
 
 function handleModifierRightClick (modifier: any): void {
-  if (isActive.value) emit('deactivate-modifier', modifier)
+  if (allowLearnSkill.value) emit('deactivate-modifier', modifier)
 }
 
 function handlePassiveClick (passive: any, group: any): void {
-  if (isActive.value) emit('increment-passive', { passive, group })
+  if (allowLearnSkill.value) emit('increment-passive', { passive, group })
 }
 
 function handlePassiveRightClick (passive: any, group: any): void {
-  if (isActive.value) emit('decrement-passive', { passive, group })
+  if (allowLearnSkill.value) emit('decrement-passive', { passive, group })
 }
 
 function handleSkillMouseOver (skill: any): void {

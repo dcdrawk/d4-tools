@@ -44,6 +44,8 @@
       ref="basic"
       class="translate-x-[500px]"
       :skills="sorcererBasicSkills"
+      :rank="rank"
+      :higher-tier-invested="hasHigherTierInvestedBasic"
       @increment-skill="handleIncrementSkill($event)"
       @decrement-skill="handleDecrementSkill($event)"
       @activate-modifier="handleActivateModifier($event.parent, $event.modifier)"
@@ -69,6 +71,8 @@
 
 <script setup lang="ts">
 import { useTooltipStore } from '@/store/tooltip'
+// import { ISkillItem, ISkillPassiveGroup } from '@/utils/skills'
+
 /**
  * Template Refs
  */
@@ -88,18 +92,13 @@ const allSorcererSkills = computed(() => ([
   ...sorcererCoreSkills.value
 ]))
 
+const hasHigherTierInvestedBasic = computed(() => getSkillCount([...sorcererCoreSkills.value]) > 0)
+
 /**
  * Rank
  */
 const rank = computed(() => {
-  return allSorcererSkills.value.reduce((accumulator: number, skill: any) => {
-    if (skill.rank) {
-      const modifierValue = skill.modifiers[0].active ? 1 : 0
-      const choiceModifierValue = skill.modifiers[0].choiceModifiers.find((modifier: any) => modifier.active) ? 1 : 0
-      return accumulator + skill.rank + modifierValue + choiceModifierValue
-    }
-    return accumulator
-  }, 0)
+  return getSkillCount(allSorcererSkills.value)
 })
 
 function handleIncrementSkill (skill: any): void {
