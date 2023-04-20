@@ -22,7 +22,7 @@
     />
 
     <ClientOnly>
-      <div class="absolute inline-block top-0 left-0 w-full h-[1000px] drop-shadow-[1px_1px_3px_rgba(0,0,0,0.80)]">
+      <div class="absolute inline-block top-0 left-0 w-full h-[1000px] drop-shadow-[1px_1px_3px_rgba(0,0,0,0.69)]">
         <BaseSVG
           v-if="skillTreeRef"
           class="inline-block"
@@ -71,7 +71,6 @@
 
 <script setup lang="ts">
 import { useTooltipStore } from '@/store/tooltip'
-// import { ISkillItem, ISkillPassiveGroup } from '@/utils/skills'
 
 /**
  * Template Refs
