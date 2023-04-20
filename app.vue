@@ -18,9 +18,7 @@
 
 <script setup lang="ts">
 useHead({
-  titleTemplate: (titleChunk) => {
-    return titleChunk ? `${titleChunk} - D4 Tools` : 'D4 Tools'
-  }
+  title: 'D4 Tools'
 })
 </script>
 
