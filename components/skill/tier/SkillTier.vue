@@ -208,8 +208,9 @@ const nextRankGate = computed(() => rankRequirementGates
     (Math.abs(curr - props.rankRequired) < Math.abs(prev - props.rankRequired) ? curr : prev))
 )
 
-const preventUnlearnSkill = computed(() => (
-  tierPointsTotal.value === nextRankGate.value && props.higherTierInvested
+// May need to adjust the logic after adding more skill tiers...
+const allowUnlearnSkill = computed(() => (
+  !(tierPointsTotal.value === nextRankGate.value && props.higherTierInvested)
 ))
 
 function handleSkillClick (skill: any): void {
@@ -217,8 +218,7 @@ function handleSkillClick (skill: any): void {
 }
 
 function handleSkillRightClick (skill: any): void {
-  if (preventUnlearnSkill.value) return
-  if (allowLearnSkill.value) emit('decrement-skill', skill)
+  if (allowUnlearnSkill.value) emit('decrement-skill', skill)
 }
 
 function handleModifierClick (parent: any, modifier: any): void {
@@ -226,7 +226,7 @@ function handleModifierClick (parent: any, modifier: any): void {
 }
 
 function handleModifierRightClick (modifier: any): void {
-  if (allowLearnSkill.value) emit('deactivate-modifier', modifier)
+  if (allowUnlearnSkill.value) emit('deactivate-modifier', modifier)
 }
 
 function handlePassiveClick (passive: any, group: any): void {
@@ -234,7 +234,7 @@ function handlePassiveClick (passive: any, group: any): void {
 }
 
 function handlePassiveRightClick (passive: any, group: any): void {
-  if (allowLearnSkill.value) emit('decrement-passive', { passive, group })
+  if (allowUnlearnSkill.value) emit('decrement-passive', { passive, group })
 }
 
 function handleSkillMouseOver (skill: any): void {
