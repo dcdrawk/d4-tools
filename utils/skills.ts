@@ -117,7 +117,7 @@ export interface ISkillTier {
 }
 
 export function getSkillCount (tier: ISkillTier) {
-  const skillTotal = tier.skills?.reduce((accumulator: number, skill: any) => {
+  const skillTotal = tier?.skills?.reduce((accumulator: number, skill: any) => {
     if (skill.rank) {
       const modifierValue = skill.modifier.active ? 1 : 0
       const choiceModifierValue = skill.modifier.choiceModifiers.find((modifier: any) => modifier.active) ? 1 : 0
@@ -128,7 +128,7 @@ export function getSkillCount (tier: ISkillTier) {
     return accumulator
   }, 0) ?? 0
 
-  const passiveTotal = tier.passives?.reduce((accumulator: number, passive: any) => {
+  const passiveTotal = tier?.passives?.reduce((accumulator: number, passive: any) => {
     if (passive.rank) return accumulator + passive.rank
 
     return accumulator

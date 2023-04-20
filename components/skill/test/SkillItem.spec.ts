@@ -26,7 +26,7 @@ describe('SkillItem.vue', () => {
 
   test('outer square has the correct styles when props.active is true', async () => {
     await wrapper.setProps({
-      active: true
+      rank: 1
     })
 
     const outerSquareWrapper = wrapper.find('.skill-item__outer-square')
@@ -46,7 +46,7 @@ describe('SkillItem.vue', () => {
 
   test('image is opaque when props.active is true', async () => {
     await wrapper.setProps({
-      active: true,
+      rank: 1,
       icon: 'my-icon'
     })
 

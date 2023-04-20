@@ -35,7 +35,7 @@ const testSkill = {
   transform: '',
   rank: 0,
   rankMax: 5,
-  modifiers: [{
+  modifier: {
     name: 'Enhanced Spark',
     description: 'Each time <span class="text-white">Spark</span> hits its primary target, it has a <span class="text-orange-300">20%</span> chance to hit up to 3 additional enemies, dealing <span class="text-orange-300">6%</span> damage. If there are no other enemies to hit, Spark instead deals <span class="text-orange-300">x20%</span> increased damage to its primary target.',
     transform: '',
@@ -51,12 +51,18 @@ const testSkill = {
       transform: '',
       active: false
     }]
-  }]
+  }
+}
+
+const testTier = {
+  name: 'basic',
+  skills: [testSkill],
+  passives: []
 }
 
 async function setTestSkill () {
   await wrapper.setProps({
-    skills: [{ ...testSkill }]
+    tier: testTier
   })
 }
 
@@ -71,22 +77,22 @@ describe('SkillTier.vue', () => {
     expect(wrapper).toBeDefined()
   })
 
-  test('clicking a SkillItem emits the increment-rank event', async () => {
+  test('clicking a SkillItem emits the increment-skill event', async () => {
     await setTestSkill()
 
     const skillItemWrapper = wrapper.findComponent({ name: 'SkillItem' })
     await skillItemWrapper.vm.$emit('click', {})
 
-    expect(wrapper.emitted()).toHaveProperty('increment-rank')
+    expect(wrapper.emitted()).toHaveProperty('increment-skill')
   })
 
-  test('right-clicking a SkillItem emits the decrement-rank event', async () => {
+  test('right-clicking a SkillItem emits the decrement-skill event', async () => {
     await setTestSkill()
 
     const skillItemWrapper = wrapper.findComponent({ name: 'SkillItem' })
     await skillItemWrapper.vm.$emit('contextmenu', {})
 
-    expect(wrapper.emitted()).toHaveProperty('decrement-rank')
+    expect(wrapper.emitted()).toHaveProperty('decrement-skill')
   })
 
   test('mouseover a SkillItem calls "setSkill" from the tooltip store', async () => {

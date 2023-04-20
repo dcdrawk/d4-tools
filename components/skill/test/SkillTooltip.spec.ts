@@ -8,7 +8,7 @@ const createWrapper = (props = {}) => {
   wrapper = mount(SkillTooltip as any, {
     props,
     global: {
-      stubs: ['SkillDamageIcon', 'SkillItem', 'SkillItemModifier', 'FontAwesomeIcon']
+      stubs: ['SkillDamageIcon', 'SkillItem', 'SkillItemModifier', 'SkillPassive', 'FontAwesomeIcon']
     }
   })
 }

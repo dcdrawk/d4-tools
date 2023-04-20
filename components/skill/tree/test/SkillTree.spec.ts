@@ -21,9 +21,15 @@ const createWrapper = (props = {}) => {
     props,
     shallow: true,
     global: {
-      plugins: [
-        createTestingPinia()
-      ]
+      stubs: ['ClientOnly'],
+      mocks: {
+        useRuntimeConfig: vi.fn(() => {
+          return { public: {}, app: { baseUrl: '/' } }
+        })
+      },
+      plugins: [createTestingPinia({
+        stubActions: false
+      })]
     }
   })
 }
@@ -33,12 +39,12 @@ beforeEach(() => {
 })
 
 describe('SkillTree.vue', () => {
-  test('when SkillTier emits increment-rank, increment the skill rank', async () => {
+  test('when SkillTier emits increment-skill, increment the skill rank', async () => {
     const skillItemWrapper = wrapper.findComponent({ name: 'SkillTier' })
 
     const skill = { rank: 0, rankMax: 5 }
 
-    await skillItemWrapper.vm.$emit('increment-rank', skill)
+    await skillItemWrapper.vm.$emit('increment-skill', skill)
 
     expect(skill.rank).toBe(1)
   })
@@ -63,12 +69,12 @@ describe('SkillTree.vue', () => {
     expect(skill.rank).toBe(1)
   })
 
-  test('when SkillTier emits decrement-rank, decrement skill rank if rank > 0', async () => {
+  test('when SkillTier emits decrement-skill, decrement skill rank if rank > 0', async () => {
     const skillItemWrapper = wrapper.findComponent({ name: 'SkillTier' })
 
     const skill = { rank: 1, rankMax: 5, modifiers: [] }
 
-    await skillItemWrapper.vm.$emit('decrement-rank', skill)
+    await skillItemWrapper.vm.$emit('decrement-skill', skill)
 
     expect(skill.rank).toBe(0)
   })
