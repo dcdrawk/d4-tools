@@ -135,7 +135,6 @@ function handleActivateModifier ({ parent, modifier }: any): void {
 }
 
 function handleDeactivateModifier (modifier: any): void {
-  // console.log()
   if (hasChoiceModifierSelected(modifier)) return
 
   tooltipStore.active = false

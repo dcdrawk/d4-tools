@@ -17,7 +17,7 @@ export const useTooltipStore = defineStore('tooltip', {
     rankMax: 0 as number,
     type: '' as string,
     school: '' as string,
-    damageType: '' as string,
+    damageType: '' as string | undefined,
     modifiers: [] as ISkillModifier[],
     x: 0 as number,
     y: 0 as number
@@ -32,9 +32,9 @@ export const useTooltipStore = defineStore('tooltip', {
       this.active = false
       this.rank = skill.rank
       this.rankMax = skill.rankMax
-      this.school = skill.school || ''
-      this.type = skill.type || ''
-      this.damageType = skill.damageType || ''
+      this.school = skill.school
+      this.type = skill.type
+      this.damageType = skill.damageType
       this.description = skill.description
       this.descriptionValues = skill.descriptionValues
       this.modifiers = skill.modifiers || []

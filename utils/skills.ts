@@ -71,8 +71,8 @@ export interface ISkillItem {
   name: string
   description: string
   descriptionValues: ISkillDescriptionValues
-  type?: string
-  school?: string
+  type: string
+  school: string
   damageType?: string
   icon: string
   transform: string

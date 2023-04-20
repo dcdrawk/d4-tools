@@ -396,18 +396,4 @@ describe('SkillTier.vue', () => {
 
     expect(store.visible).toBe(false)
   })
-
-  // test('renders SkillPassiveLine between the node and passives', async () => {
-  //   await setTestTier()
-
-  //   // const store = useTooltipStore()
-  //   // store.visible = true
-  //   // const skillPassiveLineWrapper = wrapper.findComponent({ name: 'SkillPassiveLine' }) as VueWrapper
-  //   // console.log(wrapper.html())
-  //   // choiceModifierWrapper.vm.$emit('mouseout', {})
-
-  //   // expect(store.visible).toBe(false)
-
-  //   expect(true).toBe(true)
-  // })
 })
