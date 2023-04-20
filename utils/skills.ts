@@ -33,7 +33,6 @@ export const skillChoiceModifierDistance = 50
  * Line Calculations
  */
 export const getLineCoordinates = (parent: Element, el1: Element, el2: Element) => {
-  // console.log(parent, el1, el2)
   const { x: x1, y: y1 } = getElementCenterCoordinates(parent, el1)
   const { x: x2, y: y2 } = getElementCenterCoordinates(parent, el2)
 
@@ -67,17 +66,6 @@ export interface ISkillChoiceModifier {
 export interface ISkillModifier extends ISkillChoiceModifier {
   choiceModifiers: ISkillChoiceModifier[]
 }
-
-// export interface ISkillChoiceModifierNew {
-//   name: string
-//   description: string
-//   transform: string
-//   active: boolean
-// }
-
-// export interface ISkillModifierNew extends ISkillChoiceModifierNew {
-//   choiceModifiers: ISkillChoiceModifier[]
-// }
 
 export interface ISkillItem {
   name: string

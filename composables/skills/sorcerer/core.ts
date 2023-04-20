@@ -1,4 +1,3 @@
-// import { ISkillItem, ISkillPassiveGroup } from '@/utils/skills'
 import { ISkillTier } from '@/utils/skills'
 
 const type = 'Core'
