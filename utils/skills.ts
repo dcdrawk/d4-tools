@@ -68,6 +68,17 @@ export interface ISkillModifier extends ISkillChoiceModifier {
   choiceModifiers: ISkillChoiceModifier[]
 }
 
+// export interface ISkillChoiceModifierNew {
+//   name: string
+//   description: string
+//   transform: string
+//   active: boolean
+// }
+
+// export interface ISkillModifierNew extends ISkillChoiceModifierNew {
+//   choiceModifiers: ISkillChoiceModifier[]
+// }
+
 export interface ISkillItem {
   name: string
   description: string
@@ -79,6 +90,7 @@ export interface ISkillItem {
   transform: string
   rank: number
   rankMax: number
+  modifier: ISkillModifier
   modifiers?: ISkillModifier[]
   passive?: boolean
   children?: ISkillItem[]
@@ -108,4 +120,16 @@ export interface ISkillPassive {
 export interface ISkillPassiveGroup {
   name: string
   items: ISkillPassive[]
+}
+
+export function getSkillCount (skills: (ISkillItem | ISkillPassiveGroup)[]) {
+  return skills.reduce((accumulator: number, skill: any) => {
+    if (skill.rank) {
+      const modifierValue = skill.modifier.active ? 1 : 0
+      const choiceModifierValue = skill.modifier.choiceModifiers.find((modifier: any) => modifier.active) ? 1 : 0
+
+      return accumulator + skill.rank + modifierValue + choiceModifierValue
+    }
+    return accumulator
+  }, 0)
 }

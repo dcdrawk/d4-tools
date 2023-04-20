@@ -24,26 +24,23 @@
             :el2="skillRefs[skill.name]?.$el"
           />
 
-          <g
-            v-for="modifier in (skill as ISkillItem).modifiers"
-            :key="modifier.name"
-          >
-            <SkillLine
-              :active="modifier.active"
-              :parent="skillTier"
-              :el1="skillRefs[skill.name]?.$el"
-              :el2="skillModifierRefs[modifier.name]?.$el"
-            />
-            <SkillLine
-              v-for="choiceModifier in modifier.choiceModifiers"
-              :key="choiceModifier.name"
-              :active="choiceModifier.active"
-              :parent="skillTier"
-              :el1="skillModifierRefs[modifier.name]?.$el"
-              :el2="skillModifierRefs[choiceModifier.name]?.$el"
-            />
-          </g>
+          <SkillLine
+            :active="(skill as ISkillItem)?.modifier.active"
+            :parent="skillTier"
+            :el1="skillRefs[skill.name]?.$el"
+            :el2="skillModifierRefs[(skill as ISkillItem)?.modifier.name]?.$el"
+          />
+
+          <SkillLine
+            v-for="choiceModifier in (skill as ISkillItem)?.modifier.choiceModifiers"
+            :key="choiceModifier.name"
+            :active="choiceModifier.active"
+            :parent="skillTier"
+            :el1="skillModifierRefs[(skill as ISkillItem)?.modifier.name]?.$el"
+            :el2="skillModifierRefs[choiceModifier.name]?.$el"
+          />
         </g>
+
         <!-- Passive Lines -->
         <template
           v-for="skill in skillPassiveLines"
@@ -95,28 +92,26 @@
           @mouseout="tooltipStore.visible = false"
         >
           <SkillItemModifier
-            v-for="modifier in (skill as ISkillItem).modifiers"
-            :key="modifier.name"
-            :ref="el => { skillModifierRefs[modifier.name] = el as ComponentPublicInstance }"
+            :ref="el => { skillModifierRefs[(skill as ISkillItem)?.modifier.name] = el as ComponentPublicInstance }"
             :icon="(skill as ISkillItem).icon"
             class="absolute top-[10px] left-[10px]"
-            :style="{ transform: modifier.transform }"
-            :active="modifier.active"
-            @click="handleModifierClick(skill, modifier)"
-            @contextmenu="handleModifierRightClick(modifier)"
-            @mouseover="handleModifierMouseOver(modifier, (skill as ISkillItem).icon)"
+            :style="{ transform: (skill as ISkillItem)?.modifier.transform }"
+            :active="(skill as ISkillItem)?.modifier.active"
+            @click="handleModifierClick(skill, (skill as ISkillItem)?.modifier)"
+            @contextmenu="handleModifierRightClick((skill as ISkillItem)?.modifier)"
+            @mouseover="handleModifierMouseOver((skill as ISkillItem)?.modifier, (skill as ISkillItem).icon)"
             @mouseleave="tooltipStore.visible = false"
             @mouseout="tooltipStore.visible = false"
           >
             <SkillItemModifier
-              v-for="choiceModifier in modifier.choiceModifiers"
+              v-for="choiceModifier in (skill as ISkillItem)?.modifier.choiceModifiers"
               :key="choiceModifier.name"
               :ref="el => { skillModifierRefs[choiceModifier.name] = el as ComponentPublicInstance }"
               :icon="(skill as ISkillItem).icon"
               class="choice-modifier absolute top-0 left-0"
               :style="{ transform: choiceModifier.transform }"
               :active="choiceModifier.active"
-              @click="handleModifierClick(modifier, choiceModifier)"
+              @click="handleModifierClick((skill as ISkillItem)?.modifier, choiceModifier)"
               @contextmenu="handleModifierRightClick(choiceModifier)"
               @mouseover="handleModifierMouseOver(choiceModifier, (skill as ISkillItem).icon, true)"
               @mouseleave="tooltipStore.visible = false"

@@ -16,7 +16,7 @@ export const useSorcererBasicSkills = (): Ref<ISkillItem[]> => {
     transform: getSkillTransform(165, skillItemDistance),
     rank: 0,
     rankMax: 5,
-    modifiers: [{
+    modifier: {
       name: 'Enhanced Spark',
       description: 'Each time <span class="text-white">Spark</span> hits its primary target, it has a <span class="text-orange-300">20%</span> chance to hit up to 3 additional enemies, dealing <span class="text-orange-300">6%</span> damage. If there are no other enemies to hit, Spark instead deals <span class="text-orange-300">x20%</span> increased damage to its primary target.',
       transform: getSkillTransform(140, skillModifierDistance),
@@ -32,7 +32,7 @@ export const useSorcererBasicSkills = (): Ref<ISkillItem[]> => {
         transform: getSkillTransform(95, skillChoiceModifierDistance),
         active: false
       }]
-    }]
+    }
   }, {
     name: 'Frost Bolt',
     description: 'Throw a bolt of frost at an enemy, dealing <span class="text-orange-300">[{damage}]</span> damage and <span class="underline">Chilling</span> them for <span class="text-orange-300">15%.</span>',
@@ -46,7 +46,7 @@ export const useSorcererBasicSkills = (): Ref<ISkillItem[]> => {
     transform: getSkillTransform(115, skillItemDistance),
     rank: 0,
     rankMax: 5,
-    modifiers: [{
+    modifier: {
       name: 'Enhanced Frost Bolt',
       description: '<span class="text-white">Frost Bolt</span> has a <span class="text-orange-300">15%</span> chance to explode on <span class="underline">Chilled</span> enemies, hitting surrounding enemies. Chance increased to <span class="text-orange-300">100%</span> against <span class="underline">Frozen</span> enemies.',
       transform: getSkillTransform(114, skillModifierDistance),
@@ -62,7 +62,7 @@ export const useSorcererBasicSkills = (): Ref<ISkillItem[]> => {
         transform: getSkillTransform(75, skillChoiceModifierDistance),
         active: false
       }]
-    }]
+    }
   }, {
     name: 'Fire Bolt',
     description: 'Hurl a flaming bolt, dealing <span class="text-orange-300">[{damage}]</span> damage and Burning for <span class="text-orange-300">[{burning damage}]</span>',
@@ -77,7 +77,7 @@ export const useSorcererBasicSkills = (): Ref<ISkillItem[]> => {
     transform: getSkillTransform(65, skillItemDistance),
     rank: 0,
     rankMax: 5,
-    modifiers: [{
+    modifier: {
       name: 'Enhanced Fire Bolt',
       description: '<span class="text-white">Fire Bolt</span> pierces through Burning enemies.',
       transform: getSkillTransform(69, skillModifierDistance),
@@ -93,7 +93,7 @@ export const useSorcererBasicSkills = (): Ref<ISkillItem[]> => {
         transform: getSkillTransform(15, skillChoiceModifierDistance),
         active: false
       }]
-    }]
+    }
   }, {
     name: 'Arc Lash',
     description: 'Unleash arcing lightning that deals <span class="text-orange-300">[{damage}]</span> damage to enemies in front of you. Every <span class="text-orange-300">10</span> times <span class="text-white">Arc Lash</span> swipes, it Stuns all enemies hit for <span class="text-orange-300">2</span> seconds.',
@@ -107,7 +107,7 @@ export const useSorcererBasicSkills = (): Ref<ISkillItem[]> => {
     transform: getSkillTransform(15, skillItemDistance),
     rank: 0,
     rankMax: 5,
-    modifiers: [{
+    modifier: {
       name: 'Enhanced Arc Lash',
       description: 'If <span class="text-white">Arc Lash</span>’s initial swipe Critically Strikes, it swipes an additional time.',
       transform: getSkillTransform(40, skillModifierDistance),
@@ -123,6 +123,6 @@ export const useSorcererBasicSkills = (): Ref<ISkillItem[]> => {
         transform: getSkillTransform(5, skillChoiceModifierDistance),
         active: false
       }]
-    }]
+    }
   }])
 }

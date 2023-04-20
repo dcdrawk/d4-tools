@@ -17,7 +17,7 @@ export const useSorcererCoreSkills = (): Ref<(ISkillItem | ISkillPassiveGroup)[]
     transform: getSkillTransform(90, 105),
     rank: 0,
     rankMax: 5,
-    modifiers: [{
+    modifier: {
       name: 'Enhanced Incinerate',
       description: 'While channeling <span class="text-white">Incinerate</span> you Burn enemies around you for <span class="text-orange-300">15%</span> of the damage per second.',
       transform: getSkillTransform(90, skillModifierDistance),
@@ -33,7 +33,7 @@ export const useSorcererCoreSkills = (): Ref<(ISkillItem | ISkillPassiveGroup)[]
         transform: getSkillTransform(55, skillChoiceModifierDistance),
         active: false
       }]
-    }]
+    }
   }, {
     name: 'Fireball',
     description: 'Hurl an exploding ball of fire, dealing <span class="text-orange-300">[{damage}]</span> damage to surrounding enemies.',
@@ -47,7 +47,7 @@ export const useSorcererCoreSkills = (): Ref<(ISkillItem | ISkillPassiveGroup)[]
     transform: getSkillTransform(128, 110),
     rank: 0,
     rankMax: 5,
-    modifiers: [{
+    modifier: {
       name: 'Enhanced Fireball',
       description: '<span class="text-white">Fireball\'s</span> radius is increased based on distance traveled, up to <span class="text-orange-300">50%.</span>',
       transform: getSkillTransform(128, skillModifierDistance),
@@ -63,7 +63,7 @@ export const useSorcererCoreSkills = (): Ref<(ISkillItem | ISkillPassiveGroup)[]
         transform: getSkillTransform(175, skillChoiceModifierDistance),
         active: false
       }]
-    }]
+    }
   }, {
     name: 'Frozen Orb',
     description: 'Unleash an orb that <span class="underline">Chills</span> for <span class="text-orange-300">34%</span> and expels piercing shards, dealing a total of <span class="text-orange-300">{shards damage}</span> damage. Upon expiration, Frozen Orb explodes, dealing <span class="text-orange-300">29%</span> damage and <span class="underline">Chilling</span> enemies for <span class="text-orange-300">{explosion damage}</span>.',
@@ -78,7 +78,7 @@ export const useSorcererCoreSkills = (): Ref<(ISkillItem | ISkillPassiveGroup)[]
     transform: getSkillTransform(165, 125),
     rank: 0,
     rankMax: 5,
-    modifiers: [{
+    modifier: {
       name: 'Enhanced Frozen Orb',
       description: 'When cast above <span class="text-orange-300">50</span> Mana, <span class="text-white">Frozen Orb\'s</span> explosion damage is increased by <span class="text-orange-300">30%</span>.',
       transform: getSkillTransform(160, skillModifierDistance),
@@ -94,7 +94,7 @@ export const useSorcererCoreSkills = (): Ref<(ISkillItem | ISkillPassiveGroup)[]
         transform: getSkillTransform(110, skillChoiceModifierDistance),
         active: false
       }]
-    }]
+    }
   }, {
     name: 'Ice Shards',
     description: 'Launch <span class="text-orange-300">5</span> shards that deal <span class="text-orange-300">{damage}</span> damage each. Deals <span class="text-orange-300">25%</span> increased damage to <span class="underline">Frozen</span> enemies.',
@@ -108,7 +108,7 @@ export const useSorcererCoreSkills = (): Ref<(ISkillItem | ISkillPassiveGroup)[]
     transform: getSkillTransform(-165, 125),
     rank: 0,
     rankMax: 5,
-    modifiers: [{
+    modifier: {
       name: 'Enhanced Ice Shards',
       description: '<span class="text-white">Ice Shards</span> have a <span class="text-orange-300">15%</span> chance to ricochet to another enemy. <span class="text-white">Ice Shards</span> always ricochet off of <span class="underline">Frozen</span> enemies.',
       transform: getSkillTransform(-163, skillModifierDistance),
@@ -124,7 +124,7 @@ export const useSorcererCoreSkills = (): Ref<(ISkillItem | ISkillPassiveGroup)[]
         transform: getSkillTransform(168, skillChoiceModifierDistance),
         active: false
       }]
-    }]
+    }
   }, {
     name: 'Chain Lightning',
     description: 'Unleash a stream of lightning that deals <span class="text-orange-300">{damage}</span> damage and chains between Nearby enemies and you up to <span class="text-orange-300">6</span> times, prioritizing enemies.',
@@ -138,7 +138,7 @@ export const useSorcererCoreSkills = (): Ref<(ISkillItem | ISkillPassiveGroup)[]
     transform: getSkillTransform(-107.5, 125),
     rank: 0,
     rankMax: 5,
-    modifiers: [{
+    modifier: {
       name: 'Enhanced Chain Lightning',
       description: '<span class="text-white">Chain Lightning</span> gains a <span class="text-orange-300">+3%</span> increased Critical Strike Chance per bounce.',
       transform: getSkillTransform(-115, skillModifierDistance),
@@ -154,7 +154,7 @@ export const useSorcererCoreSkills = (): Ref<(ISkillItem | ISkillPassiveGroup)[]
         transform: getSkillTransform(-158, skillChoiceModifierDistance),
         active: false
       }]
-    }]
+    }
   }, {
     name: 'Charged Bolts',
     description: 'Release <span class="text-orange-300">5</span> bolts of lightning that course along the ground in an erratic pattern, dealing <span class="text-orange-300">{damage}</span> each.',
@@ -168,7 +168,7 @@ export const useSorcererCoreSkills = (): Ref<(ISkillItem | ISkillPassiveGroup)[]
     transform: getSkillTransform(-77, 120),
     rank: 0,
     rankMax: 5,
-    modifiers: [{
+    modifier: {
       name: 'Enhanced Charged Bolts',
       description: 'Hitting an enemy at least <span class="text-orange-300">3<span> times with the same cast of <span class="text-white">Charged Bolts</span> releases a lightning nova, dealing <span class="text-orange-300">15%</span> damage to enemies around them.',
       transform: getSkillTransform(-80, skillModifierDistance),
@@ -184,7 +184,7 @@ export const useSorcererCoreSkills = (): Ref<(ISkillItem | ISkillPassiveGroup)[]
         transform: getSkillTransform(-117, skillChoiceModifierDistance),
         active: false
       }]
-    }]
+    }
   }, {
     name: 'core-warding',
     items: [{
