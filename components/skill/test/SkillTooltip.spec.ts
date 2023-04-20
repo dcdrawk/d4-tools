@@ -50,6 +50,17 @@ describe('SkillTooltip.vue', () => {
     expect(skillDamageWrapper.exists()).toBe(true)
   })
 
+  test('displays multiple schools correctly', async () => {
+    await wrapper.setProps({
+      school: 'pyromancy,channeled',
+      type: 'fire'
+    })
+
+    const schoolItemWrappers = wrapper.findAll('.tooltip__school-item')
+
+    expect(schoolItemWrappers.length).toBe(2)
+  })
+
   test('description text displays as-is if no descriptionValues are passed', async () => {
     await wrapper.setProps({
       description: 'Hello World'
@@ -127,6 +138,16 @@ describe('SkillTooltip.vue', () => {
     })
 
     const iconWrapper = wrapper.find('skill-item-modifier-stub')
+
+    expect(iconWrapper.exists()).toBe(true)
+  })
+
+  test('dispays the correct passive icon', async () => {
+    await wrapper.setProps({
+      category: 'passive'
+    })
+
+    const iconWrapper = wrapper.find('skill-passive-stub')
 
     expect(iconWrapper.exists()).toBe(true)
   })

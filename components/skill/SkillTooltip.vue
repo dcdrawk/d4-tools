@@ -38,7 +38,7 @@
         <span
           v-for="(schoolItem, index) of schools"
           :key="index"
-          class="inline-block px-2 py-[5px] border border-gray-500 bg-gray-700 text-shadow shadow-black"
+          class="tooltip__school-item inline-block px-2 py-[5px] border border-gray-500 bg-gray-700 text-shadow shadow-black"
           :class="{ 'mr-[5px]': index + 1 < schools.length }"
         >{{ schoolItem }}</span>
       </div>
