@@ -43,8 +43,8 @@
     <SkillTier
       ref="basic"
       class="translate-x-[500px]"
-      :skills="sorcererBasicSkills"
       :rank="rank"
+      :tier="sorcererBasicTier"
       :higher-tier-invested="hasHigherTierInvestedBasic"
       @increment-skill="handleIncrementSkill($event)"
       @decrement-skill="handleDecrementSkill($event)"
@@ -55,7 +55,7 @@
     <SkillTier
       ref="core"
       class="translate-x-[270px] translate-y-[-270px]"
-      :skills="sorcererCoreSkills"
+      :tier="sorcererCoreTier"
       :rank="rank"
       :rank-required="2"
       :icon="`${useRuntimeConfig().app.baseURL}svg/skill/tier/skill-tier-icon-core.svg`"
@@ -82,22 +82,20 @@ const core = ref()
 /**
  * Skills / Tooltip
  */
-const sorcererBasicSkills = useSorcererBasicSkills()
-const sorcererCoreSkills = useSorcererCoreSkills()
 const tooltipStore = useTooltipStore()
+const sorcererBasicTier = useSorcererBasicTier()
+const sorcererCoreTier = useSorcererCoreTier()
 
-const allSorcererSkills = computed(() => ([
-  ...sorcererBasicSkills.value,
-  ...sorcererCoreSkills.value
-]))
-
-const hasHigherTierInvestedBasic = computed(() => getSkillCount([...sorcererCoreSkills.value]) > 0)
+const hasHigherTierInvestedBasic = computed(() => getSkillCount(sorcererCoreTier.value) > 0)
 
 /**
  * Rank
  */
 const rank = computed(() => {
-  return getSkillCount(allSorcererSkills.value)
+  return (
+    getSkillCount(sorcererBasicTier.value) +
+    getSkillCount(sorcererCoreTier.value)
+  )
 })
 
 function handleIncrementSkill (skill: any): void {

@@ -13,51 +13,51 @@
       >
         <!-- Skill Lines -->
         <g
-          v-for="skill in skillItemLines"
+          v-for="skill in tier.skills"
           :key="skill.name"
         >
           <SkillLine
             v-if="skillRefs[skill.name]"
-            :active="(skill as ISkillItem).rank > 0"
+            :active="skill.rank > 0"
             :parent="skillTier"
             :el1="skillTierItem?.$el"
             :el2="skillRefs[skill.name]?.$el"
           />
 
           <SkillLine
-            :active="(skill as ISkillItem)?.modifier.active"
+            :active="skill.modifier.active"
             :parent="skillTier"
             :el1="skillRefs[skill.name]?.$el"
-            :el2="skillModifierRefs[(skill as ISkillItem)?.modifier.name]?.$el"
+            :el2="skillModifierRefs[skill.modifier.name]?.$el"
           />
 
           <SkillLine
-            v-for="choiceModifier in (skill as ISkillItem)?.modifier.choiceModifiers"
+            v-for="choiceModifier in skill.modifier.choiceModifiers"
             :key="choiceModifier.name"
             :active="choiceModifier.active"
             :parent="skillTier"
-            :el1="skillModifierRefs[(skill as ISkillItem)?.modifier.name]?.$el"
+            :el1="skillModifierRefs[skill.modifier.name]?.$el"
             :el2="skillModifierRefs[choiceModifier.name]?.$el"
           />
         </g>
 
         <!-- Passive Lines -->
         <template
-          v-for="skill in skillPassiveLines"
-          :key="skill.name"
+          v-for="passiveGroup in tier.passives"
+          :key="passiveGroup.name"
         >
           <g
-            v-for="passive in (skill as ISkillPassiveGroup).items"
+            v-for="passive in passiveGroup.items"
             :key="passive.name"
           >
             <SkillPassiveLine
-              v-for="(line, index) in getPassiveLine(passive, (skill as ISkillPassiveGroup))"
+              v-for="(line, index) in getPassiveLine(passive, passiveGroup)"
               :key="`${passive.name}${index}`"
               :parent="skillTier"
               :active="line.active"
               :el1="line.el"
               :el2="skillRefs[passive.name]?.$el"
-              :direct="(passive as ISkillPassive).direct"
+              :direct="passive.direct"
               :direction="line.direction"
               :path="line.path"
             />
@@ -74,17 +74,16 @@
       class="translate-x-[210px] translate-y-[210px] pointer-events-auto"
     >
       <template
-        v-for="(skill) in skills"
+        v-for="(skill) in tier.skills"
         :key="skill.name"
       >
         <SkillItem
-          v-if="(skill as ISkillItem).icon"
           :ref="(el) => { skillRefs[skill.name] = el as ComponentPublicInstance }"
           class="absolute top-[12.5px] left-[12px]"
-          :style="{ transform: (skill as ISkillItem).transform }"
-          :icon="(skill as ISkillItem).icon"
-          :rank="(skill as ISkillItem).rank"
-          :rank-max="(skill as ISkillItem).rankMax"
+          :style="{ transform: skill.transform }"
+          :icon="skill.icon"
+          :rank="skill.rank"
+          :rank-max="skill.rankMax"
           @click="handleSkillClick(skill)"
           @contextmenu="handleSkillRightClick(skill)"
           @mouseover="handleSkillMouseOver(skill)"
@@ -92,37 +91,40 @@
           @mouseout="tooltipStore.visible = false"
         >
           <SkillItemModifier
-            :ref="el => { skillModifierRefs[(skill as ISkillItem)?.modifier.name] = el as ComponentPublicInstance }"
-            :icon="(skill as ISkillItem).icon"
+            :ref="el => { skillModifierRefs[skill.modifier.name] = el as ComponentPublicInstance }"
+            :icon="skill.icon"
             class="absolute top-[10px] left-[10px]"
-            :style="{ transform: (skill as ISkillItem)?.modifier.transform }"
-            :active="(skill as ISkillItem)?.modifier.active"
-            @click="handleModifierClick(skill, (skill as ISkillItem)?.modifier)"
-            @contextmenu="handleModifierRightClick((skill as ISkillItem)?.modifier)"
-            @mouseover="handleModifierMouseOver((skill as ISkillItem)?.modifier, (skill as ISkillItem).icon)"
+            :style="{ transform: skill.modifier.transform }"
+            :active="skill.modifier.active"
+            @click="handleModifierClick(skill, skill.modifier)"
+            @contextmenu="handleModifierRightClick(skill.modifier)"
+            @mouseover="handleModifierMouseOver(skill.modifier, skill.icon)"
             @mouseleave="tooltipStore.visible = false"
             @mouseout="tooltipStore.visible = false"
           >
             <SkillItemModifier
-              v-for="choiceModifier in (skill as ISkillItem)?.modifier.choiceModifiers"
+              v-for="choiceModifier in skill.modifier.choiceModifiers"
               :key="choiceModifier.name"
               :ref="el => { skillModifierRefs[choiceModifier.name] = el as ComponentPublicInstance }"
-              :icon="(skill as ISkillItem).icon"
+              :icon="skill.icon"
               class="choice-modifier absolute top-0 left-0"
               :style="{ transform: choiceModifier.transform }"
               :active="choiceModifier.active"
-              @click="handleModifierClick((skill as ISkillItem)?.modifier, choiceModifier)"
+              @click="handleModifierClick(skill.modifier, choiceModifier)"
               @contextmenu="handleModifierRightClick(choiceModifier)"
-              @mouseover="handleModifierMouseOver(choiceModifier, (skill as ISkillItem).icon, true)"
+              @mouseover="handleModifierMouseOver(choiceModifier, skill.icon, true)"
               @mouseleave="tooltipStore.visible = false"
               @mouseout="tooltipStore.visible = false"
             />
           </SkillItemModifier>
         </SkillItem>
 
-        <template v-else>
+        <template
+          v-for="passiveGroup in tier.passives"
+          :key="passiveGroup.name"
+        >
           <SkillPassive
-            v-for="passive in (skill as ISkillPassiveGroup).items"
+            v-for="passive in passiveGroup.items"
             :ref="(el) => { skillRefs[passive.name] = el as ComponentPublicInstance }"
             :key="passive.name"
             class="absolute top-[24px] left-[24px]"
@@ -143,25 +145,25 @@
 </template>
 
 <script setup lang="ts">
-import { ISkillItem, ISkillPassive, ISkillPassiveGroup } from '@/utils/skills'
+import { ISkillPassive, ISkillPassiveGroup, ISkillTier } from '@/utils/skills'
 import { useTooltipStore } from '@/store/tooltip'
 import SkillItem from '@/components/skill/SkillItem.vue'
 import SkillItemModifier from '@/components/skill/SkillItemModifier.vue'
 
 interface Props {
-  skills: (ISkillItem | ISkillPassiveGroup)[]
   rank?: number
   rankRequired?: number
   higherTierInvested?: boolean
   icon?: string
+  tier?: ISkillTier
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  skills: () => [],
   rank: 0,
   rankRequired: 0,
   higherTierInvested: false,
-  icon: () => `${useRuntimeConfig().app.baseURL}svg/skill/tier/skill-tier-icon-basic.svg`
+  icon: () => `${useRuntimeConfig().app.baseURL}svg/skill/tier/skill-tier-icon-basic.svg`,
+  tier: () => ({ name: '', rankRequired: 0, skills: [], passives: [] })
 })
 
 interface IRefObject {
@@ -189,11 +191,11 @@ const emit = defineEmits<{
   (e: 'mouseout'): void
 }>()
 
-const allowLearnSkill = computed(() => props.rank >= props.rankRequired)
+const allowLearnSkill = computed(() => props.rank >= props.tier.rankRequired)
 
 const rankRequirementGates = [2, 6, 11, 16, 23, 33]
 
-const tierPoints = computed(() => getSkillCount(props.skills))
+const tierPoints = computed(() => getSkillCount(props.tier))
 
 const tierPointsTotal = computed(() => tierPoints.value + props.rankRequired)
 
@@ -255,10 +257,6 @@ function handlePassiveMouseOver (passive: any): void {
 
   tooltipStore.setPassive(passive, el)
 }
-
-const skillItemLines = computed(() => props.skills.filter(skill => !(skill as ISkillPassiveGroup).items))
-
-const skillPassiveLines = computed(() => props.skills.filter(skill => (skill as ISkillPassiveGroup).items))
 
 interface IPassiveLine {
   active: boolean

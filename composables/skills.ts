@@ -1,2 +1,2 @@
-export { useSorcererBasicSkills } from './skills/sorcerer/sorcerer-basic'
-export { useSorcererCoreSkills } from './skills/sorcerer/sorcerer-core'
+export { useSorcererBasicTier } from './skills/sorcerer/basic'
+export { useSorcererCoreTier } from './skills/sorcerer/core'

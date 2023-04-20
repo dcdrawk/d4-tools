@@ -93,7 +93,6 @@ export interface ISkillItem {
   modifier: ISkillModifier
   modifiers?: ISkillModifier[]
   passive?: boolean
-  children?: ISkillItem[]
 }
 
 export interface IPassiveRequiredFor {
@@ -122,14 +121,30 @@ export interface ISkillPassiveGroup {
   items: ISkillPassive[]
 }
 
-export function getSkillCount (skills: (ISkillItem | ISkillPassiveGroup)[]) {
-  return skills.reduce((accumulator: number, skill: any) => {
+export interface ISkillTier {
+  name: string
+  rankRequired: number
+  skills: ISkillItem[]
+  passives: ISkillPassiveGroup[]
+}
+
+export function getSkillCount (tier: ISkillTier) {
+  const skillTotal = tier.skills?.reduce((accumulator: number, skill: any) => {
     if (skill.rank) {
       const modifierValue = skill.modifier.active ? 1 : 0
       const choiceModifierValue = skill.modifier.choiceModifiers.find((modifier: any) => modifier.active) ? 1 : 0
 
       return accumulator + skill.rank + modifierValue + choiceModifierValue
     }
+
     return accumulator
-  }, 0)
+  }, 0) ?? 0
+
+  const passiveTotal = tier.passives?.reduce((accumulator: number, passive: any) => {
+    if (passive.rank) return accumulator + passive.rank
+
+    return accumulator
+  }, 0) ?? 0
+
+  return skillTotal + passiveTotal
 }
