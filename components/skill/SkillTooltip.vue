@@ -1,11 +1,11 @@
 <template>
   <div
-    class="tooltip fixed text-[#ddddde] z-50 top-[40px] left-[40px] w-[400px] flex flex-col border-[#3e403d] border-4 transition-opacity drop-shadow-lg"
+    class="tooltip fixed text-[#ddddde] z-50 top-[40px] left-[40px] w-[400px] flex flex-col border-[#3e403d] border-4 transition-opacity drop-shadow-[1px_1px_3px_rgba(0,0,0,0.80)]"
     :style="{ transform: `translate(${translateX}px, ${translateY}px)`}"
   >
     <div class="tooltip__container relative bg-[#252321] border-[#060604] border-2 p-4 select-none">
       <!-- Icon -->
-      <div class="relative w-full flex items-center justify-center -top-12 -mb-10">
+      <div class="relative w-full flex items-center justify-center -top-12 -mb-10 drop-shadow-lg">
         <component
           :is="iconComponent"
           class="!block select-none relative"

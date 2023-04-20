@@ -1,7 +1,7 @@
 <template>
   <div
     ref="skillTreeRef"
-    class="relative"
+    class="relative skill-tree"
   >
     <SkillTooltip
       v-if="tooltipStore?.visible"
@@ -22,7 +22,7 @@
     />
 
     <ClientOnly>
-      <div class="absolute inline-block top-0 left-0 w-full h-[1000px]">
+      <div class="absolute inline-block top-0 left-0 w-full h-[1000px] drop-shadow-[1px_1px_3px_rgba(0,0,0,0.80)]">
         <BaseSVG
           v-if="skillTreeRef"
           class="inline-block"

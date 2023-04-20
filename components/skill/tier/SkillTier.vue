@@ -1,7 +1,7 @@
 <template>
   <div
     ref="skillTier"
-    class="relative w-[500px] h-[500px] pointer-events-none"
+    class="relative w-[500px] h-[500px] pointer-events-none drop-shadow-[1px_1px_3px_rgba(0,0,0,0.80)]"
   >
     <!-- Connecting Lines -->
     <ClientOnly>
