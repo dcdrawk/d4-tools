@@ -54,15 +54,35 @@ const testSkill = {
   }
 }
 
+const testLearnedSkill = {
+  ...testSkill,
+  rank: 2
+}
+
 const testTier = {
   name: 'basic',
   skills: [testSkill],
+  rankRequired: 0,
   passives: []
 }
 
-async function setTestSkill () {
+const testTierWithRank = {
+  name: 'basic',
+  skills: [testLearnedSkill],
+  rankRequired: 0,
+  passives: []
+}
+
+const testTierRankUpNotAllowed = {
+  name: 'basic',
+  skills: [testSkill],
+  rankRequired: 2,
+  passives: []
+}
+
+async function setTestTier (tier = testTier) {
   await wrapper.setProps({
-    tier: testTier
+    tier
   })
 }
 
@@ -78,7 +98,7 @@ describe('SkillTier.vue', () => {
   })
 
   test('clicking a SkillItem emits the increment-skill event', async () => {
-    await setTestSkill()
+    await setTestTier()
 
     const skillItemWrapper = wrapper.findComponent({ name: 'SkillItem' })
     await skillItemWrapper.vm.$emit('click', {})
@@ -86,8 +106,17 @@ describe('SkillTier.vue', () => {
     expect(wrapper.emitted()).toHaveProperty('increment-skill')
   })
 
+  test('clicking a SkillItem does not emit an event if learning the skill is not allowed', async () => {
+    await setTestTier(testTierRankUpNotAllowed)
+
+    const skillItemWrapper = wrapper.findComponent({ name: 'SkillItem' })
+    await skillItemWrapper.vm.$emit('click', {})
+
+    expect(wrapper.emitted()).not.toHaveProperty('increment-skill')
+  })
+
   test('right-clicking a SkillItem emits the decrement-skill event', async () => {
-    await setTestSkill()
+    await setTestTier()
 
     const skillItemWrapper = wrapper.findComponent({ name: 'SkillItem' })
     await skillItemWrapper.vm.$emit('contextmenu', {})
@@ -95,8 +124,21 @@ describe('SkillTier.vue', () => {
     expect(wrapper.emitted()).toHaveProperty('decrement-skill')
   })
 
+  test('right-clicking a SkillItem does not emit decrement-skill event if allowUnlearnSkill is false', async () => {
+    await setTestTier(testTierWithRank)
+
+    await wrapper.setProps({
+      higherTierInvested: true
+    })
+
+    const skillItemWrapper = wrapper.findComponent({ name: 'SkillItem' })
+    await skillItemWrapper.vm.$emit('contextmenu', {})
+
+    expect(wrapper.emitted()).not.toHaveProperty('decrement-skill')
+  })
+
   test('mouseover a SkillItem calls "setSkill" from the tooltip store', async () => {
-    await setTestSkill()
+    await setTestTier()
 
     const store = useTooltipStore()
 
@@ -107,7 +149,7 @@ describe('SkillTier.vue', () => {
   })
 
   test('mouseover a SkillItem does not call "setSkill" if "tooltipStore.visible" is true', async () => {
-    await setTestSkill()
+    await setTestTier()
 
     const store = useTooltipStore()
     store.visible = true
@@ -118,7 +160,7 @@ describe('SkillTier.vue', () => {
   })
 
   test('mouseleave from a SkillItem sets tooltipStore.visible to false', async () => {
-    await setTestSkill()
+    await setTestTier()
 
     const store = useTooltipStore()
     store.visible = true
@@ -129,7 +171,7 @@ describe('SkillTier.vue', () => {
   })
 
   test('mouseout from a SkillItem sets tooltipStore.visible to false', async () => {
-    await setTestSkill()
+    await setTestTier()
 
     const store = useTooltipStore()
     store.visible = true
@@ -140,7 +182,7 @@ describe('SkillTier.vue', () => {
   })
 
   test('clicking a SkillItemModifier emits the "activate-modifier" event', async () => {
-    await setTestSkill()
+    await setTestTier()
 
     const skillItemWrapper = wrapper.findComponent({ name: 'SkillItemModifier' })
     await skillItemWrapper.vm.$emit('click', {})
@@ -149,7 +191,7 @@ describe('SkillTier.vue', () => {
   })
 
   test('right-clicking a SkillItemModifier emits the "deactivate-modifier" event', async () => {
-    await setTestSkill()
+    await setTestTier()
 
     const skillItemWrapper = wrapper.findComponent({ name: 'SkillItemModifier' })
     await skillItemWrapper.vm.$emit('contextmenu', {})
@@ -158,7 +200,7 @@ describe('SkillTier.vue', () => {
   })
 
   test('mouseover a SkillItemModifier calls "setModifier" from the tooltip store', async () => {
-    await setTestSkill()
+    await setTestTier()
 
     const store = useTooltipStore()
     const skillItemWrapper = wrapper.findComponent({ name: 'SkillItemModifier' })
@@ -168,7 +210,7 @@ describe('SkillTier.vue', () => {
   })
 
   test('mouseover a SkillItemModifier does not call "setModifier" if tooltipStore.visible is true', async () => {
-    await setTestSkill()
+    await setTestTier()
 
     const store = useTooltipStore()
     store.visible = true
@@ -179,7 +221,7 @@ describe('SkillTier.vue', () => {
   })
 
   test('mouseleave from a SkillItemModifier sets tooltipStore.visible to false', async () => {
-    await setTestSkill()
+    await setTestTier()
 
     const store = useTooltipStore()
     store.visible = true
@@ -190,7 +232,7 @@ describe('SkillTier.vue', () => {
   })
 
   test('mouseout from a SkillItemModifier sets tooltipStore.visible to false', async () => {
-    await setTestSkill()
+    await setTestTier()
 
     const store = useTooltipStore()
     store.visible = true
@@ -201,7 +243,7 @@ describe('SkillTier.vue', () => {
   })
 
   test('clicking a .choice-modifier emits the "activate-modifier" event', async () => {
-    await setTestSkill()
+    await setTestTier()
 
     const choiceModifierWrapper = wrapper.findComponent('.choice-modifier') as VueWrapper
 
@@ -211,7 +253,7 @@ describe('SkillTier.vue', () => {
   })
 
   test('right-clicking a .choice-modifier emits the "deactivate-modifier" event', async () => {
-    await setTestSkill()
+    await setTestTier()
 
     const choiceModifierWrapper = wrapper.findComponent('.choice-modifier') as VueWrapper
 
@@ -221,7 +263,7 @@ describe('SkillTier.vue', () => {
   })
 
   test('mouseover a .choice-modifier calls "setModifier" from the tooltip store', async () => {
-    await setTestSkill()
+    await setTestTier()
 
     const store = useTooltipStore()
     const choiceModifierWrapper = wrapper.findComponent('.choice-modifier') as VueWrapper
@@ -231,7 +273,7 @@ describe('SkillTier.vue', () => {
   })
 
   test('mouseover a .choice-modifier does not call "setModifier" if tooltipStore.visible is true', async () => {
-    await setTestSkill()
+    await setTestTier()
 
     const store = useTooltipStore()
     store.visible = true
@@ -242,7 +284,7 @@ describe('SkillTier.vue', () => {
   })
 
   test('mouseleave from a .choice-modifier sets tooltipStore.visible to false', async () => {
-    await setTestSkill()
+    await setTestTier()
 
     const store = useTooltipStore()
     store.visible = true
@@ -253,7 +295,7 @@ describe('SkillTier.vue', () => {
   })
 
   test('mouseout from a .choice-modifier sets tooltipStore.visible to false', async () => {
-    await setTestSkill()
+    await setTestTier()
 
     const store = useTooltipStore()
     store.visible = true

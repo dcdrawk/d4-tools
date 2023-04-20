@@ -191,7 +191,7 @@ const emit = defineEmits<{
   (e: 'mouseout'): void
 }>()
 
-const allowLearnSkill = computed(() => props.rank >= (props.tier.rankRequired ?? 0))
+const allowLearnSkill = computed(() => props.rank >= props.tier.rankRequired)
 
 const rankRequirementGates = [2, 6, 11, 16, 23, 33]
 
