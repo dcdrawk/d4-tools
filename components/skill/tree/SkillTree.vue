@@ -46,10 +46,12 @@
       :rank="rank"
       :tier="sorcererBasicTier"
       :higher-tier-invested="hasHigherTierInvestedBasic"
-      @increment-skill="handleIncrementSkill($event)"
-      @decrement-skill="handleDecrementSkill($event)"
-      @activate-modifier="handleActivateModifier($event.parent, $event.modifier)"
-      @deactivate-modifier="handleDeactivateModifier($event)"
+      @increment-skill="handleIncrementSkill"
+      @decrement-skill="handleDecrementSkill"
+      @activate-modifier="handleActivateModifier"
+      @deactivate-modifier="handleDeactivateModifier"
+      @increment-passive="handleIncrementPassive"
+      @decrement-passive="handleDecrementPassive"
     />
 
     <SkillTier
@@ -59,12 +61,12 @@
       :rank="rank"
       :rank-required="2"
       :icon="`${useRuntimeConfig().app.baseURL}svg/skill/tier/skill-tier-icon-core.svg`"
-      @increment-skill="handleIncrementSkill($event)"
-      @decrement-skill="handleDecrementSkill($event)"
-      @activate-modifier="handleActivateModifier($event.parent, $event.modifier)"
-      @deactivate-modifier="handleDeactivateModifier($event)"
-      @increment-passive="handleIncrementPassive($event)"
-      @decrement-passive="handleDecrementPassive($event)"
+      @increment-skill="handleIncrementSkill"
+      @decrement-skill="handleDecrementSkill"
+      @activate-modifier="handleActivateModifier"
+      @deactivate-modifier="handleDeactivateModifier"
+      @increment-passive="handleIncrementPassive"
+      @decrement-passive="handleDecrementPassive"
     />
   </div>
 </template>
@@ -122,7 +124,7 @@ function hasChoiceModifierSelected (modifier: any): boolean {
   return !!modifier.choiceModifiers?.find((modifier: any) => modifier.active)
 }
 
-function handleActivateModifier (parent: any, modifier: any): void {
+function handleActivateModifier ({ parent, modifier }: any): void {
   if (parent.rank === 0) return
   if (modifier.active) return
   if ((parent.choiceModifiers && !parent.active)) return
@@ -133,6 +135,7 @@ function handleActivateModifier (parent: any, modifier: any): void {
 }
 
 function handleDeactivateModifier (modifier: any): void {
+  // console.log()
   if (hasChoiceModifierSelected(modifier)) return
 
   tooltipStore.active = false

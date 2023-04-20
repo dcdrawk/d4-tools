@@ -19,7 +19,7 @@ vi.stubGlobal('useState', useStateMock)
 const createWrapper = (props = {}) => {
   wrapper = mount(SkillTree, {
     props,
-    shallow: true,
+    // shallow: true,
     global: {
       stubs: ['ClientOnly'],
       mocks: {
@@ -54,7 +54,7 @@ describe('SkillTree.vue', () => {
 
     const skill = { rank: 0, rankMax: 5 }
 
-    await skillItemWrapper.vm.$emit('decrement-rank', skill)
+    await skillItemWrapper.vm.$emit('decrement-skill', skill)
 
     expect(skill.rank).toBe(0)
   })
@@ -64,7 +64,7 @@ describe('SkillTree.vue', () => {
 
     const skill = { rank: 1, rankMax: 5, modifiers: [{ active: true }] }
 
-    await skillItemWrapper.vm.$emit('decrement-rank', skill)
+    await skillItemWrapper.vm.$emit('decrement-skill', skill)
 
     expect(skill.rank).toBe(1)
   })
@@ -177,5 +177,174 @@ describe('SkillTree.vue', () => {
     await skillItemWrapper.vm.$emit('deactivate-modifier', modifier)
 
     expect(modifier.active).toBe(false)
+  })
+
+  test('when SkillTier emits increment-passive, increment a connected passive rank', async () => {
+    const skillTier = wrapper.findComponent({ name: 'SkillTier' })
+
+    const passiveGroup = {
+      passive: {
+        name: 'shponglese 1',
+        connected: true,
+        rank: 0,
+        rankMax: 3
+      },
+      group: {
+        name: 'shpongle',
+        items: [{
+          name: 'shponglese 1',
+          connected: true,
+          rank: 0,
+          rankMax: 3
+        },
+        {
+          name: 'shponglese 2',
+          rank: 0,
+          rankMax: 3
+        }]
+      }
+    }
+
+    await skillTier.vm.$emit('increment-passive', passiveGroup)
+
+    expect(passiveGroup.passive.rank).toBe(1)
+  })
+
+  test('when SkillTier emits increment-passive, increment a passive rank if group requirements are met', async () => {
+    const skillTier = wrapper.findComponent({ name: 'SkillTier' })
+
+    const passiveGroup = {
+      passive: {
+        name: 'shponglese 2',
+        rank: 0,
+        rankMax: 3
+      },
+      group: {
+        name: 'shpongle',
+        items: [{
+          name: 'shponglese 1',
+          rank: 1,
+          rankMax: 3,
+          requiredFor: [{ name: 'shponglese 2' }]
+        },
+        {
+          name: 'shponglese 2',
+          rank: 0,
+          rankMax: 3
+        }]
+      }
+    }
+
+    await skillTier.vm.$emit('increment-passive', passiveGroup)
+
+    expect(passiveGroup.passive.rank).toBe(1)
+  })
+
+  test('when SkillTier emits increment-passive, do not increment if requirements are not met', async () => {
+    const skillTier = wrapper.findComponent({ name: 'SkillTier' })
+
+    const passiveGroup = {
+      passive: {
+        name: 'shponglese 2',
+        rank: 0,
+        rankMax: 3
+      },
+      group: {
+        name: 'shpongle',
+        items: [{
+          name: 'shponglese 1',
+          rank: 0,
+          rankMax: 3,
+          requiredFor: [{ name: 'shponglese 2' }]
+        },
+        {
+          name: 'shponglese 2',
+          rank: 0,
+          rankMax: 3
+        }]
+      }
+    }
+
+    await skillTier.vm.$emit('increment-passive', passiveGroup)
+
+    expect(passiveGroup.passive.rank).toBe(0)
+  })
+
+  test('when SkillTier emits decrement-passive, do nothing if rank is 0', async () => {
+    const skillTier = wrapper.findComponent({ name: 'SkillTier' })
+
+    const passiveGroup = {
+      passive: {
+        name: 'shponglese 1',
+        rank: 0,
+        rankMax: 3
+      },
+      group: {
+        name: 'shpongle',
+        items: [{
+          name: 'shponglese 1',
+          rank: 0,
+          rankMax: 3
+        }]
+      }
+    }
+
+    await skillTier.vm.$emit('decrement-passive', passiveGroup)
+
+    expect(passiveGroup.passive.rank).toBe(0)
+  })
+
+  test('when SkillTier emits decrement-passive, do nothing if rank is 0', async () => {
+    const skillTier = wrapper.findComponent({ name: 'SkillTier' })
+
+    const passiveGroup = {
+      passive: {
+        name: 'shponglese 1',
+        rank: 2,
+        rankMax: 3
+      },
+      group: {
+        name: 'shpongle',
+        items: [{
+          name: 'shponglese 1',
+          rank: 2,
+          rankMax: 3
+        }]
+      }
+    }
+
+    await skillTier.vm.$emit('decrement-passive', passiveGroup)
+
+    expect(passiveGroup.passive.rank).toBe(1)
+  })
+
+  test('when SkillTier emits decrement-passive, do nothing it has active requirements', async () => {
+    const skillTier = wrapper.findComponent({ name: 'SkillTier' })
+
+    const passiveGroup = {
+      passive: {
+        name: 'shponglese 1',
+        rank: 1,
+        rankMax: 3,
+        requiredFor: [{ name: 'shponglese 2' }]
+      },
+      group: {
+        name: 'shpongle',
+        items: [{
+          name: 'shponglese 1',
+          rank: 1,
+          rankMax: 3,
+          requiredFor: [{ name: 'shponglese 2' }]
+        }, {
+          name: 'shponglese 2',
+          rank: 1,
+          rankMax: 3
+        }]
+      }
+    }
+
+    await skillTier.vm.$emit('decrement-passive', passiveGroup)
+
+    expect(passiveGroup.passive.rank).toBe(1)
   })
 })
