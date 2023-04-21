@@ -128,9 +128,7 @@ export function getSkillCount (tier: ISkillTier) {
   }, 0) ?? 0
 
   const passiveTotal = tier?.passives?.reduce((accumulator: number, passive: any) => {
-    if (passive.rank) return accumulator + passive.rank
-
-    return accumulator
+    return accumulator + passive.items.reduce((itemAccumulator: number, itemPassive: any) => itemAccumulator + itemPassive.rank, 0)
   }, 0) ?? 0
 
   return skillTotal + passiveTotal
@@ -157,7 +155,6 @@ export function getPassiveLine (passive: ISkillPassive, group: ISkillPassiveGrou
   })
 
   return connectedPassives.map((passiveItem: ISkillPassive) => {
-    console.log(passiveItem.name, refs)
     return {
       active: passiveItem.rank > 0 && passive.rank > 0,
       el: refs[passiveItem.name]?.$el,
