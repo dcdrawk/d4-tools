@@ -37,6 +37,7 @@
             v-for="choiceModifier in skill.modifier.choiceModifiers"
             :key="choiceModifier.name"
             :active="choiceModifier.active"
+            :highlight="highlightChoiceModifier(choiceModifier.name, skill.modifier)"
             :parent="skillTier"
             :el1="skillModifierRefs[skill.modifier.name]?.$el"
             :el2="skillModifierRefs[choiceModifier.name]?.$el"
@@ -111,6 +112,7 @@
               :key="choiceModifier.name"
               :ref="el => { skillModifierRefs[choiceModifier.name] = el as ComponentPublicInstance }"
               :icon="skill.icon"
+              :highlight="highlightChoiceModifier(choiceModifier.name, skill.modifier)"
               class="choice-modifier absolute top-0 left-0"
               :style="{ transform: choiceModifier.transform }"
               :active="choiceModifier.active"
@@ -262,5 +264,14 @@ function handlePassiveMouseOver (passive: any): void {
   const el = skillRefs.value[passive.name]?.$el
 
   tooltipStore.setPassive(passive, el)
+}
+
+function highlightChoiceModifier (choiceModifierName: string, modifier: any) {
+  const otherModifierActive = !!modifier.choiceModifiers.find(
+    (choiceModifier: any) => {
+      return choiceModifier.name !== choiceModifierName && choiceModifier.active
+    }
+  )
+  return modifier.active && !otherModifierActive
 }
 </script>
