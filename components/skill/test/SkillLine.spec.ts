@@ -47,4 +47,12 @@ describe('SkillLine.vue', () => {
 
     expect(lineWrapper[1].attributes('class')).includes('stroke-red-800')
   })
+
+  test('renders the correct highlight stroke color', async () => {
+    const lineWrapper = wrapper.findAll('line')
+
+    await wrapper.setProps({ highlight: true })
+
+    expect(lineWrapper[1].attributes('class')).includes('stroke-[#e3d9c0]/50')
+  })
 })

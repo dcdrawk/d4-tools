@@ -24,9 +24,9 @@ const createWrapper = (props = {}) => {
 
 const testSkill = {
   name: 'Spark',
-  description: 'Launch a bolt of lightning that shocks an enemy <span class="text-orange-300">4</span> times, dealing <span class="text-orange-300">[{damage}]</span> damage each hit.',
+  description: '',
   descriptionValues: {
-    damage: '8%,8.8%,9.6%,10.4%,11.2%'
+    damage: ''
   },
   type: 'Basic',
   school: 'Shock',
@@ -37,17 +37,17 @@ const testSkill = {
   rankMax: 5,
   modifier: {
     name: 'Enhanced Spark',
-    description: 'Each time <span class="text-white">Spark</span> hits its primary target, it has a <span class="text-orange-300">20%</span> chance to hit up to 3 additional enemies, dealing <span class="text-orange-300">6%</span> damage. If there are no other enemies to hit, Spark instead deals <span class="text-orange-300">x20%</span> increased damage to its primary target.',
+    description: '',
     transform: '',
     active: false,
     choiceModifiers: [{
       name: 'Glinting Spark',
-      description: '<span class="text-white">Spark</span> grants <span class="text-orange-300">+2%</span> increased Critical Strike Chance per cast for <span class="text-orange-300">3</span> seconds, up to <span class="text-orange-300">+10%.</span>',
+      description: '',
       transform: '',
       active: false
     }, {
       name: 'Flickering Spark',
-      description: 'Each time <span class="text-white">Spark</span> hits an enemy it has a <span class="text-orange-300">3%</span> chance to form a <span class="underline">Crackling Energy</span>.',
+      description: '',
       transform: '',
       active: false
     }]
@@ -57,6 +57,28 @@ const testSkill = {
 const testLearnedSkill = {
   ...testSkill,
   rank: 2
+}
+
+const testLearnedSkillWithSelectedChoiceModifiers = {
+  ...testSkill,
+  rank: 2,
+  modifier: {
+    name: 'Enhanced Spark',
+    description: '',
+    transform: '',
+    active: true,
+    choiceModifiers: [{
+      name: 'Glinting Spark',
+      description: '',
+      transform: '',
+      active: true
+    }, {
+      name: 'Flickering Spark',
+      description: '',
+      transform: '',
+      active: false
+    }]
+  }
 }
 
 const testTier = {
@@ -69,7 +91,8 @@ const testTier = {
       name: 'Passive',
       desription: 'test',
       transform: '',
-      rank: 0
+      rank: 0,
+      connected: true
     }]
   }]
 }
@@ -95,6 +118,13 @@ const testTierRankDown = {
   passives: []
 }
 
+const testTierWithChoiceMods = {
+  name: 'basic',
+  skills: [testLearnedSkillWithSelectedChoiceModifiers],
+  rankRequired: 0,
+  passives: []
+}
+
 async function setTestTier (tier = testTier) {
   await wrapper.setProps({
     tier
@@ -114,7 +144,7 @@ describe('SkillTier.vue', () => {
   })
 
   test('clicking a SkillItem emits the increment-skill event', async () => {
-    await setTestTier()
+    await setTestTier(testTierWithChoiceMods)
 
     const skillItemWrapper = wrapper.findComponent({ name: 'SkillItem' })
     await skillItemWrapper.vm.$emit('click', {})

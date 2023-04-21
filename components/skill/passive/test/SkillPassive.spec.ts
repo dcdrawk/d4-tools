@@ -33,6 +33,16 @@ describe('SkillPassive.vue', () => {
     expect(outerSquareWrapper.attributes('class')).toContain('fill-red-800')
   })
 
+  test('outer square has the correct styles when props.highlight is true', async () => {
+    await wrapper.setProps({
+      highlight: true
+    })
+
+    const outerSquareWrapper = wrapper.find('.skill-item-passive__outer-square')
+
+    expect(outerSquareWrapper.attributes('class')).toContain('fill-[#e3d9c0]')
+  })
+
   test('image is translucent by default', async () => {
     await wrapper.setProps({
       icon: 'my-icon'
