@@ -7,7 +7,7 @@
   />
   <path
     class="transition-all"
-    :class="lineStroke"
+    :class="lineStyles"
     :d="dpath"
     fill="none"
     stroke-width="5"
@@ -17,6 +17,7 @@
 <script setup lang="ts">
 interface Props {
   active?: boolean
+  highlight?: boolean
   el1: HTMLElement
   el2: HTMLElement
   parent: HTMLElement
@@ -27,6 +28,7 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   active: false,
+  highlight: false,
   direct: true,
   direction: '',
   path: ''
@@ -50,5 +52,10 @@ const dpath = computed(() => {
   }
 })
 
-const lineStroke = computed<string>(() => props.active ? 'stroke-red-800' : 'stroke-[#191f20]')
+// const lineStroke = computed<string>(() => props.active ? 'stroke-red-800' : 'stroke-[#191f20]')
+const lineStyles = computed(() => ({
+  'stroke-[#191f20]': !props.active && !props.highlight,
+  'stroke-[#e3d9c0]/40': props.highlight && !props.active,
+  'stroke-red-800': props.active
+}))
 </script>

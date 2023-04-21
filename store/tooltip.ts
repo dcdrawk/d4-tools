@@ -18,7 +18,7 @@ export const useTooltipStore = defineStore('tooltip', {
     type: '' as string,
     school: '' as string,
     damageType: '' as string | undefined,
-    modifiers: [] as ISkillModifier[],
+    modifier: {} as ISkillModifier | undefined,
     x: 0 as number,
     y: 0 as number
   }),
@@ -37,7 +37,7 @@ export const useTooltipStore = defineStore('tooltip', {
       this.damageType = skill.damageType
       this.description = skill.description
       this.descriptionValues = skill.descriptionValues
-      this.modifiers = skill.modifiers || []
+      this.modifier = skill.modifier
       this.icon = skill.icon
       this.category = 'skill'
       this.x = refBox.left + offset
@@ -58,7 +58,7 @@ export const useTooltipStore = defineStore('tooltip', {
       this.damageType = ''
       this.description = skill.description
       this.descriptionValues = skill.descriptionValues
-      this.modifiers = []
+      this.modifier = undefined
       this.icon = skill.icon
       this.category = 'passive'
       this.x = refBox.left + offset
@@ -79,7 +79,7 @@ export const useTooltipStore = defineStore('tooltip', {
       this.active = modifier.active
       this.description = modifier.description
       this.descriptionValues = {}
-      this.modifiers = []
+      this.modifier = undefined
       this.icon = icon
       this.category = choiceModifier ? 'choice-modifier' : 'modifier'
       this.x = refBox.left + offset

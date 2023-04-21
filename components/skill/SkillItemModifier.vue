@@ -34,7 +34,6 @@
       >
         <rect
           class="skill-item-modifier__outer-border opacity-0 transition-colors"
-          :class="outerSquareBg"
           width="24"
           height="24"
           transform="rotate(45, 12, 12)"
@@ -47,7 +46,7 @@
         <!-- Outer Square -->
         <rect
           class="skill-item-modifier__outer-square transition-colors"
-          :class="outerSquareBg"
+          :class="outerSquareStyles"
           width="24"
           height="24"
           fill="#191f20"
@@ -62,7 +61,7 @@
         <rect
           width="18"
           height="18"
-          fill="transparent"
+          fill="black"
           transform="rotate(45, 9, 9)"
           x="11"
           y="11"
@@ -154,7 +153,8 @@ defineEmits<{
 
 interface Props {
   active?: boolean
-  tooltip?: boolean,
+  highlight?: boolean
+  tooltip?: boolean
   icon?: string
 }
 
@@ -164,9 +164,13 @@ const props = withDefaults(defineProps<Props>(), {
   icon: ''
 })
 
-const outerSquareBg = computed<string>(() => props.active ? useActiveFill() : '!fill-[#191f20]')
+const outerSquareStyles = computed(() => ({
+  'fill-[#191f20]': !props.active,
+  'fill-red-800': props.active,
+  'fill-[#e3d9c0]': props.highlight && !props.active
+}))
 
-const iconOpacity = computed<string>(() => props.active || props.tooltip ? '1' : '0.6')
+const iconOpacity = computed<string>(() => props.active || props.tooltip || props.highlight ? '1' : '0.6')
 </script>
 
 <style scoped lang="postcss">

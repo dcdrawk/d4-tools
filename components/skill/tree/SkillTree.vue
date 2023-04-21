@@ -15,7 +15,7 @@
       :type="tooltipStore.type"
       :school="tooltipStore.school"
       :damage-type="tooltipStore.damageType"
-      :modifiers="tooltipStore.modifiers"
+      :modifier="tooltipStore.modifier"
       :category="tooltipStore.category"
       :translate-x="tooltipStore.x"
       :translate-y="tooltipStore.y"

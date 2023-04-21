@@ -19,6 +19,7 @@
           <SkillLine
             v-if="skillRefs[skill.name]"
             :active="skill.rank > 0"
+            :highlight="skill.rank === 0 && allowLearnSkill"
             :parent="skillTier"
             :el1="skillTierNode?.$el"
             :el2="skillRefs[skill.name]?.$el"
@@ -26,6 +27,7 @@
 
           <SkillLine
             :active="skill.modifier.active"
+            :highlight="skill.rank > 0"
             :parent="skillTier"
             :el1="skillRefs[skill.name]?.$el"
             :el2="skillModifierRefs[skill.modifier.name]?.$el"
@@ -35,6 +37,7 @@
             v-for="choiceModifier in skill.modifier.choiceModifiers"
             :key="choiceModifier.name"
             :active="choiceModifier.active"
+            :highlight="highlightChoiceModifier(choiceModifier.name, skill.modifier)"
             :parent="skillTier"
             :el1="skillModifierRefs[skill.modifier.name]?.$el"
             :el2="skillModifierRefs[choiceModifier.name]?.$el"
@@ -55,6 +58,7 @@
               :key="`${passive.name}${index}`"
               :parent="skillTier"
               :active="line.active"
+              :highlight="highlightPassive(passive, passiveGroup)"
               :el1="line.el"
               :el2="skillRefs[passive.name]?.$el"
               :direct="passive.direct"
@@ -84,6 +88,7 @@
           :icon="skill.icon"
           :rank="skill.rank"
           :rank-max="skill.rankMax"
+          :highlight="skill.rank === 0 && allowLearnSkill"
           @click="handleSkillClick(skill)"
           @contextmenu="handleSkillRightClick(skill)"
           @mouseover="handleSkillMouseOver(skill)"
@@ -95,6 +100,7 @@
             :icon="skill.icon"
             class="absolute top-[10px] left-[10px]"
             :style="{ transform: skill.modifier.transform }"
+            :highlight="skill.rank > 0"
             :active="skill.modifier.active"
             @click="handleModifierClick(skill, skill.modifier)"
             @contextmenu="handleModifierRightClick(skill.modifier)"
@@ -107,6 +113,7 @@
               :key="choiceModifier.name"
               :ref="el => { skillModifierRefs[choiceModifier.name] = el as ComponentPublicInstance }"
               :icon="skill.icon"
+              :highlight="highlightChoiceModifier(choiceModifier.name, skill.modifier)"
               class="choice-modifier absolute top-0 left-0"
               :style="{ transform: choiceModifier.transform }"
               :active="choiceModifier.active"
@@ -132,6 +139,7 @@
             :icon="passive.icon"
             :rank="passive.rank"
             :rank-max="passive.rankMax"
+            :highlight="highlightPassive(passive, passiveGroup)"
             @click="handlePassiveClick(passive, passiveGroup)"
             @contextmenu="handlePassiveRightClick(passive, passiveGroup)"
             @mouseover="handlePassiveMouseOver(passive)"
@@ -145,7 +153,7 @@
 </template>
 
 <script setup lang="ts">
-import { ISkillTier } from '@/utils/skills'
+import { ISkillTier, ISkillPassive } from '@/utils/skills'
 import { useTooltipStore } from '@/store/tooltip'
 import SkillItem from '@/components/skill/SkillItem.vue'
 import SkillItemModifier from '@/components/skill/SkillItemModifier.vue'
@@ -258,5 +266,25 @@ function handlePassiveMouseOver (passive: any): void {
   const el = skillRefs.value[passive.name]?.$el
 
   tooltipStore.setPassive(passive, el)
+}
+
+function highlightChoiceModifier (choiceModifierName: string, modifier: any) {
+  const otherModifierActive = !!modifier.choiceModifiers.find(
+    (choiceModifier: any) => {
+      return choiceModifier.name !== choiceModifierName && choiceModifier.active
+    }
+  )
+  return modifier.active && !otherModifierActive
+}
+
+function highlightPassive (passive: any, passiveGroup: any) {
+  if (passive.connected && allowLearnSkill.value) return true
+
+  const requiredPassivesRank = passiveGroup.items.filter((passiveItem: ISkillPassive) => {
+    return passiveItem.requiredFor?.find(requirement => requirement.name === passive.name)
+  }).reduce((acc: number, curr: any) => acc + curr.rank, 0)
+
+  // const meetsRequirements = passiveGroup.
+  return requiredPassivesRank > 0
 }
 </script>

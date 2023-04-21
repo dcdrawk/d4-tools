@@ -6,12 +6,12 @@ let wrapper: VueWrapper
 
 beforeEach(() => {
   wrapper = mount(SkillItem as any, {
-    global: {
-      // stubs: ['FontAwesomeIcon']
-      mocks: {
-        useActiveFill: () => 'fill-red-800'
-      }
-    }
+    // global: {
+    //   // stubs: ['FontAwesomeIcon']
+    //   mocks: {
+    //     useActiveFill: () => 'fill-red-800'
+    //   }
+    // }
   })
 })
 
@@ -21,7 +21,7 @@ describe('SkillItem.vue', () => {
 
     const outerSquareClass = outerSquareWrapper.attributes('class')
 
-    expect(outerSquareClass).toContain('!fill-[#191f20]')
+    expect(outerSquareClass).toContain('fill-[#191f20]')
   })
 
   test('outer square has the correct styles when props.active is true', async () => {

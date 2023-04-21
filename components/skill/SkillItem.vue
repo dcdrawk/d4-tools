@@ -35,7 +35,7 @@
         <!-- Outer Square -->
         <rect
           class="skill-item__outer-square transition-colors"
-          :class="outerSquareBg"
+          :class="outerSquareStyles"
           width="45"
           height="45"
           fill="#191f20"
@@ -142,7 +142,8 @@ defineEmits<{
 
 interface Props {
   active?: boolean
-  tooltip?: boolean,
+  highlight?: boolean
+  tooltip?: boolean
   icon?: string
   rank?: number
   rankMax?: number
@@ -158,9 +159,13 @@ const props = withDefaults(defineProps<Props>(), {
 
 const isActive = computed<boolean>(() => props.rank > 0)
 
-const outerSquareBg = computed<string>(() => isActive.value ? useActiveFill() : '!fill-[#191f20]')
+const outerSquareStyles = computed(() => ({
+  'fill-red-800': isActive.value,
+  'fill-[#e3d9c0]': props.highlight && !isActive.value,
+  'fill-[#191f20]': !isActive.value
+}))
 
-const iconOpacity = computed<string>(() => isActive.value || props.tooltip ? '1' : '0.6')
+const iconOpacity = computed<string>(() => isActive.value || props.tooltip || props.highlight ? '1' : '0.6')
 
 const rankClass = computed<string>(() => props.rank <= 0 ? 'opacity-0' : 'opacity-100')
 </script>
