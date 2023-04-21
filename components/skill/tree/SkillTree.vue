@@ -107,14 +107,10 @@ function handleIncrementSkill (skill: any): void {
   }
 }
 
-function hasActiveModifiers (skill: any): boolean {
-  return !!skill.modifiers?.find((modifier: any) => modifier.active)
-}
-
 function handleDecrementSkill (skill: any): void {
   if (skill.rank <= 0) return
 
-  if (skill.rank === 1 && hasActiveModifiers(skill)) return
+  if (skill.rank === 1 && skill.modifier.active) return
 
   skill.rank--
   tooltipStore.rank--
