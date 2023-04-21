@@ -81,9 +81,9 @@
         >
           <!-- eslint-disable vue/no-v-html -->
           <li
-            v-for="(modifier, index) in tooltipModifiers"
+            v-for="(modifierItem, index) in tooltipModifiers"
             :key="index"
-            v-html="modifier"
+            v-html="modifierItem"
           />
           <!-- eslint-enable vue/no-v-html -->
         </ul>
