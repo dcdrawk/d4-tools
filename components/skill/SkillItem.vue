@@ -159,13 +159,11 @@ const props = withDefaults(defineProps<Props>(), {
 
 const isActive = computed<boolean>(() => props.rank > 0)
 
-// const outerSquareBg = computed<string>(() => isActive.value ? useActiveFill() : '!fill-[#191f20]')
 const outerSquareStyles = computed(() => ({
   'fill-red-800': isActive.value,
   'fill-[#e5dcc8]/60': props.highlight && !isActive.value,
   'fill-[#191f20]': !isActive.value
 }))
-// isActive.value ? useActiveFill() : '!fill-[#191f20]')
 
 const iconOpacity = computed<string>(() => isActive.value || props.tooltip || props.highlight ? '1' : '0.6')
 
