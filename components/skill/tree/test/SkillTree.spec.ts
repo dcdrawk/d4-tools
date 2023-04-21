@@ -62,7 +62,7 @@ describe('SkillTree.vue', () => {
   test('when SkillTier emits decrement-rank, do nothing if skill rank is 1 and has an active modifier', async () => {
     const skillItemWrapper = wrapper.findComponent({ name: 'SkillTier' })
 
-    const skill = { rank: 1, rankMax: 5, modifiers: [{ active: true }] }
+    const skill = { rank: 1, rankMax: 5, modifier: { active: true } }
 
     await skillItemWrapper.vm.$emit('decrement-skill', skill)
 
@@ -72,7 +72,7 @@ describe('SkillTree.vue', () => {
   test('when SkillTier emits decrement-skill, decrement skill rank if rank > 0', async () => {
     const skillItemWrapper = wrapper.findComponent({ name: 'SkillTier' })
 
-    const skill = { rank: 1, rankMax: 5, modifiers: [] }
+    const skill = { rank: 1, rankMax: 5, modifier: {} }
 
     await skillItemWrapper.vm.$emit('decrement-skill', skill)
 
@@ -82,7 +82,7 @@ describe('SkillTree.vue', () => {
   test('when SkillTier emits activate-modifier, do nothing if parent rank is 0', async () => {
     const skillItemWrapper = wrapper.findComponent({ name: 'SkillTier' })
 
-    const parent = { rank: 0, rankMax: 5, modifiers: [] }
+    const parent = { rank: 0, rankMax: 5, modifier: {} }
     const modifier = { active: false }
 
     await skillItemWrapper.vm.$emit('activate-modifier', { parent, modifier })
@@ -93,7 +93,7 @@ describe('SkillTree.vue', () => {
   test('when SkillTier emits activate-modifier, do nothing if modifier is active', async () => {
     const skillItemWrapper = wrapper.findComponent({ name: 'SkillTier' })
 
-    const parent = { rank: 2, rankMax: 5, modifiers: [] }
+    const parent = { rank: 2, rankMax: 5, modifier: {} }
     const modifier = { active: true }
 
     await skillItemWrapper.vm.$emit('activate-modifier', { parent, modifier })
