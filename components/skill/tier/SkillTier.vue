@@ -19,6 +19,7 @@
           <SkillLine
             v-if="skillRefs[skill.name]"
             :active="skill.rank > 0"
+            :highlight="skill.rank === 0 && allowLearnSkill"
             :parent="skillTier"
             :el1="skillTierNode?.$el"
             :el2="skillRefs[skill.name]?.$el"
