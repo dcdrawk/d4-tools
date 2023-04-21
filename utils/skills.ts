@@ -96,7 +96,6 @@ export interface ISkillPassive {
   transform: string
   rank: number
   rankMax: number
-  connections?: string[]
   connected: boolean
   direct?: boolean
   direction?: string
@@ -146,13 +145,19 @@ interface IPassiveLine {
 }
 
 export function getPassiveLine (passive: ISkillPassive, group: ISkillPassiveGroup, nodeEl: HTMLElement, refs: any): IPassiveLine[] {
-  if (passive.connected) return [{ el: nodeEl, direction: '', active: passive.rank > 0, path: passive.path }]
+  if (passive.connected) return [{
+    active: passive.rank > 0,
+    el: nodeEl,
+    direction: '',
+    path: passive.path
+  }]
 
   const connectedPassives = group.items.filter((passiveItem) => {
     return (passiveItem as ISkillPassive).requiredFor?.find(requirement => requirement.name === passive.name)
   })
 
   return connectedPassives.map((passiveItem: ISkillPassive) => {
+    console.log(passiveItem.name, refs)
     return {
       active: passiveItem.rank > 0 && passive.rank > 0,
       el: refs[passiveItem.name]?.$el,
