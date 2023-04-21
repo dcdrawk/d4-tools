@@ -6,4 +6,8 @@ vi.stubGlobal('useRuntimeConfig', vi.fn(() => {
   return { public: {}, app: { baseUrl: '' } }
 }))
 
-vi.stubGlobal('useHead', vi.fn())
+vi.stubGlobal('useHead', vi.fn(() => ({
+  // titleTemplate: (titleChunk: string) => {
+  //   return titleChunk ? `${titleChunk} - D4 Tools` : 'D4 Tools'
+  // }
+})))

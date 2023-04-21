@@ -40,11 +40,11 @@ export const getLineCoordinates = (parent: Element, el1: Element, el2: Element) 
 }
 
 export const getElementCenterCoordinates = (parent: Element, el: Element) => {
-  const parentBox = parent.getBoundingClientRect()
-  const box = el.getBoundingClientRect()
+  const parentBox = parent?.getBoundingClientRect()
+  const box = el?.getBoundingClientRect()
 
-  const x = ((box.left - parentBox.left + box.right - parentBox.left) || 0) / 2
-  const y = ((box.top - parentBox.top + box.bottom - parentBox.top) || 0) / 2
+  const x = ((box?.left - parentBox?.left + box?.right - parentBox?.left) || 0) / 2
+  const y = ((box?.top - parentBox?.top + box?.bottom - parentBox?.top) || 0) / 2
 
   return { x, y }
 }
@@ -73,10 +73,93 @@ export interface ISkillItem {
   descriptionValues: ISkillDescriptionValues
   type: string
   school: string
-  damageType: string
+  damageType?: string
   icon: string
   transform: string
   rank: number
   rankMax: number
-  modifiers: ISkillModifier[]
+  modifier: ISkillModifier
+  modifiers?: ISkillModifier[]
+  passive?: boolean
+}
+
+export interface IPassiveRequiredFor {
+  name: string
+  direction?: string
+}
+
+export interface ISkillPassive {
+  name: string
+  description: string
+  descriptionValues: ISkillDescriptionValues
+  icon: string
+  transform: string
+  rank: number
+  rankMax: number
+  connected: boolean
+  direct?: boolean
+  direction?: string
+  requiredFor?: IPassiveRequiredFor[]
+  path?: string
+}
+
+export interface ISkillPassiveGroup {
+  name: string
+  items: ISkillPassive[]
+}
+
+export interface ISkillTier {
+  name: string
+  rankRequired: number
+  skills: ISkillItem[]
+  passives: ISkillPassiveGroup[]
+}
+
+export function getSkillCount (tier: ISkillTier) {
+  const skillTotal = tier?.skills?.reduce((accumulator: number, skill: any) => {
+    if (skill.rank) {
+      const modifierValue = skill.modifier.active ? 1 : 0
+      const choiceModifierValue = skill.modifier.choiceModifiers.find((modifier: any) => modifier.active) ? 1 : 0
+
+      return accumulator + skill.rank + modifierValue + choiceModifierValue
+    }
+
+    return accumulator
+  }, 0) ?? 0
+
+  const passiveTotal = tier?.passives?.reduce((accumulator: number, passive: any) => {
+    return accumulator + passive.items.reduce((itemAccumulator: number, itemPassive: any) => itemAccumulator + itemPassive.rank, 0)
+  }, 0) ?? 0
+
+  return skillTotal + passiveTotal
+}
+
+interface IPassiveLine {
+  active: boolean
+  el: HTMLElement
+  path?: string
+  direction?: string
+  name?: string
+}
+
+export function getPassiveLine (passive: ISkillPassive, group: ISkillPassiveGroup, nodeEl: HTMLElement, refs: any): IPassiveLine[] {
+  if (passive.connected) return [{
+    active: passive.rank > 0,
+    el: nodeEl,
+    direction: '',
+    path: passive.path
+  }]
+
+  const connectedPassives = group.items.filter((passiveItem) => {
+    return (passiveItem as ISkillPassive).requiredFor?.find(requirement => requirement.name === passive.name)
+  })
+
+  return connectedPassives.map((passiveItem: ISkillPassive) => {
+    return {
+      active: passiveItem.rank > 0 && passive.rank > 0,
+      el: refs[passiveItem.name]?.$el,
+      name: passiveItem.name,
+      direction: passiveItem.requiredFor?.find(requirement => requirement.name === passive.name)?.direction
+    }
+  })
 }

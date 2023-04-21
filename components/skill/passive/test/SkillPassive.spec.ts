@@ -1,13 +1,12 @@
 import { mount, VueWrapper } from '@vue/test-utils'
 import { test, expect } from 'vitest'
-import SkillItem from '../SkillItem.vue'
+import SkillPassive from '../SkillPassive.vue'
 
 let wrapper: VueWrapper
 
 beforeEach(() => {
-  wrapper = mount(SkillItem as any, {
+  wrapper = mount(SkillPassive as any, {
     global: {
-      // stubs: ['FontAwesomeIcon']
       mocks: {
         useActiveFill: () => 'fill-red-800'
       }
@@ -15,9 +14,9 @@ beforeEach(() => {
   })
 })
 
-describe('SkillItem.vue', () => {
+describe('SkillPassive.vue', () => {
   test('outer square has the correct default styles', () => {
-    const outerSquareWrapper = wrapper.find('.skill-item__outer-square')
+    const outerSquareWrapper = wrapper.find('.skill-item-passive__outer-square')
 
     const outerSquareClass = outerSquareWrapper.attributes('class')
 
@@ -29,7 +28,7 @@ describe('SkillItem.vue', () => {
       rank: 1
     })
 
-    const outerSquareWrapper = wrapper.find('.skill-item__outer-square')
+    const outerSquareWrapper = wrapper.find('.skill-item-passive__outer-square')
 
     expect(outerSquareWrapper.attributes('class')).toContain('fill-red-800')
   })
@@ -53,22 +52,6 @@ describe('SkillItem.vue', () => {
     const imageWrapper = wrapper.find('image')
 
     expect(imageWrapper.attributes('opacity')).toEqual('1')
-  })
-
-  test('rank is transparent by default', () => {
-    const imageWrapper = wrapper.find('.skill-item__rank')
-
-    expect(imageWrapper.attributes('class')).toContain('opacity-0')
-  })
-
-  test('rank is opaque when props.rank > 0', async () => {
-    await wrapper.setProps({
-      rank: 1
-    })
-
-    const imageWrapper = wrapper.find('.skill-item__rank')
-
-    expect(imageWrapper.attributes('class')).toContain('opacity-100')
   })
 
   test('the SVG group should emit mouse events', () => {

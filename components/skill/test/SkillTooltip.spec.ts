@@ -8,7 +8,7 @@ const createWrapper = (props = {}) => {
   wrapper = mount(SkillTooltip as any, {
     props,
     global: {
-      stubs: ['SkillDamageIcon', 'SkillItem', 'SkillItemModifier', 'FontAwesomeIcon']
+      stubs: ['SkillDamageIcon', 'SkillItem', 'SkillItemModifier', 'SkillPassive', 'FontAwesomeIcon']
     }
   })
 }
@@ -48,6 +48,17 @@ describe('SkillTooltip.vue', () => {
     const skillDamageWrapper = wrapper.find('.tooltip__damage-type')
 
     expect(skillDamageWrapper.exists()).toBe(true)
+  })
+
+  test('displays multiple schools correctly', async () => {
+    await wrapper.setProps({
+      school: 'pyromancy,channeled',
+      type: 'fire'
+    })
+
+    const schoolItemWrappers = wrapper.findAll('.tooltip__school-item')
+
+    expect(schoolItemWrappers.length).toBe(2)
   })
 
   test('description text displays as-is if no descriptionValues are passed', async () => {
@@ -127,6 +138,16 @@ describe('SkillTooltip.vue', () => {
     })
 
     const iconWrapper = wrapper.find('skill-item-modifier-stub')
+
+    expect(iconWrapper.exists()).toBe(true)
+  })
+
+  test('dispays the correct passive icon', async () => {
+    await wrapper.setProps({
+      category: 'passive'
+    })
+
+    const iconWrapper = wrapper.find('skill-passive-stub')
 
     expect(iconWrapper.exists()).toBe(true)
   })

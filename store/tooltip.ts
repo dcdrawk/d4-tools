@@ -17,7 +17,7 @@ export const useTooltipStore = defineStore('tooltip', {
     rankMax: 0 as number,
     type: '' as string,
     school: '' as string,
-    damageType: '' as string,
+    damageType: '' as string | undefined,
     modifiers: [] as ISkillModifier[],
     x: 0 as number,
     y: 0 as number
@@ -33,12 +33,34 @@ export const useTooltipStore = defineStore('tooltip', {
       this.rank = skill.rank
       this.rankMax = skill.rankMax
       this.school = skill.school
+      this.type = skill.type
       this.damageType = skill.damageType
       this.description = skill.description
       this.descriptionValues = skill.descriptionValues
-      this.modifiers = skill.modifiers
+      this.modifiers = skill.modifiers || []
       this.icon = skill.icon
       this.category = 'skill'
+      this.x = refBox.left + offset
+      this.y = refBox.top + offset
+      this.visible = true
+    },
+
+    setPassive (skill: ISkillItem, el: Element): void {
+      const refBox = el.getBoundingClientRect()
+      const offset = 20
+
+      this.name = skill.name
+      this.active = false
+      this.rank = skill.rank
+      this.rankMax = skill.rankMax
+      this.school = ''
+      this.type = ''
+      this.damageType = ''
+      this.description = skill.description
+      this.descriptionValues = skill.descriptionValues
+      this.modifiers = []
+      this.icon = skill.icon
+      this.category = 'passive'
       this.x = refBox.left + offset
       this.y = refBox.top + offset
       this.visible = true
@@ -52,6 +74,7 @@ export const useTooltipStore = defineStore('tooltip', {
       this.rank = 0
       this.rankMax = 0
       this.school = ''
+      this.type = ''
       this.damageType = ''
       this.active = modifier.active
       this.description = modifier.description

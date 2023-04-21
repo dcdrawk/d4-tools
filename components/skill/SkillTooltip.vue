@@ -1,11 +1,11 @@
 <template>
   <div
-    class="tooltip fixed text-[#ddddde] z-50 top-[40px] left-[40px] w-[400px] flex flex-col border-[#2d3c38] border-4 transition-opacity drop-shadow-lg"
+    class="tooltip fixed text-[#ddddde] z-50 top-[40px] left-[40px] w-[400px] flex flex-col border-[#3e403d] border-4 transition-opacity drop-shadow-[1px_1px_3px_rgba(0,0,0,0.80)]"
     :style="{ transform: `translate(${translateX}px, ${translateY}px)`}"
   >
     <div class="tooltip__container relative bg-[#252321] border-[#060604] border-2 p-4 select-none">
       <!-- Icon -->
-      <div class="relative w-full flex items-center justify-center -top-12 -mb-10">
+      <div class="relative w-full flex items-center justify-center -top-12 -mb-10 drop-shadow-lg">
         <component
           :is="iconComponent"
           class="!block select-none relative"
@@ -35,7 +35,12 @@
         v-if="type && school"
       >
         <span class="inline-block px-2 py-[5px] border border-green-500 bg-green-900 text-shadow shadow-black mr-[5px]">{{ type }}</span>
-        <span class="inline-block px-2 py-[5px] border border-gray-500 bg-gray-700 text-shadow shadow-black">{{ school }}</span>
+        <span
+          v-for="(schoolItem, index) of schools"
+          :key="index"
+          class="tooltip__school-item inline-block px-2 py-[5px] border border-gray-500 bg-gray-700 text-shadow shadow-black"
+          :class="{ 'mr-[5px]': index + 1 < schools.length }"
+        >{{ schoolItem }}</span>
       </div>
 
       <hr class="border-gray-500 my-2 select-none">
@@ -186,6 +191,8 @@ const props = defineProps({
   }
 })
 
+const schools = computed(() => props.school.split(','))
+
 const notLearnedVisible = computed(() => {
   return props.rank <= 0 && !props.active
 })
@@ -236,11 +243,14 @@ const tooltipModifiersVisible = computed(() => tooltipModifiers.value.length)
 
 const SkillItem = resolveComponent('SkillItem')
 const SkillItemModifier = resolveComponent('SkillItemModifier')
+const SkillPassive = resolveComponent('SkillPassive')
 
 const iconComponent = computed(() => {
   switch (props.category) {
     case ('skill'):
       return SkillItem
+    case ('passive'):
+      return SkillPassive
     case ('modifier'):
     case ('choice-modifier'):
     default:
@@ -252,13 +262,18 @@ const isModifier = computed(() => {
   return props.category === 'modifier' || props.category === 'choice-modifier'
 })
 
+const isPassive = computed(() => {
+  return props.category === 'passive'
+})
+
 const isChoiceModifier = computed(() => {
   return props.category === 'choice-modifier'
 })
 
 const iconStyles = computed(() => {
   return {
-    'text-center scale-[1.75] mb-6 top-2': isModifier.value
+    'scale-[1.75] mb-6 top-2': isModifier.value,
+    'scale-[1.5] mb-6 top-3': isPassive.value
   }
 })
 </script>
