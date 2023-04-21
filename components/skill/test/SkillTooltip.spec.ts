@@ -98,7 +98,7 @@ describe('SkillTooltip.vue', () => {
   test('displays tooltip modifiers', async () => {
     await wrapper.setProps({
       description: 'Hello {text}',
-      modifiers: [{
+      modifier: {
         active: true,
         description: 'My Modifier',
         choiceModifiers: [{
@@ -108,7 +108,7 @@ describe('SkillTooltip.vue', () => {
           active: true,
           description: 'Choice 2'
         }]
-      }]
+      }
     })
 
     const modifiersListWrapper = wrapper.find('.tooltip__modifiers-list')

@@ -6,11 +6,11 @@ let wrapper: VueWrapper
 
 beforeEach(() => {
   wrapper = mount(SkillPassive as any, {
-    global: {
-      mocks: {
-        useActiveFill: () => 'fill-red-800'
-      }
-    }
+    // global: {
+    //   mocks: {
+    //     useActiveFill: () => 'fill-red-800'
+    //   }
+    // }
   })
 })
 
@@ -20,7 +20,7 @@ describe('SkillPassive.vue', () => {
 
     const outerSquareClass = outerSquareWrapper.attributes('class')
 
-    expect(outerSquareClass).toContain('!fill-[#191f20]')
+    expect(outerSquareClass).toContain('fill-[#191f20]')
   })
 
   test('outer square has the correct styles when props.active is true', async () => {

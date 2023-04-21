@@ -135,10 +135,10 @@ import { ISkillModifier, ISkillDescriptionValues } from '@/utils/skills'
 interface Props {
   active?: boolean
   name?: string
-  description: string
-  descriptionValues: ISkillDescriptionValues
-  rank: number
-  rankMax: number
+  description?: string
+  descriptionValues?: ISkillDescriptionValues
+  rank?: number
+  rankMax?: number
   icon?: string
   category?: string
   type?: string
