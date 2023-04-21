@@ -25,7 +25,7 @@
         <!-- Outer Square -->
         <rect
           class="skill-item-passive__outer-square transition-colors"
-          :class="outerSquareBg"
+          :class="outerSquareStyles"
           width="30"
           height="30"
           fill="#191f20"
@@ -71,7 +71,8 @@ defineEmits<{
 
 interface Props {
   active?: boolean
-  tooltip?: boolean,
+  highlight?: boolean
+  tooltip?: boolean
   icon?: string
   rank?: number
   rankMax?: number
@@ -79,6 +80,7 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   active: false,
+  highlight: false,
   tooltip: false,
   icon: '',
   rank: 0,
@@ -87,7 +89,11 @@ const props = withDefaults(defineProps<Props>(), {
 
 const isActive = computed<boolean>(() => props.rank > 0)
 
-const outerSquareBg = computed<string>(() => isActive.value ? useActiveFill() : '!fill-[#191f20]')
+const outerSquareStyles = computed(() => ({
+  'fill-red-800': isActive.value,
+  'fill-[#ccb692]': props.highlight && !isActive.value,
+  'fill-[#191f20]': !isActive.value
+}))
 
 const iconOpacity = computed<string>(() => isActive.value || props.tooltip ? '1' : '0.6')
 

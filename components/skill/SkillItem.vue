@@ -161,7 +161,7 @@ const isActive = computed<boolean>(() => props.rank > 0)
 
 const outerSquareStyles = computed(() => ({
   'fill-red-800': isActive.value,
-  'fill-[#e5dcc8]/60': props.highlight && !isActive.value,
+  'fill-[#ccb692]': props.highlight && !isActive.value,
   'fill-[#191f20]': !isActive.value
 }))
 

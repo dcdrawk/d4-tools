@@ -167,7 +167,7 @@ const props = withDefaults(defineProps<Props>(), {
 const outerSquareStyles = computed(() => ({
   'fill-[#191f20]': !props.active,
   'fill-red-800': props.active,
-  'fill-[#e5dcc8]/60': props.highlight && !props.active
+  'fill-[#ccb692]': props.highlight && !props.active
 }))
 
 const iconOpacity = computed<string>(() => props.active || props.tooltip || props.highlight ? '1' : '0.6')

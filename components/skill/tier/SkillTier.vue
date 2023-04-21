@@ -58,6 +58,7 @@
               :key="`${passive.name}${index}`"
               :parent="skillTier"
               :active="line.active"
+              :highlight="highlightPassive(passive, passiveGroup)"
               :el1="line.el"
               :el2="skillRefs[passive.name]?.$el"
               :direct="passive.direct"
@@ -138,6 +139,7 @@
             :icon="passive.icon"
             :rank="passive.rank"
             :rank-max="passive.rankMax"
+            :highlight="highlightPassive(passive, passiveGroup)"
             @click="handlePassiveClick(passive, passiveGroup)"
             @contextmenu="handlePassiveRightClick(passive, passiveGroup)"
             @mouseover="handlePassiveMouseOver(passive)"
@@ -151,7 +153,7 @@
 </template>
 
 <script setup lang="ts">
-import { ISkillTier } from '@/utils/skills'
+import { ISkillTier, ISkillPassive } from '@/utils/skills'
 import { useTooltipStore } from '@/store/tooltip'
 import SkillItem from '@/components/skill/SkillItem.vue'
 import SkillItemModifier from '@/components/skill/SkillItemModifier.vue'
@@ -273,5 +275,16 @@ function highlightChoiceModifier (choiceModifierName: string, modifier: any) {
     }
   )
   return modifier.active && !otherModifierActive
+}
+
+function highlightPassive (passive: any, passiveGroup: any) {
+  if (passive.connected && allowLearnSkill.value) return true
+
+  const requiredPassivesRank = passiveGroup.items.filter((passiveItem: ISkillPassive) => {
+    return passiveItem.requiredFor?.find(requirement => requirement.name === passive.name)
+  }).reduce((acc: number, curr: any) => acc + curr.rank, 0)
+
+  // const meetsRequirements = passiveGroup.
+  return requiredPassivesRank > 0
 }
 </script>
