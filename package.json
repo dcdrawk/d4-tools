@@ -14,7 +14,6 @@
   },
   "devDependencies": {
     "@nuxt/image-edge": "^1.0.0-27991759.1a5eea1",
-    "@nuxt/test-utils": "^3.3.3",
     "@nuxtjs/eslint-config-typescript": "^12.0.0",
     "@pinia/testing": "^0.0.16",
     "@vitejs/plugin-vue": "^4.1.0",
@@ -24,7 +23,7 @@
     "eslint-plugin-vue": "^9.10.0",
     "gh-pages": "^5.0.0",
     "happy-dom": "^9.1.9",
-    "nuxt": "^3.3.2",
+    "nuxt": "^3.4.2",
     "nuxt-vitest": "^0.6.9",
     "postcss-html": "^1.5.0",
     "postcss-import": "^15.1.0",
