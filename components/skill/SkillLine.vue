@@ -33,7 +33,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const lineStyles = computed(() => ({
   'stroke-[#191f20]': !props.active && !props.highlight,
-  'stroke-[#ccb692]/50': props.highlight && !props.active,
+  'stroke-[#e3d9c0]/50': props.highlight && !props.active,
   'stroke-red-800': props.active
 }))
 

@@ -55,7 +55,7 @@ const dpath = computed(() => {
 // const lineStroke = computed<string>(() => props.active ? 'stroke-red-800' : 'stroke-[#191f20]')
 const lineStyles = computed(() => ({
   'stroke-[#191f20]': !props.active && !props.highlight,
-  'stroke-[#e5dcc8]/40': props.highlight && !props.active,
+  'stroke-[#e3d9c0]/40': props.highlight && !props.active,
   'stroke-red-800': props.active
 }))
 </script>
