@@ -130,68 +130,43 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
-  active: {
-    type: Boolean,
-    default: false
-  },
-  name: {
-    type: String,
-    default: ''
-  },
-  description: {
-    type: String,
-    default: ''
-  },
-  descriptionValues: {
-    type: Object,
-    default () {
-      return {}
-    }
-  },
-  icon: {
-    type: String,
-    default: ''
-  },
-  rank: {
-    type: Number,
-    default: 0
-  },
-  rankMax: {
-    type: Number,
-    default: 0
-  },
-  category: {
-    type: String,
-    default: ''
-  },
-  type: {
-    type: String,
-    default: ''
-  },
-  school: {
-    type: String,
-    default: ''
-  },
-  modifiers: {
-    type: Array,
-    default: () => []
-  },
-  damageType: {
-    type: String,
-    default: ''
-  },
-  translateX: {
-    type: Number,
-    default: 0
-  },
-  translateY: {
-    type: Number,
-    default: 0
-  }
+import { ISkillModifier, ISkillDescriptionValues } from '@/utils/skills'
+
+interface Props {
+  active?: boolean
+  name?: string
+  description: string
+  descriptionValues: ISkillDescriptionValues
+  rank: number
+  rankMax: number
+  icon?: string
+  category?: string
+  type?: string
+  school?: string
+  modifier?: ISkillModifier | undefined
+  damageType?: string
+  translateX?: number
+  translateY?: number
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  active: false,
+  name: '',
+  description: '',
+  descriptionValues: () => ({} as ISkillDescriptionValues),
+  rank: 0,
+  rankMax: 0,
+  icon: '/svg/skill/tier/skill-tier-icon-basic.svg',
+  category: '',
+  type: '',
+  school: '',
+  modifier: undefined,
+  damageType: '',
+  translateX: 0,
+  translateY: 0
 })
 
-const schools = computed(() => props.school.split(','))
+const schools = computed(() => props.school?.split(','))
 
 const notLearnedVisible = computed(() => {
   return props.rank <= 0 && !props.active
@@ -226,13 +201,11 @@ const nextRankList = computed(() => {
 const tooltipModifiers = computed(() => {
   const modifiers: any[] = []
 
-  props.modifiers?.forEach((modifier: any) => {
-    if (modifier.active) modifiers.push(modifier)
+  if (props.modifier?.active) modifiers.push(props.modifier)
 
-    modifier?.choiceModifiers
-      ?.filter((choiceModifier: any) => choiceModifier.active)
-      ?.forEach((choiceModifier: any) => modifiers.push(choiceModifier))
-  })
+  props.modifier?.choiceModifiers
+    ?.filter((choiceModifier: any) => choiceModifier.active)
+    ?.forEach((choiceModifier: any) => modifiers.push(choiceModifier))
 
   return modifiers?.map((modifier) => {
     return modifier?.description
