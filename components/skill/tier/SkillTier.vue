@@ -27,6 +27,7 @@
 
           <SkillLine
             :active="skill.modifier.active"
+            :highlight="skill.rank > 0"
             :parent="skillTier"
             :el1="skillRefs[skill.name]?.$el"
             :el2="skillModifierRefs[skill.modifier.name]?.$el"
@@ -85,6 +86,7 @@
           :icon="skill.icon"
           :rank="skill.rank"
           :rank-max="skill.rankMax"
+          :highlight="skill.rank === 0 && allowLearnSkill"
           @click="handleSkillClick(skill)"
           @contextmenu="handleSkillRightClick(skill)"
           @mouseover="handleSkillMouseOver(skill)"
@@ -96,6 +98,7 @@
             :icon="skill.icon"
             class="absolute top-[10px] left-[10px]"
             :style="{ transform: skill.modifier.transform }"
+            :highlight="skill.rank > 0"
             :active="skill.modifier.active"
             @click="handleModifierClick(skill, skill.modifier)"
             @contextmenu="handleModifierRightClick(skill.modifier)"
