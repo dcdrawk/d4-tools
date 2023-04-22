@@ -212,10 +212,17 @@ const nextRankVisible = computed(() => props.rank > 0 && props.rank !== props.ra
 const nextRankList = computed(() => {
   const nextRankObject: { [key: string]: any } = {}
 
-  Object.entries(props.descriptionValues)?.forEach(([key, value]) => {
-    const valueArray = value.split(',')
-    nextRankObject[key] = valueArray[Math.min(props.rankMax, props.rank)]
-  })
+  if (props.descriptionValues) {
+    Object.entries(props.descriptionValues)?.forEach(([key, value]) => {
+      const valueArray = value.split(',')
+      nextRankObject[key] = valueArray[Math.min(props.rankMax, props.rank)]
+    })
+  }
+
+  if (props.cooldownValues) {
+    const cooldownValues = props.cooldownValues.split(',')
+    nextRankObject.cooldown = cooldownValues[Math.max(0, props.rank)]
+  }
 
   return nextRankObject
 })

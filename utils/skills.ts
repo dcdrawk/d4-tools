@@ -70,7 +70,7 @@ export interface ISkillModifier extends ISkillChoiceModifier {
 export interface ISkillItem {
   name: string
   description: string
-  descriptionValues: ISkillDescriptionValues
+  descriptionValues?: ISkillDescriptionValues
   costText?: string
   costValue?: string
   cooldown?: string

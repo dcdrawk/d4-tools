@@ -11,7 +11,7 @@ export const useTooltipStore = defineStore('tooltip', {
     name: '' as string,
     category: '' as string,
     description: '' as string,
-    descriptionValues: {} as ISkillDescriptionValues,
+    descriptionValues: {} as ISkillDescriptionValues | undefined,
     costText: '' as string,
     costValue: '' as string,
     cooldown: '' as string,

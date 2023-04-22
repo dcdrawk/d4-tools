@@ -105,9 +105,6 @@ export const useSorcererDefensiveTier = (): Ref<ISkillTier> => {
     }, {
       name: 'Frost Nova',
       description: 'Unleash a torrent of frost, <span class="underline">Freezing</span> enemies around you for <span class="text-orange-300">2</span> seconds.',
-      descriptionValues: {
-        '': ''
-      },
       cooldownValues: '15,14.25,13.5,12.75,12',
       type,
       school: 'Frost',
