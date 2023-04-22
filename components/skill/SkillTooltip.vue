@@ -45,6 +45,14 @@
 
       <hr class="border-gray-500 my-2 select-none">
 
+      <!-- Cooldown -->
+      <p
+        v-if="tooltipCooldown"
+        class="text-shadow-sm"
+      >
+        <span class="text-orange-300">Cooldown:</span> <span class="text-yellow-200">{{ tooltipCooldown }}</span> seconds
+      </p>
+
       <!-- eslint-disable-next-line -->
       <p class="tooltip__description mb-2 subpixel-antialiased  text-shadow-sm shadow-black" v-html="tooltipDescription" />
 
@@ -137,6 +145,8 @@ interface Props {
   name?: string
   description?: string
   descriptionValues?: ISkillDescriptionValues
+  cooldown?: string
+  cooldownValues?: string
   rank?: number
   rankMax?: number
   icon?: string
@@ -154,6 +164,8 @@ const props = withDefaults(defineProps<Props>(), {
   name: '',
   description: '',
   descriptionValues: () => ({} as ISkillDescriptionValues),
+  cooldown: '',
+  cooldownValues: '',
   rank: 0,
   rankMax: 0,
   icon: '/svg/skill/tier/skill-tier-icon-basic.svg',
@@ -183,6 +195,16 @@ const tooltipDescription = computed(() => {
   })
 
   return descValue
+})
+
+const tooltipCooldown = computed(() => {
+  if (!props.cooldown && !props.cooldownValues) return
+
+  if (!props.cooldownValues) return props.cooldown
+
+  const cooldownValues = props.cooldownValues.split(',')
+  console.log(cooldownValues)
+  return cooldownValues[Math.max(0, props.rank - 1)]
 })
 
 const nextRankVisible = computed(() => props.rank > 0 && props.rank !== props.rankMax)

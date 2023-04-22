@@ -8,11 +8,13 @@ export const useSorcererDefensiveTier = (): Ref<ISkillTier> => {
     rankRequired: 6,
     skills: [{
       name: 'Flame Shield',
-      description: 'Engulf yourself in flames for <span class="text-orange-300">{duration}</span> seconds, Burning surrounding enemies for <span class="text-orange-300">{damage}</span> damage per second. While <span class="text-white">Flame Shield<span> is active, you are <span class="underline">Immune</span>.',
+      description: 'Engulf yourself in flames for <span class="text-orange-300">{duration}</span> seconds, Burning surrounding enemies for <span class="text-orange-300">{burning damage}</span> damage per second. While <span class="text-white">Flame Shield<span> is active, you are <span class="underline">Immune</span>.',
       descriptionValues: {
         'burning damage': '23.4%,25.7%,28.1%,30.4%,32.8%',
         duration: '2,2.2,2.4,2.6,2.8'
       },
+      cooldown: '20',
+      luckyHitChance: 50,
       type,
       school: 'Pyromancy',
       damageType: 'Fire',
@@ -43,6 +45,8 @@ export const useSorcererDefensiveTier = (): Ref<ISkillTier> => {
       descriptionValues: {
         damage: '25%,27.5%,30%,32.5%,35%'
       },
+      cooldownValues: '11,10.45,9.9,9.35,8.8',
+      luckyHitChance: 40,
       type,
       school: 'Shock',
       damageType: 'Lightning',
@@ -73,6 +77,7 @@ export const useSorcererDefensiveTier = (): Ref<ISkillTier> => {
       descriptionValues: {
         damage: '30%,33%,36%,39%,42%'
       },
+      cooldown: '20',
       type,
       school: 'Frost',
       damageType: '',
@@ -103,6 +108,7 @@ export const useSorcererDefensiveTier = (): Ref<ISkillTier> => {
       descriptionValues: {
         '': ''
       },
+      cooldownValues: '15,14.25,13.5,12.75,12',
       type,
       school: 'Frost',
       damageType: '',

@@ -14,6 +14,8 @@
       :rank-max="tooltipStore.rankMax"
       :description="tooltipStore.description"
       :description-values="tooltipStore.descriptionValues"
+      :cooldown="tooltipStore.cooldown"
+      :cooldown-values="tooltipStore.cooldownValues"
       :icon="tooltipStore.icon"
       :type="tooltipStore.type"
       :school="tooltipStore.school"
