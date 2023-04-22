@@ -162,6 +162,7 @@ interface Props {
   rank?: number
   rankRequired?: number
   higherTierInvested?: boolean
+  lowerTierSkillCount?: number
   icon?: string
   tier?: ISkillTier
 }
@@ -170,6 +171,7 @@ const props = withDefaults(defineProps<Props>(), {
   rank: 0,
   rankRequired: 0,
   higherTierInvested: false,
+  lowerTierSkillCount: 0,
   icon: () => `${useRuntimeConfig().app.baseURL}svg/skill/tier/skill-tier-icon-basic.svg`,
   tier: () => ({ name: '', rankRequired: 0, skills: [], passives: [] })
 })
@@ -205,13 +207,12 @@ const rankRequirementGates = [2, 6, 11, 16, 23, 33]
 
 const tierPoints = computed(() => getSkillCount(props.tier))
 
-const tierPointsTotal = computed(() => tierPoints.value + props.rankRequired)
+const tierPointsTotal = computed(() => tierPoints.value + props.lowerTierSkillCount)
 
 const nextRankGate = computed(() => rankRequirementGates
   .filter((rank: number) => rank > props.rankRequired)
   .reduce(
-    (prev, curr) => (Math.abs(curr - props.rankRequired) < Math.abs(prev - props.rankRequired) ? curr : prev),
-    rankRequirementGates[0]
+    (prev, curr) => (Math.abs(curr - props.rankRequired) < Math.abs(prev - props.rankRequired) ? curr : prev)
   )
 )
 

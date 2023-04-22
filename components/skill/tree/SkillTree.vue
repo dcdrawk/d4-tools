@@ -53,7 +53,7 @@
 
     <SkillTier
       ref="basic"
-      class="translate-x-[500px]"
+      class="translate-x-[450px]"
       :rank="rank"
       :tier="sorcererBasicTier"
       :higher-tier-invested="hasHigherTierInvestedBasic"
@@ -67,12 +67,13 @@
 
     <SkillTier
       ref="core"
-      class="translate-x-[270px] translate-y-[-270px]"
+      class="translate-x-[220px] translate-y-[-270px]"
       :tier="sorcererCoreTier"
       :rank="rank"
       :rank-required="2"
       :icon="`${useRuntimeConfig().app.baseURL}svg/skill/tier/skill-tier-icon-core.svg`"
       :higher-tier-invested="hasHigherTierInvestedCore"
+      :lower-tier-skill-count="skillCountBasic"
       @increment-skill="handleIncrementSkill"
       @decrement-skill="handleDecrementSkill"
       @activate-modifier="handleActivateModifier"
@@ -83,7 +84,7 @@
 
     <SkillTier
       ref="defensive"
-      class="translate-x-[600px] translate-y-[-450px]"
+      class="translate-x-[550px] translate-y-[-450px]"
       :tier="sorcererDefensiveTier"
       :rank="rank"
       :rank-required="6"
@@ -117,17 +118,22 @@ const sorcererBasicTier = useSorcererBasicTier()
 const sorcererCoreTier = useSorcererCoreTier()
 const sorcererDefensiveTier = useSorcererDefensiveTier()
 
-const hasHigherTierInvestedBasic = computed(() => getSkillCount(sorcererCoreTier.value) > 0)
-const hasHigherTierInvestedCore = computed(() => getSkillCount(sorcererDefensiveTier.value) > 0)
+const skillCountBasic = computed(() => getSkillCount(sorcererBasicTier.value))
+const skillCountCore = computed(() => getSkillCount(sorcererCoreTier.value))
+const skillCountDefensive = computed(() => getSkillCount(sorcererDefensiveTier.value))
 
+const hasHigherTierInvestedBasic = computed(() => skillCountCore.value > 0)
+const hasHigherTierInvestedCore = computed(() => skillCountDefensive.value > 0)
+
+// const lowerTierSkillPointsCore = computed(() => skillCountBasic.value)
 /**
  * Rank
  */
 const rank = computed(() => {
   return (
-    getSkillCount(sorcererBasicTier.value) +
-    getSkillCount(sorcererCoreTier.value) +
-    getSkillCount(sorcererDefensiveTier.value)
+    skillCountBasic.value +
+    skillCountCore.value +
+    skillCountDefensive.value
   )
 })
 
