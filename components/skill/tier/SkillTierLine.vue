@@ -7,6 +7,10 @@
     :y2="y2"
     stroke="#3e403d"
     stroke-width="30"
+    :data-percent="percentage"
+    :data-previous-percent="percentagePrevious"
+    :data-previous-x="filledLinePrevoius.x"
+    :data-previous-y="filledLinePrevoius.y"
   />
   <line
     class="transition-all text-shadow shadow-red-200"
@@ -114,17 +118,17 @@ const animationKeySplines = '0.5 0 0.5 1;'
 
 const { x1, y1, x2, y2 } = computed(() => getLineCoordinates(props.parent, props.el1, props.el2)).value
 
-const percentage = computed(() => {
+function getRankPercentage (rank: number, rankRequired: number, rankStart: number) {
   return Math.max(0, (
-    Math.min(props.rank, props.rankRequired) - props.rankStart) / (props.rankRequired - props.rankStart)
+    Math.min(rank, rankRequired) - rankStart) / (rankRequired - rankStart)
   )
-})
+}
+
+const percentage = computed(() => getRankPercentage(props.rank, props.rankRequired, props.rankStart))
 
 const oldRank = ref(props.rank)
 
-const percentagePrevious = computed(() => {
-  return oldRank?.value / props.rankRequired
-})
+const percentagePrevious = computed(() => getRankPercentage(oldRank?.value, props.rankRequired, props.rankStart))
 
 const filledLine = computed(() => {
   const x = x1 + (x2 - x1) * (percentage.value)
@@ -138,15 +142,12 @@ const filledLinePrevoius = computed(() => {
   return { x, y }
 })
 
-const rankCapped = computed(() => {
-  if (props.rank < props.rankStart) return props.rankStart
-  return Math.min(props.rank, props.rankRequired)
-})
+const rankCapped = computed(() => Math.min(props.rank, props.rankRequired))
 
 watch(
   () => rankCapped.value,
   (newValue, oldValue) => {
-    if (newValue === undefined || animating.value) return
+    if (newValue === undefined || animating.value || props.rank < props.rankStart) return
 
     oldRank.value = oldValue
 
