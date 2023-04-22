@@ -1,4 +1,7 @@
 <template>
+  <div class="text-white">
+    {{ hasHigherTierInvestedCore }}
+  </div>
   <div
     ref="skillTreeRef"
     class="relative skill-tree"
@@ -36,6 +39,14 @@
             :rank="rank"
             :rank-required="2"
           />
+          <SkillTierLine
+            :parent="skillTreeRef"
+            :el1="core?.$el"
+            :el2="defensive?.$el"
+            :rank="rank"
+            :rank-required="6"
+            :rank-start="2"
+          />
         </BaseSVG>
       </div>
     </ClientOnly>
@@ -61,6 +72,22 @@
       :rank="rank"
       :rank-required="2"
       :icon="`${useRuntimeConfig().app.baseURL}svg/skill/tier/skill-tier-icon-core.svg`"
+      :higher-tier-invested="hasHigherTierInvestedCore"
+      @increment-skill="handleIncrementSkill"
+      @decrement-skill="handleDecrementSkill"
+      @activate-modifier="handleActivateModifier"
+      @deactivate-modifier="handleDeactivateModifier"
+      @increment-passive="handleIncrementPassive"
+      @decrement-passive="handleDecrementPassive"
+    />
+
+    <SkillTier
+      ref="defensive"
+      class="translate-x-[600px] translate-y-[-450px]"
+      :tier="sorcererDefensiveTier"
+      :rank="rank"
+      :rank-required="6"
+      :icon="`${useRuntimeConfig().app.baseURL}svg/skill/tier/skill-tier-icon-core.svg`"
       @increment-skill="handleIncrementSkill"
       @decrement-skill="handleDecrementSkill"
       @activate-modifier="handleActivateModifier"
@@ -80,6 +107,7 @@ import { useTooltipStore } from '@/store/tooltip'
 const skillTreeRef = ref()
 const basic = ref()
 const core = ref()
+const defensive = ref()
 
 /**
  * Skills / Tooltip
@@ -87,8 +115,10 @@ const core = ref()
 const tooltipStore = useTooltipStore()
 const sorcererBasicTier = useSorcererBasicTier()
 const sorcererCoreTier = useSorcererCoreTier()
+const sorcererDefensiveTier = useSorcererDefensiveTier()
 
 const hasHigherTierInvestedBasic = computed(() => getSkillCount(sorcererCoreTier.value) > 0)
+const hasHigherTierInvestedCore = computed(() => getSkillCount(sorcererDefensiveTier.value) > 0)
 
 /**
  * Rank
@@ -96,7 +126,8 @@ const hasHigherTierInvestedBasic = computed(() => getSkillCount(sorcererCoreTier
 const rank = computed(() => {
   return (
     getSkillCount(sorcererBasicTier.value) +
-    getSkillCount(sorcererCoreTier.value)
+    getSkillCount(sorcererCoreTier.value) +
+    getSkillCount(sorcererDefensiveTier.value)
   )
 })
 
