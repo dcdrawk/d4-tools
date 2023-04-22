@@ -107,7 +107,7 @@ const testTierWithRank = {
 const testTierRankUpNotAllowed = {
   name: 'basic',
   skills: [testSkill],
-  rankRequired: 2,
+  rankRequired: 33,
   passives: []
 }
 

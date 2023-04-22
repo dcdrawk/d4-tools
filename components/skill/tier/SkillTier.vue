@@ -211,9 +211,7 @@ const tierPointsTotal = computed(() => tierPoints.value + props.lowerTierSkillCo
 
 const nextRankGate = computed(() => rankRequirementGates
   .filter((rank: number) => rank > props.rankRequired)
-  .reduce(
-    (prev, curr) => (Math.abs(curr - props.rankRequired) < Math.abs(prev - props.rankRequired) ? curr : prev)
-  )
+  ?.reduce((prev: number) => prev)
 )
 
 // May need to adjust the logic after adding more skill tiers...
