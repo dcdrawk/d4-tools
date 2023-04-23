@@ -49,7 +49,7 @@
         v-if="tooltipCooldown"
         class="tooltip__cooldown text-shadow-sm mb-1"
       >
-        <span class="text-neutral-400">Cooldown:</span> <span class="text-yellow-200">{{ tooltipCooldown }}</span> seconds
+        <span class="text-orange-100">Cooldown:</span> <span class="text-yellow-200">{{ tooltipCooldown }}</span> seconds
       </p>
 
       <!-- Cost -->
@@ -57,7 +57,7 @@
         v-if="costText"
         class="tooltip__cost text-shadow-sm mb-1"
       >
-        <span class="text-neutral-400">{{ costText }}:</span> <span class="text-yellow-200">{{ costValue }}</span>
+        <span class="text-orange-100">{{ costText }}:</span> <span class="text-yellow-200">{{ costValue }}</span>
       </p>
 
       <!-- Lucky Hit Chance -->
@@ -65,7 +65,7 @@
         v-if="luckyHitChance > 0"
         class="tooltip__lucky text-shadow-sm mb-1"
       >
-        <span class="text-neutral-400">Lucky Hit Chance:</span> <span class="text-yellow-200">{{ luckyHitChance }}%</span>
+        <span class="text-orange-100">Lucky Hit Chance:</span> <span class="text-yellow-200">{{ luckyHitChance }}%</span>
       </p>
 
       <!-- eslint-disable-next-line -->

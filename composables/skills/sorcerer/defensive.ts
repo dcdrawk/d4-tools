@@ -135,7 +135,7 @@ export const useSorcererDefensiveTier = (): Ref<ISkillTier> => {
       name: 'defensive-elemental',
       items: [{
         name: 'Elemental Attunement',
-        description: 'Lucky Hit: Critical Strikes have a {reset chance} chance to reset the Cooldown of one of your Defensive Skills. Can only happen once every 10 seconds.',
+        description: '<span class="text-orange-100">Lucky Hit:</span> Critical Strikes have a <span class="text-orange-300">{reset chance}</span> chance to reset the Cooldown of one of your Defensive Skills. Can only happen once every <span class="text-orange-300">10</span> seconds.',
         descriptionValues: {
           'reset chance': '5%,10%,15%'
         },
@@ -150,7 +150,7 @@ export const useSorcererDefensiveTier = (): Ref<ISkillTier> => {
       name: 'defensive-damage',
       items: [{
         name: 'Glass Cannon',
-        description: 'You deal {increased damage} increased damage, but take {damage received} more damage.',
+        description: 'You deal <span class="text-orange-300">{increased damage}</span> increased damage, but take <span class="text-orange-300">{damage received}</span> more damage.',
         descriptionValues: {
           'increased damage': '6%,12%,18%',
           'damage received': '3%,6%,9%'
