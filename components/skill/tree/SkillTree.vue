@@ -1,7 +1,4 @@
 <template>
-  <div class="text-white">
-    {{ hasHigherTierInvestedCore }}
-  </div>
   <div
     ref="skillTreeRef"
     class="relative skill-tree"
