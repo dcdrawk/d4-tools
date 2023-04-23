@@ -61,6 +61,48 @@ describe('SkillTooltip.vue', () => {
     expect(schoolItemWrappers.length).toBe(2)
   })
 
+  test('displays cooldown if no cooldownValues are provided', async () => {
+    await wrapper.setProps({
+      cooldown: '69'
+    })
+
+    const descriptionWrapper = wrapper.find('.tooltip__cooldown')
+
+    expect(descriptionWrapper.text()).toBe('Cooldown: 69 seconds')
+  })
+
+  test('displays cooldown when using cooldownValues are provided', async () => {
+    await wrapper.setProps({
+      cooldownValues: '5,4,3,2,1',
+      rank: 2
+    })
+
+    const descriptionWrapper = wrapper.find('.tooltip__cooldown')
+
+    expect(descriptionWrapper.text()).toBe('Cooldown: 4 seconds')
+  })
+
+  test('displays cost text and value', async () => {
+    await wrapper.setProps({
+      costText: 'Cost',
+      costValue: '420'
+    })
+
+    const descriptionWrapper = wrapper.find('.tooltip__cost')
+
+    expect(descriptionWrapper.text()).toBe('Cost: 420')
+  })
+
+  test('displays lucky hit chance', async () => {
+    await wrapper.setProps({
+      luckyHitChance: 69
+    })
+
+    const descriptionWrapper = wrapper.find('.tooltip__lucky')
+
+    expect(descriptionWrapper.text()).toBe('Lucky Hit Chance: 69%')
+  })
+
   test('description text displays as-is if no descriptionValues are passed', async () => {
     await wrapper.setProps({
       description: 'Hello World'

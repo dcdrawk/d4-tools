@@ -47,7 +47,7 @@
       <!-- Cooldown -->
       <p
         v-if="tooltipCooldown"
-        class="text-shadow-sm mb-1"
+        class="tooltip__cooldown text-shadow-sm mb-1"
       >
         <span class="text-neutral-400">Cooldown:</span> <span class="text-yellow-200">{{ tooltipCooldown }}</span> seconds
       </p>
@@ -55,7 +55,7 @@
       <!-- Cost -->
       <p
         v-if="costText"
-        class="text-shadow-sm mb-1"
+        class="tooltip__cost text-shadow-sm mb-1"
       >
         <span class="text-neutral-400">{{ costText }}:</span> <span class="text-yellow-200">{{ costValue }}</span>
       </p>
@@ -63,7 +63,7 @@
       <!-- Lucky Hit Chance -->
       <p
         v-if="luckyHitChance > 0"
-        class="text-shadow-sm mb-1"
+        class="tooltip__lucky text-shadow-sm mb-1"
       >
         <span class="text-neutral-400">Lucky Hit Chance:</span> <span class="text-yellow-200">{{ luckyHitChance }}%</span>
       </p>
@@ -224,7 +224,6 @@ const tooltipCooldown = computed(() => {
   if (!props.cooldownValues) return props.cooldown
 
   const cooldownValues = props.cooldownValues.split(',')
-  console.log(cooldownValues)
   return cooldownValues[Math.max(0, props.rank - 1)]
 })
 
