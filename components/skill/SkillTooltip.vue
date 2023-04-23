@@ -189,10 +189,9 @@ const {
   type,
   school,
   modifier,
-  damageType
-} = useTooltipStore()
-
-const { reference } = storeToRefs(useTooltipStore())
+  damageType,
+  reference
+} = storeToRefs(useTooltipStore())
 
 const floating = ref(null)
 const { x, y, strategy } = useFloating(reference, floating, {
@@ -216,49 +215,52 @@ const floatingStyle = computed(() => ({
   width: 'max-content'
 }))
 
-const schools = computed(() => school?.split(','))
+const schools = computed(() => school.value?.split(','))
 
 const notLearnedVisible = computed(() => {
-  return rank <= 0 && !active
+  return rank.value <= 0 && !active.value
 })
 
 const tooltipDescription = computed(() => {
-  if (!descriptionValues || Object.keys(descriptionValues as ISkillDescriptionValues).length === 0) return description
+  if (!descriptionValues.value || Object.keys(descriptionValues.value).length === 0) {
+    console.log('dwjiaodjiojdioajdoiaj')
+    return description.value
+  }
 
-  let descValue = description
+  let descValue = description.value
 
-  Object.entries(descriptionValues as ISkillDescriptionValues)?.forEach(([key, value]) => {
+  Object.entries(descriptionValues.value as ISkillDescriptionValues)?.forEach(([key, value]) => {
     const valueArray = value?.split(',')
-    descValue = descValue?.replace(`{${key}}`, valueArray[Math.max(0, rank - 1)])
+    descValue = descValue?.replace(`{${key}}`, valueArray[Math.max(0, rank.value - 1)])
   })
 
   return descValue
 })
 
 const tooltipCooldown = computed(() => {
-  if (!cooldown && !cooldownValues) return
+  if (!cooldown.value && !cooldownValues.value) return
 
-  if (!cooldownValues) return cooldown
+  if (!cooldownValues.value) return cooldown.value
 
-  const cooldownValuesSplit = cooldownValues.split(',')
-  return cooldownValuesSplit[Math.max(0, rank - 1)]
+  const cooldownValuesSplit = cooldownValues.value.split(',')
+  return cooldownValuesSplit[Math.max(0, rank.value - 1)]
 })
 
-const nextRankVisible = computed(() => rank > 0 && rank !== rankMax)
+const nextRankVisible = computed(() => rank.value > 0 && rank !== rankMax)
 
 const nextRankList = computed(() => {
   const nextRankObject: { [key: string]: any } = {}
-  console.log(descriptionValues)
-  if (descriptionValues) {
-    Object.entries(descriptionValues)?.forEach(([key, value]) => {
+
+  if (descriptionValues.value) {
+    Object.entries(descriptionValues.value)?.forEach(([key, value]) => {
       const valueArray = value.split(',')
-      nextRankObject[key] = valueArray[Math.min(rankMax, rank)]
+      nextRankObject[key] = valueArray[Math.min(rankMax.value, rank.value)]
     })
   }
 
-  if (cooldownValues) {
-    const cooldownValuesSplit = cooldownValues.split(',')
-    nextRankObject.cooldown = cooldownValuesSplit[Math.max(0, rank)]
+  if (cooldownValues.value) {
+    const cooldownValuesSplit = cooldownValues.value.split(',')
+    nextRankObject.cooldown = cooldownValuesSplit[Math.max(0, rank.value)]
   }
 
   return nextRankObject
@@ -267,9 +269,9 @@ const nextRankList = computed(() => {
 const tooltipModifiers = computed(() => {
   const modifiers: any[] = []
 
-  if (modifier?.active) modifiers.push(modifier)
+  if (modifier.value?.active) modifiers.push(modifier.value)
 
-  modifier?.choiceModifiers
+  modifier.value?.choiceModifiers
     ?.filter((choiceModifier: any) => choiceModifier.active)
     ?.forEach((choiceModifier: any) => modifiers.push(choiceModifier))
 
@@ -285,7 +287,7 @@ const SkillItemModifier = resolveComponent('SkillItemModifier')
 const SkillPassive = resolveComponent('SkillPassive')
 
 const iconComponent = computed(() => {
-  switch (category) {
+  switch (category.value) {
     case ('skill'):
       return SkillItem
     case ('passive'):
@@ -298,15 +300,15 @@ const iconComponent = computed(() => {
 })
 
 const isModifier = computed(() => {
-  return category === 'modifier' || category === 'choice-modifier'
+  return category.value === 'modifier' || category.value === 'choice-modifier'
 })
 
 const isPassive = computed(() => {
-  return category === 'passive'
+  return category.value === 'passive'
 })
 
 const isChoiceModifier = computed(() => {
-  return category === 'choice-modifier'
+  return category.value === 'choice-modifier'
 })
 
 const iconStyles = computed(() => {

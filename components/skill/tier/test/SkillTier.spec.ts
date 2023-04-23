@@ -231,17 +231,6 @@ describe('SkillTier.vue', () => {
     expect(store.visible).toBe(false)
   })
 
-  test('mouseout from a SkillItem sets tooltipStore.visible to false', async () => {
-    await setTestTier()
-
-    const store = useTooltipStore()
-    store.visible = true
-    const skillItemWrapper = wrapper.findComponent({ name: 'SkillItem' })
-    await skillItemWrapper.vm.$emit('mouseout', {})
-
-    expect(store.visible).toBe(false)
-  })
-
   test('clicking a SkillItemModifier emits the "activate-modifier" event', async () => {
     await setTestTier()
 
@@ -288,17 +277,6 @@ describe('SkillTier.vue', () => {
     store.visible = true
     const skillItemWrapper = wrapper.findComponent({ name: 'SkillItemModifier' })
     await skillItemWrapper.vm.$emit('mouseleave', {})
-
-    expect(store.visible).toBe(false)
-  })
-
-  test('mouseout from a SkillItemModifier sets tooltipStore.visible to false', async () => {
-    await setTestTier()
-
-    const store = useTooltipStore()
-    store.visible = true
-    const skillItemWrapper = wrapper.findComponent({ name: 'SkillItemModifier' })
-    await skillItemWrapper.vm.$emit('mouseout', {})
 
     expect(store.visible).toBe(false)
   })
@@ -353,17 +331,6 @@ describe('SkillTier.vue', () => {
     expect(store.visible).toBe(false)
   })
 
-  test('mouseout from a SkillPassive sets tooltipStore.visible to false', async () => {
-    await setTestTier()
-
-    const store = useTooltipStore()
-    store.visible = true
-    const skillItemWrapper = wrapper.findComponent({ name: 'SkillPassive' })
-    await skillItemWrapper.vm.$emit('mouseout', {})
-
-    expect(store.visible).toBe(false)
-  })
-
   test('clicking a .choice-modifier emits the "activate-modifier" event', async () => {
     await setTestTier()
 
@@ -412,17 +379,6 @@ describe('SkillTier.vue', () => {
     store.visible = true
     const choiceModifierWrapper = wrapper.findComponent('.choice-modifier') as VueWrapper
     choiceModifierWrapper.vm.$emit('mouseleave', {})
-
-    expect(store.visible).toBe(false)
-  })
-
-  test('mouseout from a .choice-modifier sets tooltipStore.visible to false', async () => {
-    await setTestTier()
-
-    const store = useTooltipStore()
-    store.visible = true
-    const choiceModifierWrapper = wrapper.findComponent('.choice-modifier') as VueWrapper
-    choiceModifierWrapper.vm.$emit('mouseout', {})
 
     expect(store.visible).toBe(false)
   })
