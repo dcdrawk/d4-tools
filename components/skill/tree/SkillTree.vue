@@ -90,7 +90,7 @@
       :tier="sorcererDefensiveTier"
       :rank="rank"
       :rank-required="6"
-      :icon="`${useRuntimeConfig().app.baseURL}svg/skill/tier/skill-tier-icon-core.svg`"
+      :icon="`${useRuntimeConfig().app.baseURL}svg/skill/tier/defensive.svg`"
       @increment-skill="handleIncrementSkill"
       @decrement-skill="handleDecrementSkill"
       @activate-modifier="handleActivateModifier"
