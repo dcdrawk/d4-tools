@@ -1,251 +1,265 @@
 <template>
   <div
-    class="tooltip fixed text-[#ddddde] z-50 top-[40px] left-[40px] w-[400px] flex flex-col border-[#2e3433] outline outline-4 outline-[#424847] border-0 transition-opacity drop-shadow-[1px_1px_3px_rgba(0,0,0,0.80)]"
-    :style="{ transform: `translate(${translateX}px, ${translateY}px)`}"
+    ref="floating"
+    class="p-4 z-50"
+    :style="floatingStyle"
   >
-    <div class="tooltip__container relative bg-[#252321] p-4 select-none before:content-[''] shadow-[inset_0_0_0_3px_#252321,inset_0_0_0_4px_#393832]">
-      <!-- Icon -->
-      <div class="relative w-full flex items-center justify-center -top-12 -mb-10">
-        <component
-          :is="iconComponent"
-          class="!block select-none relative"
-          tooltip
-          :class="iconStyles"
-          :icon="icon"
-        />
-      </div>
-
-      <!-- Name -->
-      <h4
-        class="font-display text-2xl text-center select-none mb-1 subpixel-antialiased text-white text-shadow-sm shadow-black"
-      >
-        {{ name }}
-      </h4>
-
-      <!-- Rank -->
-      <div
-        v-if="rank > 0"
-        class="tooltip__rank text-lg bg-[#43443f] pt-[4px] pb-[2px] mb-2 font-display text-center text-white text-shadow-sm shadow-black shadow-sm"
-      >
-        RANK {{ rank }}/{{ rankMax }}
-      </div>
-
-      <div
-        v-if="type && school"
-      >
-        <span class="inline-block px-2 py-[5px] border border-green-500 bg-green-900 text-shadow shadow-black mr-[5px]">{{ type }}</span>
-        <span
-          v-for="(schoolItem, index) of schools"
-          :key="index"
-          class="tooltip__school-item inline-block px-2 py-[5px] border border-gray-500 bg-gray-700 text-shadow shadow-black"
-          :class="{ 'mr-[5px]': index + 1 < schools.length }"
-        >{{ schoolItem }}</span>
-      </div>
-
-      <hr class="border-gray-500 my-2 select-none">
-
-      <!-- Cooldown -->
-      <p
-        v-if="tooltipCooldown"
-        class="tooltip__cooldown text-shadow-sm mb-1"
-      >
-        <span class="text-[#bcb19e]">Cooldown:</span> <span class="text-yellow-100">{{ tooltipCooldown }}</span> seconds
-      </p>
-
-      <!-- Cost -->
-      <p
-        v-if="costText"
-        class="tooltip__cost text-shadow-sm mb-1"
-      >
-        <span class="text-[#bcb19e]">{{ costText }}:</span> <span class="text-yellow-100">{{ costValue }}</span>
-      </p>
-
-      <!-- Lucky Hit Chance -->
-      <p
-        v-if="luckyHitChance > 0"
-        class="tooltip__lucky text-shadow-sm mb-1"
-      >
-        <span class="text-[#bcb19e]">Lucky Hit Chance:</span> <span class="text-yellow-100">{{ luckyHitChance }}%</span>
-      </p>
-
-      <!-- eslint-disable-next-line -->
-      <p class="tooltip__description mb-2 subpixel-antialiased  text-shadow-sm shadow-black" v-html="tooltipDescription" />
-
-      <!-- Next Rank -->
-      <div
-        v-if="nextRankVisible"
-        class="tooltip__next-rank"
-      >
-        <span class="text-[#bcb19e] block">Next Rank: </span>
-        <ul
-          class="list-disc list-outside"
-        >
-          <li
-            v-for="(item, key) in nextRankList"
-            :key="key"
-            class="ml-4"
-          >
-            <span class="mr-2 capitalize">{{ key }}</span>
-            <FontAwesomeIcon
-              class="mr-2"
-              :icon="['fas', 'caret-right']"
-            />
-            <span class="text-orange-200">{{ item }}</span>
-          </li>
-        </ul>
-      </div>
-
-      <div
-        v-if="tooltipModifiersVisible"
-      >
-        <div
-          class="tooltip__modifiers text-lg text-white bg-[#43443f] my-3 pt-[4px] pb-[2px] mb-2 font-display text-center text-shadow-sm shadow-black shadow-sm"
-        >
-          MODIFIERS
-        </div>
-        <ul
-          class="tooltip__modifiers-list list-disc list-outside ml-4"
-        >
-          <!-- eslint-disable vue/no-v-html -->
-          <li
-            v-for="(modifierItem, index) in tooltipModifiers"
-            :key="index"
-            v-html="modifierItem"
+    <div
+      class="tooltip text-[#ddddde] max-w-[400px] flex flex-col border-[#2e3433] outline outline-4 outline-[#424847] border-0 transition-opacity drop-shadow-[1px_1px_3px_rgba(0,0,0,0.80)]"
+    >
+      <div class="tooltip__container relative bg-[#252321] p-4 select-none before:content-[''] shadow-[inset_0_0_0_3px_#252321,inset_0_0_0_4px_#393832]">
+        <!-- Icon -->
+        <div class="relative w-full flex items-center justify-center -top-12 -mb-10">
+          <component
+            :is="iconComponent"
+            class="!block select-none relative"
+            tooltip
+            :class="iconStyles"
+            :icon="icon"
           />
-          <!-- eslint-enable vue/no-v-html -->
-        </ul>
-      </div>
+        </div>
 
-      <!-- Choice Modifier Message -->
-      <p
-        v-if="isChoiceModifier"
-        class="text-orange-500 text-shadow-sm shadow-black align-baseline"
-      >
-        You may only select one upgrade.
-      </p>
-
-      <!-- Bottom -->
-      <div
-        v-if="damageType || notLearnedVisible"
-        class="flex flex-col items-end"
-      >
-        <hr
-          v-if="damageType"
-          class="w-1/2 border-gray-500 my-2 select-none"
+        <!-- Name -->
+        <h4
+          class="font-display text-2xl text-center select-none mb-1 subpixel-antialiased text-white text-shadow-sm shadow-black"
         >
-        <!-- Damage Type -->
+          {{ name }}
+        </h4>
+
+        <!-- Rank -->
+        <div
+          v-if="rank > 0"
+          class="tooltip__rank text-lg bg-[#43443f] pt-[4px] pb-[2px] mb-2 font-display text-center text-white text-shadow-sm shadow-black shadow-sm"
+        >
+          RANK {{ rank }}/{{ rankMax }}
+        </div>
+
+        <div
+          v-if="type && school"
+        >
+          <span class="inline-block px-2 py-[5px] border border-green-500 bg-green-900 text-shadow shadow-black mr-[5px]">{{ type }}</span>
+          <span
+            v-for="(schoolItem, index) of schools"
+            :key="index"
+            class="tooltip__school-item inline-block px-2 py-[5px] border border-gray-500 bg-gray-700 text-shadow shadow-black"
+            :class="{ 'mr-[5px]': index + 1 < schools.length }"
+          >{{ schoolItem }}</span>
+        </div>
+
+        <hr class="border-gray-500 my-2 select-none">
+
+        <!-- Cooldown -->
         <p
-          v-if="damageType"
-          class="tooltip__damage-type"
+          v-if="tooltipCooldown"
+          class="tooltip__cooldown text-shadow-sm mb-1"
         >
-          <SkillDamageIcon
-            class="mr-2"
-            :type="damageType.toLowerCase()"
-          />{{ damageType }} Damage
+          <span class="text-[#bcb19e]">Cooldown:</span> <span class="text-yellow-100">{{ tooltipCooldown }}</span> seconds
         </p>
 
-        <!-- Not Learned Message -->
+        <!-- Cost -->
         <p
-          v-if="notLearnedVisible"
-          class="tooltip__not-learned text-red-500 mt-2 text-shadow-sm shadow-black"
+          v-if="costText"
+          class="tooltip__cost text-shadow-sm mb-1"
         >
-          Not Yet Learned
+          <span class="text-[#bcb19e]">{{ costText }}:</span> <span class="text-yellow-100">{{ costValue }}</span>
         </p>
+
+        <!-- Lucky Hit Chance -->
+        <p
+          v-if="luckyHitChance && luckyHitChance > 0"
+          class="tooltip__lucky text-shadow-sm mb-1"
+        >
+          <span class="text-[#bcb19e]">Lucky Hit Chance:</span> <span class="text-yellow-100">{{ luckyHitChance }}%</span>
+        </p>
+
+        <!-- eslint-disable-next-line -->
+        <p class="tooltip__description mb-2 subpixel-antialiased  text-shadow-sm shadow-black" v-html="tooltipDescription" />
+
+        <!-- Next Rank -->
+        <div
+          v-if="nextRankVisible"
+          class="tooltip__next-rank"
+        >
+          <span class="text-[#bcb19e] block">Next Rank: </span>
+          <ul
+            class="list-disc list-outside"
+          >
+            <li
+              v-for="(item, key) in nextRankList"
+              :key="key"
+              class="ml-4"
+            >
+              <span class="mr-2 capitalize">{{ key }}</span>
+              <FontAwesomeIcon
+                class="mr-2"
+                :icon="['fas', 'caret-right']"
+              />
+              <span class="text-orange-200">{{ item }}</span>
+            </li>
+          </ul>
+        </div>
+
+        <div
+          v-if="tooltipModifiersVisible"
+        >
+          <div
+            class="tooltip__modifiers text-lg text-white bg-[#43443f] my-3 pt-[4px] pb-[2px] mb-2 font-display text-center text-shadow-sm shadow-black shadow-sm"
+          >
+            MODIFIERS
+          </div>
+          <ul
+            class="tooltip__modifiers-list list-disc list-outside ml-4"
+          >
+            <!-- eslint-disable vue/no-v-html -->
+            <li
+              v-for="(modifierItem, index) in tooltipModifiers"
+              :key="index"
+              v-html="modifierItem"
+            />
+            <!-- eslint-enable vue/no-v-html -->
+          </ul>
+        </div>
+
+        <!-- Choice Modifier Message -->
+        <p
+          v-if="isChoiceModifier"
+          class="text-orange-500 text-shadow-sm shadow-black align-baseline"
+        >
+          You may only select one upgrade.
+        </p>
+
+        <!-- Bottom -->
+        <div
+          v-if="damageType || notLearnedVisible"
+          class="flex flex-col items-end"
+        >
+          <hr
+            v-if="damageType"
+            class="w-1/2 border-gray-500 my-2 select-none"
+          >
+          <!-- Damage Type -->
+          <p
+            v-if="damageType"
+            class="tooltip__damage-type"
+          >
+            <SkillDamageIcon
+              class="mr-2"
+              :type="damageType.toLowerCase()"
+            />{{ damageType }} Damage
+          </p>
+
+          <!-- Not Learned Message -->
+          <p
+            v-if="notLearnedVisible"
+            class="tooltip__not-learned text-red-500 mt-2 text-shadow-sm shadow-black"
+          >
+            Not Yet Learned
+          </p>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ISkillModifier, ISkillDescriptionValues } from '@/utils/skills'
+import { storeToRefs } from 'pinia'
+import {
+  useFloating,
+  offset,
+  autoPlacement,
+  shift
+} from '@floating-ui/vue'
+import { ISkillDescriptionValues } from '@/utils/skills'
+import { useTooltipStore } from '@/store/tooltip'
 
-interface Props {
-  active?: boolean
-  name?: string
-  description?: string
-  descriptionValues?: ISkillDescriptionValues
-  costText?: string
-  costValue?: string
-  cooldown?: string
-  cooldownValues?: string
-  luckyHitChance?: number
-  rank?: number
-  rankMax?: number
-  icon?: string
-  category?: string
-  type?: string
-  school?: string
-  modifier?: ISkillModifier | undefined
-  damageType?: string
-  translateX?: number
-  translateY?: number
-}
+const {
+  active,
+  name,
+  description,
+  descriptionValues,
+  cooldown,
+  cooldownValues,
+  luckyHitChance,
+  costText,
+  costValue,
+  rank,
+  rankMax,
+  icon,
+  category,
+  type,
+  school,
+  modifier,
+  damageType,
+  reference
+} = storeToRefs(useTooltipStore())
 
-const props = withDefaults(defineProps<Props>(), {
-  active: false,
-  name: '',
-  description: '',
-  descriptionValues: () => ({} as ISkillDescriptionValues),
-  cooldown: '',
-  cooldownValues: '',
-  luckyHitChance: 0,
-  costText: '',
-  costValue: '',
-  rank: 0,
-  rankMax: 0,
-  icon: '/svg/skill/tier/skill-tier-icon-basic.svg',
-  category: '',
-  type: '',
-  school: '',
-  modifier: undefined,
-  damageType: '',
-  translateX: 0,
-  translateY: 0
+const floating = ref(null)
+const { x, y, strategy } = useFloating(reference, floating, {
+  middleware: [
+    offset({
+      mainAxis: 0,
+      crossAxis: 40
+    }),
+    autoPlacement({
+      padding: 20,
+      allowedPlacements: ['right-start', 'left-start', 'bottom-end']
+    }),
+    shift()
+  ]
 })
 
-const schools = computed(() => props.school?.split(','))
+const floatingStyle = computed(() => ({
+  position: strategy.value,
+  top: `${y.value ?? 0}px`,
+  left: `${x.value ?? 0}px`,
+  width: 'max-content'
+}))
+
+const schools = computed(() => school.value?.split(','))
 
 const notLearnedVisible = computed(() => {
-  return props.rank <= 0 && !props.active
+  return rank.value <= 0 && !active.value
 })
 
 const tooltipDescription = computed(() => {
-  if (Object.keys(props.descriptionValues).length === 0) return props.description
+  if (!descriptionValues.value || Object.keys(descriptionValues.value).length === 0) {
+    return description.value
+  }
 
-  let descValue = props.description
+  let descValue = description.value
 
-  Object.entries(props.descriptionValues)?.forEach(([key, value]) => {
-    const valueArray = value.split(',')
-    descValue = descValue.replace(`{${key}}`, valueArray[Math.max(0, props.rank - 1)])
+  Object.entries(descriptionValues.value as ISkillDescriptionValues)?.forEach(([key, value]) => {
+    const valueArray = value?.split(',')
+    descValue = descValue?.replace(`{${key}}`, valueArray[Math.max(0, rank.value - 1)])
   })
 
   return descValue
 })
 
 const tooltipCooldown = computed(() => {
-  if (!props.cooldown && !props.cooldownValues) return
+  if (!cooldown.value && !cooldownValues.value) return
 
-  if (!props.cooldownValues) return props.cooldown
+  if (!cooldownValues.value) return cooldown.value
 
-  const cooldownValues = props.cooldownValues.split(',')
-  return cooldownValues[Math.max(0, props.rank - 1)]
+  const cooldownValuesSplit = cooldownValues.value.split(',')
+  return cooldownValuesSplit[Math.max(0, rank.value - 1)]
 })
 
-const nextRankVisible = computed(() => props.rank > 0 && props.rank !== props.rankMax)
+const nextRankVisible = computed(() => rank.value > 0 && rank !== rankMax)
 
 const nextRankList = computed(() => {
   const nextRankObject: { [key: string]: any } = {}
 
-  if (props.descriptionValues) {
-    Object.entries(props.descriptionValues)?.forEach(([key, value]) => {
+  if (descriptionValues.value) {
+    Object.entries(descriptionValues.value)?.forEach(([key, value]) => {
       const valueArray = value.split(',')
-      nextRankObject[key] = valueArray[Math.min(props.rankMax, props.rank)]
+      nextRankObject[key] = valueArray[Math.min(rankMax.value, rank.value)]
     })
   }
 
-  if (props.cooldownValues) {
-    const cooldownValues = props.cooldownValues.split(',')
-    nextRankObject.cooldown = cooldownValues[Math.max(0, props.rank)]
+  if (cooldownValues.value) {
+    const cooldownValuesSplit = cooldownValues.value.split(',')
+    nextRankObject.cooldown = cooldownValuesSplit[Math.max(0, rank.value)]
   }
 
   return nextRankObject
@@ -254,9 +268,9 @@ const nextRankList = computed(() => {
 const tooltipModifiers = computed(() => {
   const modifiers: any[] = []
 
-  if (props.modifier?.active) modifiers.push(props.modifier)
+  if (modifier.value?.active) modifiers.push(modifier.value)
 
-  props.modifier?.choiceModifiers
+  modifier.value?.choiceModifiers
     ?.filter((choiceModifier: any) => choiceModifier.active)
     ?.forEach((choiceModifier: any) => modifiers.push(choiceModifier))
 
@@ -272,7 +286,7 @@ const SkillItemModifier = resolveComponent('SkillItemModifier')
 const SkillPassive = resolveComponent('SkillPassive')
 
 const iconComponent = computed(() => {
-  switch (props.category) {
+  switch (category.value) {
     case ('skill'):
       return SkillItem
     case ('passive'):
@@ -285,20 +299,25 @@ const iconComponent = computed(() => {
 })
 
 const isModifier = computed(() => {
-  return props.category === 'modifier' || props.category === 'choice-modifier'
+  return category.value === 'modifier' || category.value === 'choice-modifier'
 })
 
 const isPassive = computed(() => {
-  return props.category === 'passive'
+  return category.value === 'passive'
+})
+
+const isSkill = computed(() => {
+  return category.value === 'skill'
 })
 
 const isChoiceModifier = computed(() => {
-  return props.category === 'choice-modifier'
+  return category.value === 'choice-modifier'
 })
 
 const iconStyles = computed(() => {
   return {
-    'scale-[1.75] mb-6 top-[10px]': isModifier.value,
+    'top-[3px]': isSkill.value,
+    'scale-[1.75] mb-5 top-[10px]': isModifier.value,
     'scale-[1.5] mb-6 top-3': isPassive.value
   }
 })

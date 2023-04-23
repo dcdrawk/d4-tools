@@ -3,28 +3,30 @@
     ref="skillTreeRef"
     class="relative skill-tree"
   >
-    <SkillTooltip
-      v-if="tooltipStore?.visible"
-      :name="tooltipStore.name"
-      :active="tooltipStore.active"
-      :rank="tooltipStore.rank"
-      :rank-max="tooltipStore.rankMax"
-      :description="tooltipStore.description"
-      :description-values="tooltipStore.descriptionValues"
-      :lucky-hit-chance="tooltipStore.luckyHitChance"
-      :cost-text="tooltipStore.costText"
-      :cost-value="tooltipStore.costValue"
-      :cooldown="tooltipStore.cooldown"
-      :cooldown-values="tooltipStore.cooldownValues"
-      :icon="tooltipStore.icon"
-      :type="tooltipStore.type"
-      :school="tooltipStore.school"
-      :damage-type="tooltipStore.damageType"
-      :modifier="tooltipStore.modifier"
-      :category="tooltipStore.category"
-      :translate-x="tooltipStore.x"
-      :translate-y="tooltipStore.y"
-    />
+    <transition name="tooltip">
+      <SkillTooltip
+        v-if="tooltipStore?.visible"
+      />
+    </transition>
+    <!-- :name="tooltipStore.name"
+    :active="tooltipStore.active"
+    :rank="tooltipStore.rank"
+    :rank-max="tooltipStore.rankMax"
+    :description="tooltipStore.description"
+    :description-values="tooltipStore.descriptionValues"
+    :lucky-hit-chance="tooltipStore.luckyHitChance"
+    :cost-text="tooltipStore.costText"
+    :cost-value="tooltipStore.costValue"
+    :cooldown="tooltipStore.cooldown"
+    :cooldown-values="tooltipStore.cooldownValues"
+    :icon="tooltipStore.icon"
+    :type="tooltipStore.type"
+    :school="tooltipStore.school"
+    :damage-type="tooltipStore.damageType"
+    :modifier="tooltipStore.modifier"
+    :category="tooltipStore.category"
+    :translate-x="tooltipStore.x"
+    :translate-y="tooltipStore.y" -->
 
     <ClientOnly>
       <div class="absolute inline-block top-0 left-0 w-full h-[1000px] drop-shadow-[1px_1px_3px_rgba(0,0,0,0.69)]">
@@ -202,3 +204,15 @@ function handleDecrementPassive ({ passive, group }: any): void {
   tooltipStore.rank--
 }
 </script>
+
+<style lang="postcss" scoped>
+.tooltip-enter-active,
+.tooltip-leave-active {
+  @apply transition-opacity;
+}
+
+.tooltip-enter-from,
+.tooltip-leave-to {
+  @apply opacity-0;
+}
+</style>
