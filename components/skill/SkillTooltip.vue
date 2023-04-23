@@ -72,10 +72,12 @@
       <p class="tooltip__description mb-2 subpixel-antialiased  text-shadow-sm shadow-black" v-html="tooltipDescription" />
 
       <!-- Next Rank -->
-      <div class="tooltip__next-rank">
+      <div
+        v-if="nextRankVisible"
+        class="tooltip__next-rank"
+      >
         <span class="text-[#bcb19e] block">Next Rank: </span>
         <ul
-          v-if="nextRankVisible"
           class="list-disc list-outside"
         >
           <li
