@@ -25,7 +25,7 @@
       <!-- Rank -->
       <div
         v-if="rank > 0"
-        class="tooltip__rank text-lg bg-[#43443f] pt-[4px] pb-[2px] mb-2 font-display text-center text-white text-shadow-sm shadow-black"
+        class="tooltip__rank text-lg bg-[#43443f] pt-[4px] pb-[2px] mb-2 font-display text-center text-white text-shadow-sm shadow-black shadow-sm"
       >
         RANK {{ rank }}/{{ rankMax }}
       </div>
