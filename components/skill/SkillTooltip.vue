@@ -1,9 +1,9 @@
 <template>
   <div
-    class="tooltip fixed text-[#ddddde] z-50 top-[40px] left-[40px] w-[400px] flex flex-col border-[#3e403d] border-4 transition-opacity drop-shadow-[1px_1px_3px_rgba(0,0,0,0.80)]"
+    class="tooltip fixed text-[#ddddde] z-50 top-[40px] left-[40px] w-[400px] flex flex-col border-[#2e3433] outline outline-4 outline-[#424847] border-0 transition-opacity drop-shadow-[1px_1px_3px_rgba(0,0,0,0.80)]"
     :style="{ transform: `translate(${translateX}px, ${translateY}px)`}"
   >
-    <div class="tooltip__container relative bg-[#252321] border-[#060604] border-2 p-4 select-none">
+    <div class="tooltip__container relative bg-[#252321] p-4 select-none before:content-[''] shadow-[inset_0_0_0_3px_#252321,inset_0_0_0_4px_#393832]">
       <!-- Icon -->
       <div class="relative w-full flex items-center justify-center -top-12 -mb-10">
         <component
@@ -49,7 +49,7 @@
         v-if="tooltipCooldown"
         class="tooltip__cooldown text-shadow-sm mb-1"
       >
-        <span class="text-orange-100">Cooldown:</span> <span class="text-yellow-200">{{ tooltipCooldown }}</span> seconds
+        <span class="text-[#bcb19e]">Cooldown:</span> <span class="text-yellow-100">{{ tooltipCooldown }}</span> seconds
       </p>
 
       <!-- Cost -->
@@ -57,7 +57,7 @@
         v-if="costText"
         class="tooltip__cost text-shadow-sm mb-1"
       >
-        <span class="text-orange-100">{{ costText }}:</span> <span class="text-yellow-200">{{ costValue }}</span>
+        <span class="text-[#bcb19e]">{{ costText }}:</span> <span class="text-yellow-100">{{ costValue }}</span>
       </p>
 
       <!-- Lucky Hit Chance -->
@@ -65,31 +65,33 @@
         v-if="luckyHitChance > 0"
         class="tooltip__lucky text-shadow-sm mb-1"
       >
-        <span class="text-orange-100">Lucky Hit Chance:</span> <span class="text-yellow-200">{{ luckyHitChance }}%</span>
+        <span class="text-[#bcb19e]">Lucky Hit Chance:</span> <span class="text-yellow-100">{{ luckyHitChance }}%</span>
       </p>
 
       <!-- eslint-disable-next-line -->
       <p class="tooltip__description mb-2 subpixel-antialiased  text-shadow-sm shadow-black" v-html="tooltipDescription" />
 
       <!-- Next Rank -->
-      <ul
-        v-if="nextRankVisible"
-        class="tooltip__next-rank list-disc list-outside"
-      >
-        Next Rank:
-        <li
-          v-for="(item, key) in nextRankList"
-          :key="key"
-          class="ml-4"
+      <div class="tooltip__next-rank">
+        <span class="text-[#bcb19e] block">Next Rank: </span>
+        <ul
+          v-if="nextRankVisible"
+          class="list-disc list-outside"
         >
-          <span class="mr-2 capitalize">{{ key }}</span>
-          <FontAwesomeIcon
-            class="mr-2"
-            :icon="['fas', 'caret-right']"
-          />
-          <span class="text-orange-300">{{ item }}</span>
-        </li>
-      </ul>
+          <li
+            v-for="(item, key) in nextRankList"
+            :key="key"
+            class="ml-4"
+          >
+            <span class="mr-2 capitalize">{{ key }}</span>
+            <FontAwesomeIcon
+              class="mr-2"
+              :icon="['fas', 'caret-right']"
+            />
+            <span class="text-orange-200">{{ item }}</span>
+          </li>
+        </ul>
+      </div>
 
       <div
         v-if="tooltipModifiersVisible"
