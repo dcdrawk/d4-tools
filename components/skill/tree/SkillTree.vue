@@ -11,6 +11,11 @@
       :rank-max="tooltipStore.rankMax"
       :description="tooltipStore.description"
       :description-values="tooltipStore.descriptionValues"
+      :lucky-hit-chance="tooltipStore.luckyHitChance"
+      :cost-text="tooltipStore.costText"
+      :cost-value="tooltipStore.costValue"
+      :cooldown="tooltipStore.cooldown"
+      :cooldown-values="tooltipStore.cooldownValues"
       :icon="tooltipStore.icon"
       :type="tooltipStore.type"
       :school="tooltipStore.school"
@@ -36,13 +41,21 @@
             :rank="rank"
             :rank-required="2"
           />
+          <SkillTierLine
+            :parent="skillTreeRef"
+            :el1="core?.$el"
+            :el2="defensive?.$el"
+            :rank="rank"
+            :rank-required="6"
+            :rank-start="2"
+          />
         </BaseSVG>
       </div>
     </ClientOnly>
 
     <SkillTier
       ref="basic"
-      class="translate-x-[500px]"
+      class="translate-x-[450px]"
       :rank="rank"
       :tier="sorcererBasicTier"
       :higher-tier-invested="hasHigherTierInvestedBasic"
@@ -56,11 +69,28 @@
 
     <SkillTier
       ref="core"
-      class="translate-x-[270px] translate-y-[-270px]"
+      class="translate-x-[220px] translate-y-[-270px]"
       :tier="sorcererCoreTier"
       :rank="rank"
       :rank-required="2"
       :icon="`${useRuntimeConfig().app.baseURL}svg/skill/tier/skill-tier-icon-core.svg`"
+      :higher-tier-invested="hasHigherTierInvestedCore"
+      :lower-tier-skill-count="skillCountBasic"
+      @increment-skill="handleIncrementSkill"
+      @decrement-skill="handleDecrementSkill"
+      @activate-modifier="handleActivateModifier"
+      @deactivate-modifier="handleDeactivateModifier"
+      @increment-passive="handleIncrementPassive"
+      @decrement-passive="handleDecrementPassive"
+    />
+
+    <SkillTier
+      ref="defensive"
+      class="translate-x-[550px] translate-y-[-450px]"
+      :tier="sorcererDefensiveTier"
+      :rank="rank"
+      :rank-required="6"
+      :icon="`${useRuntimeConfig().app.baseURL}svg/skill/tier/defensive.svg`"
       @increment-skill="handleIncrementSkill"
       @decrement-skill="handleDecrementSkill"
       @activate-modifier="handleActivateModifier"
@@ -80,6 +110,7 @@ import { useTooltipStore } from '@/store/tooltip'
 const skillTreeRef = ref()
 const basic = ref()
 const core = ref()
+const defensive = ref()
 
 /**
  * Skills / Tooltip
@@ -87,16 +118,24 @@ const core = ref()
 const tooltipStore = useTooltipStore()
 const sorcererBasicTier = useSorcererBasicTier()
 const sorcererCoreTier = useSorcererCoreTier()
+const sorcererDefensiveTier = useSorcererDefensiveTier()
 
-const hasHigherTierInvestedBasic = computed(() => getSkillCount(sorcererCoreTier.value) > 0)
+const skillCountBasic = computed(() => getSkillCount(sorcererBasicTier.value))
+const skillCountCore = computed(() => getSkillCount(sorcererCoreTier.value))
+const skillCountDefensive = computed(() => getSkillCount(sorcererDefensiveTier.value))
 
+const hasHigherTierInvestedBasic = computed(() => skillCountCore.value > 0)
+const hasHigherTierInvestedCore = computed(() => skillCountDefensive.value > 0)
+
+// const lowerTierSkillPointsCore = computed(() => skillCountBasic.value)
 /**
  * Rank
  */
 const rank = computed(() => {
   return (
-    getSkillCount(sorcererBasicTier.value) +
-    getSkillCount(sorcererCoreTier.value)
+    skillCountBasic.value +
+    skillCountCore.value +
+    skillCountDefensive.value
   )
 })
 

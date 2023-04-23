@@ -1,11 +1,11 @@
 <template>
   <div
-    class="tooltip fixed text-[#ddddde] z-50 top-[40px] left-[40px] w-[400px] flex flex-col border-[#3e403d] border-4 transition-opacity drop-shadow-[1px_1px_3px_rgba(0,0,0,0.80)]"
+    class="tooltip fixed text-[#ddddde] z-50 top-[40px] left-[40px] w-[400px] flex flex-col border-[#2e3433] outline outline-4 outline-[#424847] border-0 transition-opacity drop-shadow-[1px_1px_3px_rgba(0,0,0,0.80)]"
     :style="{ transform: `translate(${translateX}px, ${translateY}px)`}"
   >
-    <div class="tooltip__container relative bg-[#252321] border-[#060604] border-2 p-4 select-none">
+    <div class="tooltip__container relative bg-[#252321] p-4 select-none before:content-[''] shadow-[inset_0_0_0_3px_#252321,inset_0_0_0_4px_#393832]">
       <!-- Icon -->
-      <div class="relative w-full flex items-center justify-center -top-12 -mb-10 drop-shadow-lg">
+      <div class="relative w-full flex items-center justify-center -top-12 -mb-10">
         <component
           :is="iconComponent"
           class="!block select-none relative"
@@ -17,8 +17,7 @@
 
       <!-- Name -->
       <h4
-        class="font-display text-xl text-center select-none shadow-black mb-2 subpixel-antialiased"
-        style="backface-visibility: hidden;"
+        class="font-display text-2xl text-center select-none mb-1 subpixel-antialiased text-white text-shadow-sm shadow-black"
       >
         {{ name }}
       </h4>
@@ -26,7 +25,7 @@
       <!-- Rank -->
       <div
         v-if="rank > 0"
-        class="tooltip__rank bg-[#43443f] pt-[6px] pb-[4px] mb-2 font-display text-center text-shadow-sm shadow-black shadow-sm"
+        class="tooltip__rank text-lg bg-[#43443f] pt-[4px] pb-[2px] mb-2 font-display text-center text-white text-shadow-sm shadow-black shadow-sm"
       >
         RANK {{ rank }}/{{ rankMax }}
       </div>
@@ -45,34 +44,62 @@
 
       <hr class="border-gray-500 my-2 select-none">
 
+      <!-- Cooldown -->
+      <p
+        v-if="tooltipCooldown"
+        class="tooltip__cooldown text-shadow-sm mb-1"
+      >
+        <span class="text-[#bcb19e]">Cooldown:</span> <span class="text-yellow-100">{{ tooltipCooldown }}</span> seconds
+      </p>
+
+      <!-- Cost -->
+      <p
+        v-if="costText"
+        class="tooltip__cost text-shadow-sm mb-1"
+      >
+        <span class="text-[#bcb19e]">{{ costText }}:</span> <span class="text-yellow-100">{{ costValue }}</span>
+      </p>
+
+      <!-- Lucky Hit Chance -->
+      <p
+        v-if="luckyHitChance > 0"
+        class="tooltip__lucky text-shadow-sm mb-1"
+      >
+        <span class="text-[#bcb19e]">Lucky Hit Chance:</span> <span class="text-yellow-100">{{ luckyHitChance }}%</span>
+      </p>
+
       <!-- eslint-disable-next-line -->
       <p class="tooltip__description mb-2 subpixel-antialiased  text-shadow-sm shadow-black" v-html="tooltipDescription" />
 
       <!-- Next Rank -->
-      <ul
+      <div
         v-if="nextRankVisible"
-        class="tooltip__next-rank list-disc list-outside"
+        class="tooltip__next-rank"
       >
-        Next Rank:
-        <li
-          v-for="(item, key) in nextRankList"
-          :key="key"
-          class="ml-4"
+        <span class="text-[#bcb19e] block">Next Rank: </span>
+        <ul
+          class="list-disc list-outside"
         >
-          <span class="mr-2 capitalize">{{ key }}</span>
-          <FontAwesomeIcon
-            class="mr-2"
-            :icon="['fas', 'caret-right']"
-          />
-          <span class="text-orange-300">{{ item }}</span>
-        </li>
-      </ul>
+          <li
+            v-for="(item, key) in nextRankList"
+            :key="key"
+            class="ml-4"
+          >
+            <span class="mr-2 capitalize">{{ key }}</span>
+            <FontAwesomeIcon
+              class="mr-2"
+              :icon="['fas', 'caret-right']"
+            />
+            <span class="text-orange-200">{{ item }}</span>
+          </li>
+        </ul>
+      </div>
 
       <div
         v-if="tooltipModifiersVisible"
       >
         <div
-          class="tooltip__modifiers bg-[#43443f] my-3 pt-[6px] pb-[4px] mb-2 font-display text-center text-shadow-sm shadow-black shadow-sm"
+          class="tooltip__modifiers text-lg text-white bg-[#43443f] my-3 pt-[4px] pb-[2px] mb-2 font-display text-center text-shadow-sm shadow-black shadow-sm"
         >
           MODIFIERS
         </div>
@@ -137,6 +164,11 @@ interface Props {
   name?: string
   description?: string
   descriptionValues?: ISkillDescriptionValues
+  costText?: string
+  costValue?: string
+  cooldown?: string
+  cooldownValues?: string
+  luckyHitChance?: number
   rank?: number
   rankMax?: number
   icon?: string
@@ -154,6 +186,11 @@ const props = withDefaults(defineProps<Props>(), {
   name: '',
   description: '',
   descriptionValues: () => ({} as ISkillDescriptionValues),
+  cooldown: '',
+  cooldownValues: '',
+  luckyHitChance: 0,
+  costText: '',
+  costValue: '',
   rank: 0,
   rankMax: 0,
   icon: '/svg/skill/tier/skill-tier-icon-basic.svg',
@@ -185,15 +222,31 @@ const tooltipDescription = computed(() => {
   return descValue
 })
 
+const tooltipCooldown = computed(() => {
+  if (!props.cooldown && !props.cooldownValues) return
+
+  if (!props.cooldownValues) return props.cooldown
+
+  const cooldownValues = props.cooldownValues.split(',')
+  return cooldownValues[Math.max(0, props.rank - 1)]
+})
+
 const nextRankVisible = computed(() => props.rank > 0 && props.rank !== props.rankMax)
 
 const nextRankList = computed(() => {
   const nextRankObject: { [key: string]: any } = {}
 
-  Object.entries(props.descriptionValues)?.forEach(([key, value]) => {
-    const valueArray = value.split(',')
-    nextRankObject[key] = valueArray[Math.min(props.rankMax, props.rank)]
-  })
+  if (props.descriptionValues) {
+    Object.entries(props.descriptionValues)?.forEach(([key, value]) => {
+      const valueArray = value.split(',')
+      nextRankObject[key] = valueArray[Math.min(props.rankMax, props.rank)]
+    })
+  }
+
+  if (props.cooldownValues) {
+    const cooldownValues = props.cooldownValues.split(',')
+    nextRankObject.cooldown = cooldownValues[Math.max(0, props.rank)]
+  }
 
   return nextRankObject
 })
@@ -245,7 +298,7 @@ const isChoiceModifier = computed(() => {
 
 const iconStyles = computed(() => {
   return {
-    'scale-[1.75] mb-6 top-2': isModifier.value,
+    'scale-[1.75] mb-6 top-[10px]': isModifier.value,
     'scale-[1.5] mb-6 top-3': isPassive.value
   }
 })

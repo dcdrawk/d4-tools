@@ -28,7 +28,7 @@ svg * {
 }
 
 body {
-  @apply bg-neutral-900;
+  @apply bg-[#1e1f1d];
 }
 
 html,
