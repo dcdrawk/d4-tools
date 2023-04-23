@@ -12,6 +12,7 @@ export const useSorcererBasicTier = (): Ref<ISkillTier> => {
       descriptionValues: {
         damage: '8%,8.8%,9.6%,10.4%,11.2%'
       },
+      luckyHitChance: 9,
       type,
       school: 'Shock',
       damageType: 'Lightning',
@@ -42,6 +43,7 @@ export const useSorcererBasicTier = (): Ref<ISkillTier> => {
       descriptionValues: {
         damage: '35%,38.5%,42%,45.5%,49%'
       },
+      luckyHitChance: 30,
       type,
       school: 'Frost',
       damageType: 'Cold',
@@ -73,6 +75,7 @@ export const useSorcererBasicTier = (): Ref<ISkillTier> => {
         damage: '10%,11%,12%,13%,14%',
         'burning damage': '40%,44%,48%,52%,56%'
       },
+      luckyHitChance: 20,
       type,
       school: 'Pyromancy',
       damageType: 'Fire',
@@ -103,6 +106,7 @@ export const useSorcererBasicTier = (): Ref<ISkillTier> => {
       descriptionValues: {
         damage: '42%,46.2%,50.4%,54.6%,58.8%'
       },
+      luckyHitChance: 30,
       type,
       school: 'Shock',
       damageType: 'Lightning',
