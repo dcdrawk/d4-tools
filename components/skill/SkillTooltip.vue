@@ -5,7 +5,7 @@
   >
     <div class="tooltip__container relative bg-[#252321] border-[#060604] border-2 p-4 select-none">
       <!-- Icon -->
-      <div class="relative w-full flex items-center justify-center -top-12 -mb-10 drop-shadow-lg">
+      <div class="relative w-full flex items-center justify-center -top-12 -mb-10">
         <component
           :is="iconComponent"
           class="!block select-none relative"
@@ -17,8 +17,7 @@
 
       <!-- Name -->
       <h4
-        class="font-display text-xl text-center select-none shadow-black mb-2 subpixel-antialiased"
-        style="backface-visibility: hidden;"
+        class="font-display text-2xl text-center select-none mb-1 subpixel-antialiased text-white text-shadow-sm shadow-black"
       >
         {{ name }}
       </h4>
@@ -26,7 +25,7 @@
       <!-- Rank -->
       <div
         v-if="rank > 0"
-        class="tooltip__rank bg-[#43443f] pt-[6px] pb-[4px] mb-2 font-display text-center text-shadow-sm shadow-black shadow-sm"
+        class="tooltip__rank text-lg bg-[#43443f] pt-[4px] pb-[2px] mb-2 font-display text-center text-white text-shadow-sm shadow-black"
       >
         RANK {{ rank }}/{{ rankMax }}
       </div>
@@ -51,6 +50,14 @@
         class="text-shadow-sm"
       >
         <span class="text-orange-300">Cooldown:</span> <span class="text-yellow-200">{{ tooltipCooldown }}</span> seconds
+      </p>
+
+      <!-- Lucky Hit Chance -->
+      <p
+        v-if="luckyHitChance > 0"
+        class="text-shadow-sm"
+      >
+        <span class="text-orange-300">Lucky Hit Chance:</span> <span class="text-yellow-200">{{ luckyHitChance }}%</span>
       </p>
 
       <!-- eslint-disable-next-line -->
@@ -80,7 +87,7 @@
         v-if="tooltipModifiersVisible"
       >
         <div
-          class="tooltip__modifiers bg-[#43443f] my-3 pt-[6px] pb-[4px] mb-2 font-display text-center text-shadow-sm shadow-black shadow-sm"
+          class="tooltip__modifiers text-lg text-white bg-[#43443f] my-3 pt-[4px] pb-[2px] mb-2 font-display text-center text-shadow-sm shadow-black shadow-sm"
         >
           MODIFIERS
         </div>
@@ -147,6 +154,7 @@ interface Props {
   descriptionValues?: ISkillDescriptionValues
   cooldown?: string
   cooldownValues?: string
+  luckyHitChance?: number
   rank?: number
   rankMax?: number
   icon?: string
@@ -166,6 +174,7 @@ const props = withDefaults(defineProps<Props>(), {
   descriptionValues: () => ({} as ISkillDescriptionValues),
   cooldown: '',
   cooldownValues: '',
+  luckyHitChance: 0,
   rank: 0,
   rankMax: 0,
   icon: '/svg/skill/tier/skill-tier-icon-basic.svg',
@@ -274,7 +283,7 @@ const isChoiceModifier = computed(() => {
 
 const iconStyles = computed(() => {
   return {
-    'scale-[1.75] mb-6 top-2': isModifier.value,
+    'scale-[1.75] mb-6 top-[10px]': isModifier.value,
     'scale-[1.5] mb-6 top-3': isPassive.value
   }
 })

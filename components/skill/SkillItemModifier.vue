@@ -70,13 +70,13 @@
         <image
           v-if="icon"
           :href="icon"
-          class="absolute left-[10px] top-0 transition-opacity transform-gpu"
+          class="absolute left-[10px] top-0 transition-opacity"
           x="7"
           y="7"
           height="26"
           width="26"
           :opacity="iconOpacity"
-          mask="url(#iconMask)"
+          style="clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);"
         />
 
         <!-- 4 Corner Rectangles -->

@@ -14,6 +14,7 @@
       :rank-max="tooltipStore.rankMax"
       :description="tooltipStore.description"
       :description-values="tooltipStore.descriptionValues"
+      :lucky-hit-chance="tooltipStore.luckyHitChance"
       :cooldown="tooltipStore.cooldown"
       :cooldown-values="tooltipStore.cooldownValues"
       :icon="tooltipStore.icon"

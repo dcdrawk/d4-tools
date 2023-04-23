@@ -16,7 +16,7 @@ export const useTooltipStore = defineStore('tooltip', {
     costValue: '' as string,
     cooldown: '' as string,
     cooldownValues: '' as string,
-    luckyHitChance: 0 as number,
+    luckyHitChance: 0 as number | undefined,
     icon: '' as string,
     rank: 0 as number,
     rankMax: 0 as number,
@@ -44,6 +44,7 @@ export const useTooltipStore = defineStore('tooltip', {
       this.damageType = skill.damageType
       this.description = skill.description
       this.descriptionValues = skill.descriptionValues
+      this.luckyHitChance = skill.luckyHitChance
       this.cooldown = skill.cooldown || ''
       this.cooldownValues = skill.cooldownValues || ''
       this.modifier = skill.modifier

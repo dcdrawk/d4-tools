@@ -48,7 +48,7 @@
         <image
           v-if="icon"
           :href="icon"
-          class="absolute left-[10px] top-0 transition-opacity transform-gpu"
+          class="absolute left-[10px] top-0 transition-opacity"
           x="1"
           y="1"
           height="30"
