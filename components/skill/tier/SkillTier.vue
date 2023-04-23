@@ -93,7 +93,6 @@
           @contextmenu="handleSkillRightClick(skill)"
           @mouseover="handleSkillMouseOver(skill)"
           @mouseleave="tooltipStore.visible = false"
-          @mouseout="tooltipStore.visible = false"
         >
           <SkillItemModifier
             :ref="el => { skillModifierRefs[skill.modifier.name] = el as ComponentPublicInstance }"
@@ -106,7 +105,6 @@
             @contextmenu="handleModifierRightClick(skill.modifier)"
             @mouseover="handleModifierMouseOver(skill.modifier, skill.icon)"
             @mouseleave="tooltipStore.visible = false"
-            @mouseout="tooltipStore.visible = false"
           >
             <SkillItemModifier
               v-for="choiceModifier in skill.modifier.choiceModifiers"
@@ -121,7 +119,6 @@
               @contextmenu="handleModifierRightClick(choiceModifier)"
               @mouseover="handleModifierMouseOver(choiceModifier, skill.icon, true)"
               @mouseleave="tooltipStore.visible = false"
-              @mouseout="tooltipStore.visible = false"
             />
           </SkillItemModifier>
         </SkillItem>
@@ -144,7 +141,6 @@
             @contextmenu="handlePassiveRightClick(passive, passiveGroup)"
             @mouseover="handlePassiveMouseOver(passive)"
             @mouseleave="tooltipStore.visible = false"
-            @mouseout="tooltipStore.visible = false"
           />
         </template>
       </template>
@@ -246,25 +242,26 @@ function handlePassiveRightClick (passive: any, group: any): void {
 function handleSkillMouseOver (skill: any): void {
   if (tooltipStore.visible === true) return
 
-  const el = skillRefs.value[skill.name]?.$el
+  // const el = skillRefs.value[skill.name]?.$el
 
-  tooltipStore.setSkill(skill, el)
+  // tooltipStore.setSkill(skill, el)
+  tooltipStore.setSkill(skill, skillRefs.value[skill.name] as ComponentPublicInstance)
 }
 
 function handleModifierMouseOver (modifier: any, icon: string, choiceModifier = false): void {
   if (tooltipStore.visible === true) return
 
-  const el = skillModifierRefs.value[modifier.name]?.$el
+  // const el = skillModifierRefs.value[modifier.name]?.$el
 
-  tooltipStore.setModifier(modifier, el, icon, choiceModifier)
+  tooltipStore.setModifier(modifier, (skillModifierRefs.value[modifier.name] as ComponentPublicInstance), icon, choiceModifier)
 }
 
 function handlePassiveMouseOver (passive: any): void {
   if (tooltipStore.visible === true) return
 
-  const el = skillRefs.value[passive.name]?.$el
+  // const el = skillRefs.value[passive.name]?.$el
 
-  tooltipStore.setPassive(passive, el)
+  tooltipStore.setPassive(passive, skillRefs.value[passive.name] as ComponentPublicInstance)
 }
 
 function highlightChoiceModifier (choiceModifierName: string, modifier: any) {

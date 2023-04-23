@@ -25,18 +25,15 @@ export const useTooltipStore = defineStore('tooltip', {
     damageType: '' as string | undefined,
     modifier: {} as ISkillModifier | undefined,
     x: 0 as number,
-    y: 0 as number
+    y: 0 as number,
+    reference: undefined as ComponentPublicInstance | undefined
   }),
 
   actions: {
-    setSkill (skill: ISkillItem, el: Element): void {
-      const refBox = el.getBoundingClientRect()
-      const offset = 20
-
+    setSkill (skill: ISkillItem, reference: ComponentPublicInstance): void {
       this.$reset()
 
       this.name = skill.name
-      this.active = false
       this.rank = skill.rank
       this.rankMax = skill.rankMax
       this.school = skill.school
@@ -52,54 +49,33 @@ export const useTooltipStore = defineStore('tooltip', {
       this.modifier = skill.modifier
       this.icon = skill.icon
       this.category = 'skill'
-      this.x = refBox.left + offset
-      this.y = refBox.top + offset
+      this.reference = reference
       this.visible = true
     },
 
-    setPassive (skill: ISkillItem, el: Element): void {
-      const refBox = el.getBoundingClientRect()
-      const offset = 20
-
+    setPassive (skill: ISkillItem, reference: ComponentPublicInstance): void {
       this.$reset()
 
       this.name = skill.name
-      this.active = false
       this.rank = skill.rank
       this.rankMax = skill.rankMax
-      this.school = ''
-      this.type = ''
-      this.damageType = ''
       this.description = skill.description
       this.descriptionValues = skill.descriptionValues
-      this.modifier = undefined
       this.icon = skill.icon
       this.category = 'passive'
-      this.x = refBox.left + offset
-      this.y = refBox.top + offset
+      this.reference = reference
       this.visible = true
     },
 
-    setModifier (modifier: any, el: Element, icon: string, choiceModifier = false): void {
-      const refBox = el.getBoundingClientRect()
-      const offset = 20
-
+    setModifier (modifier: any, reference: ComponentPublicInstance, icon: string, choiceModifier = false): void {
       this.$reset()
 
       this.name = modifier.name
-      this.rank = 0
-      this.rankMax = 0
-      this.school = ''
-      this.type = ''
-      this.damageType = ''
       this.active = modifier.active
       this.description = modifier.description
-      this.descriptionValues = {}
-      this.modifier = undefined
       this.icon = icon
       this.category = choiceModifier ? 'choice-modifier' : 'modifier'
-      this.x = refBox.left + offset
-      this.y = refBox.top + offset
+      this.reference = reference
       this.visible = true
     }
   }
