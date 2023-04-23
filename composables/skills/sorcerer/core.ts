@@ -81,6 +81,9 @@ export const useSorcererCoreTier = (): Ref<ISkillTier> => {
         'burning damage': '36%,40%,44%,47%,51%',
         'burning damage maximum': '49%,55%,62%,69%,76%'
       },
+      costText: 'Cost',
+      costValue: '20 Mana per second',
+      luckyHitChance: 40,
       type,
       school: 'Pyromancy,Channeled',
       damageType: 'Fire',
@@ -111,6 +114,9 @@ export const useSorcererCoreTier = (): Ref<ISkillTier> => {
       descriptionValues: {
         damage: '60%,66%,72%,78%,84%'
       },
+      costText: 'Mana Cost',
+      costValue: '40',
+      luckyHitChance: 33,
       type,
       school: 'Pyromancy',
       damageType: 'Fire',
@@ -142,6 +148,9 @@ export const useSorcererCoreTier = (): Ref<ISkillTier> => {
         'shards damage': '31.7%,34.9%,38%,42.1%,44.4%',
         'explosion damage': '29.2%,32.2%,35.1%,38%,41%'
       },
+      costText: 'Mana Cost',
+      costValue: '40',
+      luckyHitChance: 20,
       type,
       school: 'Frost',
       damageType: 'Cold',
@@ -172,6 +181,9 @@ export const useSorcererCoreTier = (): Ref<ISkillTier> => {
       descriptionValues: {
         damage: '25%,27.5%,30%,32.5%,35%'
       },
+      costText: 'Mana Cost',
+      costValue: '30',
+      luckyHitChance: 25,
       type,
       school: 'Frost',
       damageType: 'Cold',
@@ -202,6 +214,9 @@ export const useSorcererCoreTier = (): Ref<ISkillTier> => {
       descriptionValues: {
         damage: '42%,46.2%,50.4%,54.6%,58.8%'
       },
+      costText: 'Mana Cost',
+      costValue: '35',
+      luckyHitChance: 25,
       type,
       school: 'Shock',
       damageType: 'Lightning',
@@ -232,6 +247,9 @@ export const useSorcererCoreTier = (): Ref<ISkillTier> => {
       descriptionValues: {
         damage: '17.5%,19.2%,21%,22.7%,24.5'
       },
+      costText: 'Mana Cost',
+      costValue: '40',
+      luckyHitChance: 25,
       type,
       school: 'Shock',
       damageType: 'Lightning',

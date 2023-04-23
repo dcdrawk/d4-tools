@@ -47,17 +47,25 @@
       <!-- Cooldown -->
       <p
         v-if="tooltipCooldown"
-        class="text-shadow-sm"
+        class="text-shadow-sm mb-1"
       >
-        <span class="text-orange-300">Cooldown:</span> <span class="text-yellow-200">{{ tooltipCooldown }}</span> seconds
+        <span class="text-neutral-400">Cooldown:</span> <span class="text-yellow-200">{{ tooltipCooldown }}</span> seconds
+      </p>
+
+      <!-- Cost -->
+      <p
+        v-if="costText"
+        class="text-shadow-sm mb-1"
+      >
+        <span class="text-neutral-400">{{ costText }}:</span> <span class="text-yellow-200">{{ costValue }}</span>
       </p>
 
       <!-- Lucky Hit Chance -->
       <p
         v-if="luckyHitChance > 0"
-        class="text-shadow-sm"
+        class="text-shadow-sm mb-1"
       >
-        <span class="text-orange-300">Lucky Hit Chance:</span> <span class="text-yellow-200">{{ luckyHitChance }}%</span>
+        <span class="text-neutral-400">Lucky Hit Chance:</span> <span class="text-yellow-200">{{ luckyHitChance }}%</span>
       </p>
 
       <!-- eslint-disable-next-line -->
@@ -152,6 +160,8 @@ interface Props {
   name?: string
   description?: string
   descriptionValues?: ISkillDescriptionValues
+  costText?: string
+  costValue?: string
   cooldown?: string
   cooldownValues?: string
   luckyHitChance?: number
@@ -175,6 +185,8 @@ const props = withDefaults(defineProps<Props>(), {
   cooldown: '',
   cooldownValues: '',
   luckyHitChance: 0,
+  costText: '',
+  costValue: '',
   rank: 0,
   rankMax: 0,
   icon: '/svg/skill/tier/skill-tier-icon-basic.svg',

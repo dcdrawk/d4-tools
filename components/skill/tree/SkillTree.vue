@@ -15,6 +15,8 @@
       :description="tooltipStore.description"
       :description-values="tooltipStore.descriptionValues"
       :lucky-hit-chance="tooltipStore.luckyHitChance"
+      :cost-text="tooltipStore.costText"
+      :cost-value="tooltipStore.costValue"
       :cooldown="tooltipStore.cooldown"
       :cooldown-values="tooltipStore.cooldownValues"
       :icon="tooltipStore.icon"
