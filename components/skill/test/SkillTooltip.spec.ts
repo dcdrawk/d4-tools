@@ -56,7 +56,6 @@ const createWrapper = (props = {}) => {
 }
 
 beforeEach(() => {
-  // const tooltipStore = useTooltipStore()
   createWrapper()
 })
 
@@ -91,10 +90,6 @@ describe('SkillTooltip.vue', () => {
   })
 
   test('displays damageType text correctly', async () => {
-    // await wrapper.setProps({
-    //   damageType: 'fire'
-    // })
-
     const tooltipStore = useTooltipStore()
 
     tooltipStore.damageType = 'fire'
@@ -120,9 +115,6 @@ describe('SkillTooltip.vue', () => {
   })
 
   test('displays cooldown if no cooldownValues are provided', async () => {
-    // await wrapper.setProps({
-    //   cooldown: '69'
-    // })
     const tooltipStore = useTooltipStore()
 
     tooltipStore.cooldown = '69'
@@ -135,11 +127,6 @@ describe('SkillTooltip.vue', () => {
   })
 
   test('displays cooldown when using cooldownValues are provided', async () => {
-    // await wrapper.setProps({
-    //   cooldownValues: '5,4,3,2,1',
-    //   rank: 2
-    // })
-
     const tooltipStore = useTooltipStore()
 
     tooltipStore.cooldownValues = '5,4,3,2,1'
@@ -153,11 +140,6 @@ describe('SkillTooltip.vue', () => {
   })
 
   test('displays cost text and value', async () => {
-    // await wrapper.setProps({
-    //   costText: 'Cost',
-    //   costValue: '420'
-    // })
-
     const tooltipStore = useTooltipStore()
 
     tooltipStore.costText = 'Cost'
@@ -171,9 +153,6 @@ describe('SkillTooltip.vue', () => {
   })
 
   test('displays lucky hit chance', async () => {
-    // await wrapper.setProps({
-    //   luckyHitChance: 69
-    // })
     const tooltipStore = useTooltipStore()
 
     tooltipStore.luckyHitChance = 69
@@ -186,9 +165,6 @@ describe('SkillTooltip.vue', () => {
   })
 
   test('description text displays as-is if no descriptionValues are passed', async () => {
-    // await wrapper.setProps({
-    //   description: 'Hello World'
-    // })
     const tooltipStore = useTooltipStore()
 
     tooltipStore.description = 'Hello World'
@@ -202,11 +178,6 @@ describe('SkillTooltip.vue', () => {
   })
 
   test('description text displays with values when descriptionValues are passed', async () => {
-    // await wrapper.setProps({
-    //   description: 'Hello {text}',
-    //   descriptionValues: { text: 'World' }
-    // })
-
     const tooltipStore = useTooltipStore()
 
     tooltipStore.description = 'Hello {text}'
@@ -220,13 +191,6 @@ describe('SkillTooltip.vue', () => {
   })
 
   test('displays the next rank text', async () => {
-    // await wrapper.setProps({
-    //   description: 'Hello {text}',
-    //   rank: 1,
-    //   rankMax: 2,
-    //   descriptionValues: { text: 'World1,World2' }
-    // })
-
     const tooltipStore = useTooltipStore()
 
     tooltipStore.description = 'Hello {text}'
@@ -277,10 +241,6 @@ describe('SkillTooltip.vue', () => {
   })
 
   test('dispays the correct modifier icon', async () => {
-    // await wrapper.setProps({
-    //   category: 'modifier'
-    // })
-
     const tooltipStore = useTooltipStore()
 
     tooltipStore.category = 'modifier'
@@ -293,10 +253,6 @@ describe('SkillTooltip.vue', () => {
   })
 
   test('dispays the correct choice-modifier icon', async () => {
-    // await wrapper.setProps({
-    //   category: 'choice-modifier'
-    // })
-
     const tooltipStore = useTooltipStore()
 
     tooltipStore.category = 'choice-modifier'
@@ -309,9 +265,6 @@ describe('SkillTooltip.vue', () => {
   })
 
   test('dispays the correct passive icon', async () => {
-    // await wrapper.setProps({
-    //   category: 'passive'
-    // })
     const tooltipStore = useTooltipStore()
 
     tooltipStore.category = 'passive'
@@ -324,10 +277,6 @@ describe('SkillTooltip.vue', () => {
   })
 
   test('dispays the correct skill icon', async () => {
-    // await wrapper.setProps({
-    //   category: 'skill'
-    // })
-
     const tooltipStore = useTooltipStore()
 
     tooltipStore.category = 'skill'
@@ -340,10 +289,6 @@ describe('SkillTooltip.vue', () => {
   })
 
   test('dispays "choose 1" text for when props.category is "choice-modifier"', async () => {
-    // await wrapper.setProps({
-    //   category: 'choice-modifier'
-    // })
-
     const tooltipStore = useTooltipStore()
 
     tooltipStore.category = 'choice-modifier'
@@ -354,10 +299,6 @@ describe('SkillTooltip.vue', () => {
   })
 
   test('dispays "Not Learned" text for when props.rank is 0', async () => {
-    // await wrapper.setProps({
-    //   rank: 0
-    // })
-
     const tooltipStore = useTooltipStore()
 
     tooltipStore.rank = 0
@@ -370,14 +311,6 @@ describe('SkillTooltip.vue', () => {
   })
 
   test('hides "Not Learned" text for when props.rank is > 0', async () => {
-    // createWrapper({
-    //   name: 'hi',
-    //   rank: 1,
-    //   rankMax: 5,
-    //   category: 'skill',
-    //   damageType: 'fire'
-    // })
-
     const tooltipStore = useTooltipStore()
 
     tooltipStore.rank = 1

@@ -223,7 +223,6 @@ const notLearnedVisible = computed(() => {
 
 const tooltipDescription = computed(() => {
   if (!descriptionValues.value || Object.keys(descriptionValues.value).length === 0) {
-    console.log('dwjiaodjiojdioajdoiaj')
     return description.value
   }
 
@@ -307,13 +306,18 @@ const isPassive = computed(() => {
   return category.value === 'passive'
 })
 
+const isSkill = computed(() => {
+  return category.value === 'skill'
+})
+
 const isChoiceModifier = computed(() => {
   return category.value === 'choice-modifier'
 })
 
 const iconStyles = computed(() => {
   return {
-    'scale-[1.75] mb-6 top-[10px]': isModifier.value,
+    'top-[3px]': isSkill.value,
+    'scale-[1.75] mb-5 top-[10px]': isModifier.value,
     'scale-[1.5] mb-6 top-3': isPassive.value
   }
 })
