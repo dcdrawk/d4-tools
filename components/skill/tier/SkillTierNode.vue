@@ -60,12 +60,12 @@
             width="18"
             height="18"
             y="32"
-            x="20"
+            x="18"
           />
           <text
-            x="42"
-            y="47"
-            class="fill-red-600 text-2xl font-display font-semibold"
+            x="40"
+            y="48"
+            class="fill-red-600 text-2xl font-display font-bold tracking-tight text-shadow shadow-black"
           >
             {{ skillPointsRequired }}
           </text>
