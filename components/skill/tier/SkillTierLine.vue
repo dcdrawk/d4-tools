@@ -1,4 +1,19 @@
 <template>
+  <defs>
+    <filter id="inset-shadow">
+      <feFlood flood-color="black" />
+      <feComposite
+        operator="out"
+        in2="SourceGraphic"
+      />
+      <feGaussianBlur stdDeviation="3" />
+      <feComposite
+        operator="atop"
+        in2="SourceGraphic"
+      />
+    </filter>
+  </defs>
+
   <line
     class="shadow-lg"
     :x1="x1"
@@ -12,6 +27,7 @@
     :data-previous-x="filledLinePrevoius.x"
     :data-previous-y="filledLinePrevoius.y"
   />
+
   <line
     class="transition-all text-shadow shadow-red-200"
     :x1="x1"
@@ -19,50 +35,17 @@
     :x2="x2"
     :y2="y2"
     stroke="#191f20"
-    stroke-width="15"
+    stroke-width="16"
   />
 
   <line
-    class="origin-top-right transition-all stroke-[#541113]"
+    class="origin-top-right transition-all stroke-[#871B1E] shadow-[inset_0_0_0_3px_#252321]"
     :x1="x1"
     :y1="y1"
     :x2="filledLine.x"
     :y2="filledLine.y"
-    stroke-width="15"
-  >
-    <animate
-      ref="animationX1"
-      attributeName="x2"
-      duration="5s"
-      :from="filledLinePrevoius.x"
-      :to="filledLine.x"
-      begin="indefinite"
-      calcMode="spline"
-      keyTimes="0; 0.25"
-      :keySplines="animationKeySplines"
-      :dur="animationDuration"
-    />
-    <animate
-      ref="animationY1"
-      attributeName="y2"
-      duration="5s"
-      :from="filledLinePrevoius.y"
-      :to="filledLine.y"
-      begin="indefinite"
-      calcMode="spline"
-      keyTimes="0; 0.25"
-      :keySplines="animationKeySplines"
-      :dur="animationDuration"
-    />
-  </line>
-
-  <line
-    class="origin-top-right transition-all stroke-[#871B1E]"
-    :x1="x1"
-    :y1="y1"
-    :x2="filledLine.x"
-    :y2="filledLine.y"
-    stroke-width="13"
+    stroke-width="16"
+    filter="url(#inset-shadow)"
   >
     <animate
       ref="animationX2"
