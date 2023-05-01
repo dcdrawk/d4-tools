@@ -4,6 +4,7 @@
     fill="none"
     stroke="#3e403d"
     stroke-width="10"
+    :data-dir="direction"
   />
   <path
     class="transition-all"

@@ -141,10 +141,55 @@ export const useSorcererMasteryTier = () => useState('sorcererMasteryTier', (): 
   }],
   passives: [
     {
+      name: 'Icy Veil',
+      items: [{
+        name: 'Icy Veil',
+        description: 'Your <span class="underline">Barriers</span> have a <span class="text-orange-200">+{barrier duration}</span> increased duration.',
+        descriptionValues: {
+          'barrier duration': '5%,10%,15%'
+        },
+        icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/mastery/passive/icy-veil.webp`,
+        transform: getSkillTransform(102.5, 130),
+        rank: 0,
+        rankMax: 3,
+        connected: true,
+        direct: false,
+        path: 'M 250,250 L 250,160 L 222,160 L 222,125',
+        requiredFor: [
+          { name: 'Cold Front', direction: 'XY' },
+          { name: 'Snap Freeze', direction: 'XY' }
+        ]
+      }, {
+        name: 'Cold Front',
+        description: 'While you have a <span class="underline">Barrier</span> active, you apply <span class="text-orange-200">x{increased chill}</span> more Chill.',
+        descriptionValues: {
+          'increased chill': '8%,16%,24%'
+        },
+        icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/mastery/passive/invigorating-conduit.webp`,
+        transform: getSkillTransform(90, 180),
+        rank: 0,
+        rankMax: 3,
+        connected: false,
+        direct: false
+      }, {
+        name: 'Snap Freeze',
+        description: '<span class="text-orange-100">Lucky Hit:</span> <span class="text-white">Frost</span> Skills have a <span class="text-orange-200">{chance to freeze}</span> chance to instantly <span class="underline">Freeze</span>.',
+        descriptionValues: {
+          'chance to freeze': '3%,6%,9%'
+        },
+        icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/mastery/passive/snap-freeze.webp`,
+        transform: getSkillTransform(107.5, 189),
+        rank: 0,
+        rankMax: 3,
+        connected: false,
+        direct: false
+      }]
+    },
+    {
       name: 'Inner Flames',
       items: [{
         name: 'Inner Flames',
-        description: 'Your Pyromancy Skills deal {increased damage} increased damage while you are Healthy.',
+        description: 'Your <span class="text-white">Pyromancy</span> Skills deal <span class="text-orange-200">{increased damage}</span> increased damage while you are <span class="underline">Healthy</span>.',
         descriptionValues: {
           'increased damage': '3%,6%,9%'
         },
@@ -160,7 +205,7 @@ export const useSorcererMasteryTier = () => useState('sorcererMasteryTier', (): 
         ]
       }, {
         name: 'Devouring Blaze',
-        description: 'You deal {critical strike damage} increased Critical Strike Damage against Burning enemies. If they are also Immobilized, this bonus is increased to {immobilized bonus damage}.',
+        description: 'You deal <span class="text-orange-200">{critical strike damage}</span> increased Critical Strike Damage against Burning enemies. If they are also Immobilized, this bonus is increased to <span class="text-orange-200">{bonus damage}</span>.',
         descriptionValues: {
           'critical strike damage': '10%,20%,30%',
           'bonus damage': '25%,50%,75%'
@@ -173,7 +218,7 @@ export const useSorcererMasteryTier = () => useState('sorcererMasteryTier', (): 
         direct: false
       }, {
         name: 'Crippling Flames',
-        description: 'Lucky Hit: Your Pyromancy Skills have a {immobilize chance} chance to Immobilize enemies for 2 seconds. This chance is doubled while you are Healthy.',
+        description: '<span class="text-orange-100">Lucky Hit:</span> Your <span class="text-white">Pyromancy</span> Skills have a <span class="text-orange-200">{immobilize chance}</span> chance to Immobilize enemies for <span class="text-orange-200">2</span> seconds. This chance is doubled while you are <span class="underline">Healthy</span>.',
         descriptionValues: {
           'immobilize chance': '5%,10%,15%'
         },
@@ -184,37 +229,51 @@ export const useSorcererMasteryTier = () => useState('sorcererMasteryTier', (): 
         connected: false,
         direct: false
       }]
+    },
+    {
+      name: 'Static Discharge',
+      items: [{
+        name: 'Static Discharge',
+        description: '<span class="text-orange-100">Lucky Hit:</span> Critical Strikes with Shock Skills have up to a <span class="text-orange-200">{chance to form}</span> chance to form a <span class="underline">Crackling Energy</span>.',
+        descriptionValues: {
+          'chance to form': '5%,10%,15%'
+        },
+        icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/mastery/passive/static-discharge.webp`,
+        transform: getSkillTransform(-102.5, 130),
+        rank: 0,
+        rankMax: 3,
+        connected: true,
+        direct: true,
+        path: 'M 250,250 L 250,340 L 222,340 L 222,375',
+        requiredFor: [
+          { name: 'Invigorating Conduit', direction: 'XY' },
+          { name: 'Shocking Impact', direction: 'XY' }
+        ]
+      }, {
+        name: 'Invigorating Conduit',
+        description: 'Upon absorbing <span class="underline">Crackling Energy</span>, you gain <span class="text-orange-200">{mana gain}</span> Mana.',
+        descriptionValues: {
+          'mana gain': '4,8,12'
+        },
+        icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/mastery/passive/invigorating-conduit.webp`,
+        transform: getSkillTransform(-90, 180),
+        rank: 0,
+        rankMax: 3,
+        connected: false,
+        direct: false
+      }, {
+        name: 'Shocking Impact',
+        description: 'Every time you Stun an enemy, you deal <span class="text-orange-200">{lightning damage}</span> Lightning Damage to them.',
+        descriptionValues: {
+          'lightning damage': '15%,30%,45%'
+        },
+        icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/mastery/passive/shocking-impact.webp`,
+        transform: getSkillTransform(-107.5, 189),
+        rank: 0,
+        rankMax: 3,
+        connected: false,
+        direct: false
+      }]
     }
-    // {
-    //   name: '',
-    //   items: [{
-    //     name: '',
-    //     description: '',
-    //     descriptionValues: {
-    //       maxMana: ''
-    //     },
-    //     icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/mastery/passive/devastation.webp`,
-    //     transform: getSkillTransform(-137.5, 135),
-    //     rank: 0,
-    //     rankMax: 3,
-    //     connected: true,
-    //     direct: true,
-    //     requiredFor: [
-    //       { name: '' }
-    //     ]
-    //   }, {
-    //     name: '',
-    //     description: '',
-    //     descriptionValues: {
-    //       damage: ''
-    //     },
-    //     icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/mastery/passive/elemental-dominance.webp`,
-    //     transform: getSkillTransform(-137.5, 215),
-    //     rank: 0,
-    //     rankMax: 3,
-    //     connected: false,
-    //     direct: true
-    //   }]
-    // }
   ]
 }))
