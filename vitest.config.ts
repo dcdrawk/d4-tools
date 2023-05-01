@@ -61,7 +61,8 @@ export default defineConfig({
         '**/.{eslint,mocha,prettier}rc.{js,cjs,yml}',
         '.nuxt/**',
         '.output/**',
-        '**/*{.,-}config.{js,cjs,mjs,ts,tsx,jsx}'
+        '**/*{.,-}config.{js,cjs,mjs,ts,tsx,jsx}',
+        'composables/skills/template.ts'
       ]
     }
   }
