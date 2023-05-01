@@ -103,36 +103,79 @@ export const useSorcererConjurationTier = () => useState('sorcererConjurationTie
       }]
     }
   }],
-  passives: []
-  // passives: [{
-  //   name: '',
-  //   items: [{
-  //     name: '',
-  //     description: '',
-  //     descriptionValues: {
-  //       maxMana: ''
-  //     },
-  //     icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/core/passive/devastation.webp`,
-  //     transform: getSkillTransform(-137.5, 135),
-  //     rank: 0,
-  //     rankMax: 3,
-  //     connected: true,
-  //     direct: true,
-  //     requiredFor: [
-  //       { name: '' }
-  //     ]
-  //   }, {
-  //     name: '',
-  //     description: '',
-  //     descriptionValues: {
-  //       damage: '4%,8%,12%'
-  //     },
-  //     icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/core/passive/elemental-dominance.webp`,
-  //     transform: getSkillTransform(-137.5, 215),
-  //     rank: 0,
-  //     rankMax: 3,
-  //     connected: false,
-  //     direct: true
-  //   }]
-  // }]
+  // passives: []
+  passives: [{
+    name: 'Precision Magic',
+    items: [{
+      name: 'Precision Magic',
+      description: 'Your Lucky Hit Chance is increased by <span class="text-orange-200">{lucky hit chance}</span>.',
+      descriptionValues: {
+        'lucky hit chance': '5%,10%,15%'
+      },
+      icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/conjuration/passive/precision-magic.webp`,
+      transform: getSkillTransform(135, 110),
+      rank: 0,
+      rankMax: 3,
+      connected: true,
+      direct: true
+    }]
+  }, {
+    name: 'Conjuration Mastery',
+    items: [{
+      name: 'Conjuration Mastery',
+      description: 'You deal <span class="text-orange-200">{damage}</span> increased damage for each active <span class="text-white">Conjuration</span>.',
+      descriptionValues: {
+        damage: '1%,2%,3%'
+      },
+      icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/conjuration/passive/conjuration-mastery.webp`,
+      transform: getSkillTransform(-90, 110),
+      rank: 0,
+      rankMax: 3,
+      connected: true,
+      direct: true
+    }]
+  }, {
+    name: 'Align the Elements',
+    items: [{
+      name: 'Align the Elements',
+      description: 'You gain <span class="text-orange-200>{damage reduction}%</span> Damage Reduction against Elites for each second you haven\'t taken damage from one, up to <span class="text-orange-200>50%</span>',
+      descriptionValues: {
+        'damage reduction': '5,10,15'
+      },
+      icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/conjuration/passive/align-the-elements.webp`,
+      transform: getSkillTransform(0, 100),
+      rank: 0,
+      rankMax: 3,
+      connected: true,
+      direct: true,
+      requiredFor: [
+        { name: 'Mana Shield' },
+        { name: 'Protection' }
+      ]
+    }, {
+      name: 'Mana Shield',
+      description: 'Every time you spend <span class="text-orange-200>100</span> Mana, you gain <span class="text-orange-200>{damage reduction}%</span>  Damage Reduction for <span class="text-orange-200>5</span> seconds.',
+      descriptionValues: {
+        'damage reduction': '5,10,15'
+      },
+      icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/conjuration/passive/mana-shield.webp`,
+      transform: getSkillTransform(10, 160),
+      rank: 0,
+      rankMax: 3,
+      connected: false,
+      direct: false
+    }, {
+      name: 'Protection',
+      description: 'Using a Cooldown grants <span class="text-orange-200>{max life as barrier}%</span> of your Maximum Life as a Barrier for <span class="text-orange-200>5</span> seconds.',
+      descriptionValues: {
+        'max life as barrier': '10,20,30'
+      },
+      icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/conjuration/passive/protection.webp`,
+      transform: getSkillTransform(-10, 160),
+      rank: 0,
+      rankMax: 3,
+      connected: false,
+      direct: false
+    }]
+  }]
 }))
