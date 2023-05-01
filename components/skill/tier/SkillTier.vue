@@ -210,7 +210,6 @@ const nextRankGate = computed(() => rankRequirementGates
   ?.reduce((prev: number) => prev)
 )
 
-// May need to adjust the logic after adding more skill tiers...
 const allowUnlearnSkill = computed(() => (
   !(tierPointsTotal.value === nextRankGate.value && props.higherTierInvested)
 ))
@@ -242,24 +241,17 @@ function handlePassiveRightClick (passive: any, group: any): void {
 function handleSkillMouseOver (skill: any): void {
   if (tooltipStore.visible === true) return
 
-  // const el = skillRefs.value[skill.name]?.$el
-
-  // tooltipStore.setSkill(skill, el)
   tooltipStore.setSkill(skill, skillRefs.value[skill.name] as ComponentPublicInstance)
 }
 
 function handleModifierMouseOver (modifier: any, icon: string, choiceModifier = false): void {
   if (tooltipStore.visible === true) return
 
-  // const el = skillModifierRefs.value[modifier.name]?.$el
-
   tooltipStore.setModifier(modifier, (skillModifierRefs.value[modifier.name] as ComponentPublicInstance), icon, choiceModifier)
 }
 
 function handlePassiveMouseOver (passive: any): void {
   if (tooltipStore.visible === true) return
-
-  // const el = skillRefs.value[passive.name]?.$el
 
   tooltipStore.setPassive(passive, skillRefs.value[passive.name] as ComponentPublicInstance)
 }
@@ -280,7 +272,6 @@ function highlightPassive (passive: any, passiveGroup: any) {
     return passiveItem.requiredFor?.find(requirement => requirement.name === passive.name)
   }).reduce((acc: number, curr: any) => acc + curr.rank, 0)
 
-  // const meetsRequirements = passiveGroup.
   return requiredPassivesRank > 0
 }
 </script>

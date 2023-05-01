@@ -14,7 +14,7 @@
     :x2="x2"
     :y2="y2"
     :class="lineStyles"
-    stroke-width="5"
+    :stroke-width="strokeWidth"
   />
 </template>
 
@@ -36,6 +36,8 @@ const lineStyles = computed(() => ({
   'stroke-[#e3d9c0]/50': props.highlight && !props.active,
   'stroke-red-800': props.active
 }))
+
+const strokeWidth = computed(() => props.active ? 5 : 4)
 
 const { x1, y1, x2, y2 } = computed(() => getLineCoordinates(props.parent, props.el1, props.el2)).value
 </script>

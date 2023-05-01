@@ -103,7 +103,6 @@ export const useSorcererConjurationTier = () => useState('sorcererConjurationTie
       }]
     }
   }],
-  // passives: []
   passives: [{
     name: 'Precision Magic',
     items: [{
@@ -138,9 +137,9 @@ export const useSorcererConjurationTier = () => useState('sorcererConjurationTie
     name: 'Align the Elements',
     items: [{
       name: 'Align the Elements',
-      description: 'You gain <span class="text-orange-200>{damage reduction}%</span> Damage Reduction against Elites for each second you haven\'t taken damage from one, up to <span class="text-orange-200>50%</span>',
+      description: 'You gain <span class="text-orange-200>{damage reduction}</span> Damage Reduction against Elites for each second you haven\'t taken damage from one, up to <span class="text-orange-200>50%</span>',
       descriptionValues: {
-        'damage reduction': '5,10,15'
+        'damage reduction': '5%,10%,15%'
       },
       icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/conjuration/passive/align-the-elements.webp`,
       transform: getSkillTransform(0, 100),
@@ -154,9 +153,9 @@ export const useSorcererConjurationTier = () => useState('sorcererConjurationTie
       ]
     }, {
       name: 'Mana Shield',
-      description: 'Every time you spend <span class="text-orange-200>100</span> Mana, you gain <span class="text-orange-200>{damage reduction}%</span>  Damage Reduction for <span class="text-orange-200>5</span> seconds.',
+      description: 'Every time you spend <span class="text-orange-200>100</span> Mana, you gain <span class="text-orange-200>{damage reduction}</span>  Damage Reduction for <span class="text-orange-200>5</span> seconds.',
       descriptionValues: {
-        'damage reduction': '5,10,15'
+        'damage reduction': '5%,10%,15%'
       },
       icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/conjuration/passive/mana-shield.webp`,
       transform: getSkillTransform(10, 160),
@@ -166,9 +165,9 @@ export const useSorcererConjurationTier = () => useState('sorcererConjurationTie
       direct: false
     }, {
       name: 'Protection',
-      description: 'Using a Cooldown grants <span class="text-orange-200>{max life as barrier}%</span> of your Maximum Life as a Barrier for <span class="text-orange-200>5</span> seconds.',
+      description: 'Using a Cooldown grants <span class="text-orange-200>{max life as barrier}</span> of your Maximum Life as a Barrier for <span class="text-orange-200>5</span> seconds.',
       descriptionValues: {
-        'max life as barrier': '10,20,30'
+        'max life as barrier': '10%,20%,30%'
       },
       icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/conjuration/passive/protection.webp`,
       transform: getSkillTransform(-10, 160),

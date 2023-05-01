@@ -34,8 +34,9 @@
     :y1="y1"
     :x2="x2"
     :y2="y2"
-    stroke="#191f20"
+    stroke="#2c2c2c"
     stroke-width="16"
+    filter="url(#inset-shadow)"
   />
 
   <line

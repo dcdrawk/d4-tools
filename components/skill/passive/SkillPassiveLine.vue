@@ -4,13 +4,14 @@
     fill="none"
     stroke="#3e403d"
     stroke-width="10"
+    :data-dir="direction"
   />
   <path
     class="transition-all"
     :class="lineStyles"
     :d="dpath"
     fill="none"
-    stroke-width="5"
+    :stroke-width="strokeWidth"
   />
 </template>
 
@@ -52,7 +53,8 @@ const dpath = computed(() => {
   }
 })
 
-// const lineStroke = computed<string>(() => props.active ? 'stroke-red-800' : 'stroke-[#191f20]')
+const strokeWidth = computed(() => props.active ? 5 : 4)
+
 const lineStyles = computed(() => ({
   'stroke-[#191f20]': !props.active && !props.highlight,
   'stroke-[#e3d9c0]/40': props.highlight && !props.active,
