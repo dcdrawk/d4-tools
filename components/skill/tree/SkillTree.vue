@@ -41,6 +41,24 @@
             :rank-required="11"
             :rank-start="6"
           />
+
+          <SkillTierLine
+            :parent="skillTreeRef"
+            :el1="defensive?.$el"
+            :el2="conjuration?.$el"
+            :rank="rank"
+            :rank-required="11"
+            :rank-start="6"
+          />
+
+          <SkillTierLine
+            :parent="skillTreeRef"
+            :el1="conjuration?.$el"
+            :el2="mastery?.$el"
+            :rank="rank"
+            :rank-required="11"
+            :rank-start="6"
+          />
         </BaseSVG>
       </div>
     </ClientOnly>
@@ -84,7 +102,7 @@
       :rank-required="6"
       :icon="`${useRuntimeConfig().app.baseURL}svg/skill/tier/defensive.svg`"
       :higher-tier-invested="hasHigherTierInvestedDefensive"
-      :lower-tier-skill-count="skillCountDefensiveLower"
+      :lower-tier-skill-count="skillCountLowerTierDefensive"
       @increment-skill="handleIncrementSkill"
       @decrement-skill="handleDecrementSkill"
       @activate-modifier="handleActivateModifier"
@@ -100,6 +118,23 @@
       :rank="rank"
       :rank-required="11"
       :icon="`${useRuntimeConfig().app.baseURL}svg/skill/tier/conjuration.svg`"
+      :higher-tier-invested="hasHigherTierInvestedConjuration"
+      :lower-tier-skill-count="skillCountLowerTierConjuration"
+      @increment-skill="handleIncrementSkill"
+      @decrement-skill="handleDecrementSkill"
+      @activate-modifier="handleActivateModifier"
+      @deactivate-modifier="handleDeactivateModifier"
+      @increment-passive="handleIncrementPassive"
+      @decrement-passive="handleDecrementPassive"
+    />
+
+    <SkillTier
+      ref="mastery"
+      class="translate-x-[550px] translate-y-[-800px]"
+      :tier="sorcererMasteryTier"
+      :rank="rank"
+      :rank-required="16"
+      :icon="`${useRuntimeConfig().app.baseURL}svg/skill/tier/mastery-sorcerer.svg`"
       @increment-skill="handleIncrementSkill"
       @decrement-skill="handleDecrementSkill"
       @activate-modifier="handleActivateModifier"
@@ -121,6 +156,7 @@ const basic = ref()
 const core = ref()
 const defensive = ref()
 const conjuration = ref()
+const mastery = ref()
 
 /**
  * Skills / Tooltip
@@ -130,16 +166,21 @@ const sorcererBasicTier = useSorcererBasicTier()
 const sorcererCoreTier = useSorcererCoreTier()
 const sorcererDefensiveTier = useSorcererDefensiveTier()
 const sorcererConjurationTier = useSorcererConjurationTier()
+const sorcererMasteryTier = useSorcererMasteryTier()
 
 const skillCountBasic = computed(() => getSkillCount(sorcererBasicTier.value))
 const skillCountCore = computed(() => getSkillCount(sorcererCoreTier.value))
 const skillCountDefensive = computed(() => getSkillCount(sorcererDefensiveTier.value))
-const skillCountDefensiveLower = computed(() => skillCountBasic.value + skillCountCore.value)
 const skillCountConjuration = computed(() => getSkillCount(sorcererConjurationTier.value))
+const skillCountMastery = computed(() => getSkillCount(sorcererMasteryTier.value))
+
+const skillCountLowerTierDefensive = computed(() => skillCountBasic.value + skillCountCore.value)
+const skillCountLowerTierConjuration = computed(() => skillCountLowerTierDefensive.value + skillCountConjuration.value)
 
 const hasHigherTierInvestedBasic = computed(() => skillCountCore.value > 0)
 const hasHigherTierInvestedCore = computed(() => skillCountDefensive.value > 0)
 const hasHigherTierInvestedDefensive = computed(() => skillCountConjuration.value > 0)
+const hasHigherTierInvestedConjuration = computed(() => skillCountMastery.value > 0)
 
 /**
  * Rank
@@ -149,7 +190,8 @@ const rank = computed(() => {
     skillCountBasic.value +
     skillCountCore.value +
     skillCountDefensive.value +
-    skillCountConjuration.value
+    skillCountConjuration.value +
+    skillCountMastery.value
   )
 })
 
