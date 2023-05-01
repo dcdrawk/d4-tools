@@ -102,7 +102,7 @@ const outerSquareStyles = computed(() => ({
   'fill-[#191f20]': !isActive.value
 }))
 
-const iconOpacity = computed<string>(() => isActive.value || props.tooltip ? '1' : '0.6')
+const iconOpacity = computed<string>(() => isActive.value || props.tooltip || props.highlight ? '1' : '0.6')
 
 const rankClass = computed<string>(() => props.rank <= 0 ? 'opacity-0' : 'opacity-100')
 </script>
