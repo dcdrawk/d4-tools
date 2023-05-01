@@ -45,6 +45,13 @@
           stroke-width="1"
         />
 
+        <circle
+          cx="16"
+          cy="16"
+          r="14"
+          fill="#000"
+        />
+
         <image
           v-if="icon"
           :href="icon"
