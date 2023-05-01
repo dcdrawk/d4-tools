@@ -232,7 +232,7 @@ export const useSorcererCoreTier = (): Ref<ISkillTier> => {
           maxMana: '3,6,9'
         },
         icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/core/passive/devastation.webp`,
-        transform: getSkillTransform(-137.5, 135),
+        transform: getSkillTransform(-135, 135),
         rank: 0,
         rankMax: 3,
         connected: true,
@@ -247,7 +247,7 @@ export const useSorcererCoreTier = (): Ref<ISkillTier> => {
           damage: '4%,8%,12%'
         },
         icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/core/passive/elemental-dominance.webp`,
-        transform: getSkillTransform(-137.5, 215),
+        transform: getSkillTransform(-135, 215),
         rank: 0,
         rankMax: 3,
         connected: false,
