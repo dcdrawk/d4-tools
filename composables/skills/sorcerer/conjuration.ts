@@ -103,7 +103,6 @@ export const useSorcererConjurationTier = () => useState('sorcererConjurationTie
       }]
     }
   }],
-  // passives: []
   passives: [{
     name: 'Precision Magic',
     items: [{

@@ -24,7 +24,7 @@ export const useSorcererMasteryTier = () => useState('sorcererMasteryTier', (): 
     modifier: {
       name: 'Enhanced Blizzard',
       description: '<span class="text-white">Blizzard</span> deals <span class="text-orange-200">x25%</span> increased damage to <span class="underline">Frozen</span> enemies.',
-      transform: getSkillTransform(65, skillModifierDistance),
+      transform: getSkillTransform(67.5, skillModifierDistance),
       active: false,
       choiceModifiers: [{
         name: 'Mage\'s Blizzard',
@@ -52,13 +52,13 @@ export const useSorcererMasteryTier = () => useState('sorcererMasteryTier', (): 
     school: 'Pyromancy',
     damageType: 'Fire',
     icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/mastery/meteor.png`,
-    transform: getSkillTransform(32.5, 135),
+    transform: getSkillTransform(35, 135),
     rank: 0,
     rankMax: 5,
     modifier: {
       name: 'Enhanced Meteor',
       description: 'If a cast of <span class="text-white">Meteor</span> hits <span class="text-orange-200">3</span> or more enemies, there is a <span class="text-orange-200">30%</span> chance an additional Meteor falls on the same location.',
-      transform: getSkillTransform(32.5, skillModifierDistance),
+      transform: getSkillTransform(37.5, skillModifierDistance),
       active: false,
       choiceModifiers: [{
         name: 'Mage\'s Meteor',
@@ -85,13 +85,13 @@ export const useSorcererMasteryTier = () => useState('sorcererMasteryTier', (): 
     school: 'Pyromancy',
     damageType: 'Fire',
     icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/mastery/firewall.png`,
-    transform: getSkillTransform(-32.5, 135),
+    transform: getSkillTransform(-35, 135),
     rank: 0,
     rankMax: 5,
     modifier: {
       name: 'Enhanced Firewall',
       description: 'Enemies take <span class="text-orange-200">x25%</span> increased Burning damage from you while standing in <span class="text-white">Firewall</span>.',
-      transform: getSkillTransform(-32.5, skillModifierDistance),
+      transform: getSkillTransform(-37.5, skillModifierDistance),
       active: false,
       choiceModifiers: [{
         name: 'Mage\'s Firewall',
@@ -118,7 +118,7 @@ export const useSorcererMasteryTier = () => useState('sorcererMasteryTier', (): 
     school: 'Shock',
     damageType: 'Lightning',
     icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/mastery/ball-lightning.png`,
-    transform: getSkillTransform(-65, 135),
+    transform: getSkillTransform(-67.5, 135),
     rank: 0,
     rankMax: 5,
     modifier: {
@@ -140,6 +140,51 @@ export const useSorcererMasteryTier = () => useState('sorcererMasteryTier', (): 
     }
   }],
   passives: [
+    {
+      name: 'Inner Flames',
+      items: [{
+        name: 'Inner Flames',
+        description: 'Your Pyromancy Skills deal {increased damage} increased damage while you are Healthy.',
+        descriptionValues: {
+          'increased damage': '3%,6%,9%'
+        },
+        icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/mastery/passive/inner-flames.webp`,
+        transform: getSkillTransform(0, 110),
+        rank: 0,
+        rankMax: 3,
+        connected: true,
+        direct: true,
+        requiredFor: [
+          { name: 'Devouring Blaze' },
+          { name: 'Crippling Flames' }
+        ]
+      }, {
+        name: 'Devouring Blaze',
+        description: 'You deal {critical strike damage} increased Critical Strike Damage against Burning enemies. If they are also Immobilized, this bonus is increased to {immobilized bonus damage}.',
+        descriptionValues: {
+          'critical strike damage': '10%,20%,30%',
+          'bonus damage': '25%,50%,75%'
+        },
+        icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/mastery/passive/devouring-blaze.webp`,
+        transform: getSkillTransform(10, 170),
+        rank: 0,
+        rankMax: 3,
+        connected: false,
+        direct: false
+      }, {
+        name: 'Crippling Flames',
+        description: 'Lucky Hit: Your Pyromancy Skills have a {immobilize chance} chance to Immobilize enemies for 2 seconds. This chance is doubled while you are Healthy.',
+        descriptionValues: {
+          'immobilize chance': '5%,10%,15%'
+        },
+        icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/mastery/passive/crippling-flames.webp`,
+        transform: getSkillTransform(-10, 170),
+        rank: 0,
+        rankMax: 3,
+        connected: false,
+        direct: false
+      }]
+    }
     // {
     //   name: '',
     //   items: [{
