@@ -245,7 +245,7 @@ const tooltipCooldown = computed(() => {
   return cooldownValuesSplit[Math.max(0, rank.value - 1)]
 })
 
-const nextRankVisible = computed(() => rank.value > 0 && rank !== rankMax)
+const nextRankVisible = computed(() => rank.value > 0 && rank.value !== rankMax.value)
 
 const nextRankList = computed(() => {
   const nextRankObject: { [key: string]: any } = {}

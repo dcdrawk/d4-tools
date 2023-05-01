@@ -1,5 +1,5 @@
 <template>
-  <div class="skill-tier w-[80px] h-[80px] relative z-auto inline-block select-none">
+  <div class="skill-tier-node w-[80px] h-[80px] relative z-auto inline-block select-none">
     <BaseSVG
       :width="80"
       :height="80"
@@ -26,19 +26,18 @@
         stroke-width="2"
         width="52"
         height="52"
-        y="15"
-        x="15"
+        y="14"
+        x="14"
         transform="rotate(45, 26, 26)"
       />
       <rect
-        class="skill-tier__inner"
         fill="url(#img1)"
         stroke="#1e1e1e"
         stroke-width="2"
         width="42"
         height="42"
-        y="20"
-        x="20"
+        y="19"
+        x="19"
         transform="rotate(45, 21, 21)"
       />
 
@@ -59,13 +58,13 @@
             href="/svg/skill/skill-point.svg"
             width="18"
             height="18"
-            y="32"
-            x="20"
+            y="31"
+            x="17"
           />
           <text
-            x="42"
+            x="39"
             y="47"
-            class="fill-red-600 text-2xl font-display font-semibold"
+            class="fill-red-600 text-2xl font-display font-bold tracking-tight text-shadow shadow-black"
           >
             {{ skillPointsRequired }}
           </text>

@@ -8,25 +8,6 @@
         v-if="tooltipStore?.visible"
       />
     </transition>
-    <!-- :name="tooltipStore.name"
-    :active="tooltipStore.active"
-    :rank="tooltipStore.rank"
-    :rank-max="tooltipStore.rankMax"
-    :description="tooltipStore.description"
-    :description-values="tooltipStore.descriptionValues"
-    :lucky-hit-chance="tooltipStore.luckyHitChance"
-    :cost-text="tooltipStore.costText"
-    :cost-value="tooltipStore.costValue"
-    :cooldown="tooltipStore.cooldown"
-    :cooldown-values="tooltipStore.cooldownValues"
-    :icon="tooltipStore.icon"
-    :type="tooltipStore.type"
-    :school="tooltipStore.school"
-    :damage-type="tooltipStore.damageType"
-    :modifier="tooltipStore.modifier"
-    :category="tooltipStore.category"
-    :translate-x="tooltipStore.x"
-    :translate-y="tooltipStore.y" -->
 
     <ClientOnly>
       <div class="absolute inline-block top-0 left-0 w-full h-[1000px] drop-shadow-[1px_1px_3px_rgba(0,0,0,0.69)]">
@@ -34,7 +15,7 @@
           v-if="skillTreeRef"
           class="inline-block"
           :width="1280"
-          :height="1000"
+          :height="2000"
         >
           <SkillTierLine
             :parent="skillTreeRef"
@@ -50,6 +31,15 @@
             :rank="rank"
             :rank-required="6"
             :rank-start="2"
+          />
+
+          <SkillTierLine
+            :parent="skillTreeRef"
+            :el1="defensive?.$el"
+            :el2="conjuration?.$el"
+            :rank="rank"
+            :rank-required="11"
+            :rank-start="6"
           />
         </BaseSVG>
       </div>
@@ -93,6 +83,23 @@
       :rank="rank"
       :rank-required="6"
       :icon="`${useRuntimeConfig().app.baseURL}svg/skill/tier/defensive.svg`"
+      :higher-tier-invested="hasHigherTierInvestedDefensive"
+      :lower-tier-skill-count="skillCountDefensiveLower"
+      @increment-skill="handleIncrementSkill"
+      @decrement-skill="handleDecrementSkill"
+      @activate-modifier="handleActivateModifier"
+      @deactivate-modifier="handleDeactivateModifier"
+      @increment-passive="handleIncrementPassive"
+      @decrement-passive="handleDecrementPassive"
+    />
+
+    <SkillTier
+      ref="conjuration"
+      class="translate-x-[220px] translate-y-[-625px]"
+      :tier="sorcererConjurationTier"
+      :rank="rank"
+      :rank-required="11"
+      :icon="`${useRuntimeConfig().app.baseURL}svg/skill/tier/conjuration.svg`"
       @increment-skill="handleIncrementSkill"
       @decrement-skill="handleDecrementSkill"
       @activate-modifier="handleActivateModifier"
@@ -113,6 +120,7 @@ const skillTreeRef = ref()
 const basic = ref()
 const core = ref()
 const defensive = ref()
+const conjuration = ref()
 
 /**
  * Skills / Tooltip
@@ -121,15 +129,18 @@ const tooltipStore = useTooltipStore()
 const sorcererBasicTier = useSorcererBasicTier()
 const sorcererCoreTier = useSorcererCoreTier()
 const sorcererDefensiveTier = useSorcererDefensiveTier()
+const sorcererConjurationTier = useSorcererConjurationTier()
 
 const skillCountBasic = computed(() => getSkillCount(sorcererBasicTier.value))
 const skillCountCore = computed(() => getSkillCount(sorcererCoreTier.value))
 const skillCountDefensive = computed(() => getSkillCount(sorcererDefensiveTier.value))
+const skillCountDefensiveLower = computed(() => skillCountBasic.value + skillCountCore.value)
+const skillCountConjuration = computed(() => getSkillCount(sorcererConjurationTier.value))
 
 const hasHigherTierInvestedBasic = computed(() => skillCountCore.value > 0)
 const hasHigherTierInvestedCore = computed(() => skillCountDefensive.value > 0)
+const hasHigherTierInvestedDefensive = computed(() => skillCountConjuration.value > 0)
 
-// const lowerTierSkillPointsCore = computed(() => skillCountBasic.value)
 /**
  * Rank
  */
@@ -137,7 +148,8 @@ const rank = computed(() => {
   return (
     skillCountBasic.value +
     skillCountCore.value +
-    skillCountDefensive.value
+    skillCountDefensive.value +
+    skillCountConjuration.value
   )
 })
 

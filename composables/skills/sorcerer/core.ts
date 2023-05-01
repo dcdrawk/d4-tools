@@ -2,74 +2,6 @@ import { ISkillTier } from '@/utils/skills'
 
 const type = 'Core'
 
-// Template:
-// return useState('', (): ISkillTier => ({
-//   name: '',
-//   rankRequired: 0,
-//   skills: [{
-//     name: '',
-//     description: '',
-//     descriptionValues: {
-//       '': ''
-//     },
-//     type,
-//     school: '',
-//     damageType: '',
-//     icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/core/incinerate.png`,
-//     transform: getSkillTransform(90, 105),
-//     rank: 0,
-//     rankMax: 5,
-//     modifier: {
-//       name: '',
-//       description: '',
-//       transform: getSkillTransform(90, skillModifierDistance),
-//       active: false,
-//       choiceModifiers: [{
-//         name: '',
-//         description: '',
-//         transform: getSkillTransform(125, skillChoiceModifierDistance),
-//         active: false
-//       }, {
-//         name: '',
-//         description: '',
-//         transform: getSkillTransform(55, skillChoiceModifierDistance),
-//         active: false
-//       }]
-//     }
-//   }],
-//   passives: [{
-//     name: '',
-//     items: [{
-//       name: '',
-//       description: '',
-//       descriptionValues: {
-//         maxMana: ''
-//       },
-//       icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/core/passive/devastation.webp`,
-//       transform: getSkillTransform(-137.5, 135),
-//       rank: 0,
-//       rankMax: 3,
-//       connected: true,
-//       direct: true,
-//       requiredFor: [
-//         { name: '' }
-//       ]
-//     }, {
-//       name: '',
-//       description: '',
-//       descriptionValues: {
-//         damage: '4%,8%,12%'
-//       },
-//       icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/core/passive/elemental-dominance.webp`,
-//       transform: getSkillTransform(-137.5, 215),
-//       rank: 0,
-//       rankMax: 3,
-//       connected: false,
-//       direct: true
-//     }]
-//   }]
-// }))
-
 export const useSorcererCoreTier = (): Ref<ISkillTier> => {
   return useState('sorcererCoreTier', (): ISkillTier => ({
     name: 'core',
@@ -300,7 +232,7 @@ export const useSorcererCoreTier = (): Ref<ISkillTier> => {
           maxMana: '3,6,9'
         },
         icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/core/passive/devastation.webp`,
-        transform: getSkillTransform(-137.5, 135),
+        transform: getSkillTransform(-135, 135),
         rank: 0,
         rankMax: 3,
         connected: true,
@@ -315,7 +247,7 @@ export const useSorcererCoreTier = (): Ref<ISkillTier> => {
           damage: '4%,8%,12%'
         },
         icon: `${useRuntimeConfig().app.baseURL}img/skills/sorcerer/core/passive/elemental-dominance.webp`,
-        transform: getSkillTransform(-137.5, 215),
+        transform: getSkillTransform(-135, 215),
         rank: 0,
         rankMax: 3,
         connected: false,
