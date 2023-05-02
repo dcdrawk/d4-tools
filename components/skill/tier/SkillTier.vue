@@ -200,7 +200,7 @@ const emit = defineEmits<{
 const allowLearnModifierPassive = computed(() => props.rank >= props.tier.rankRequired)
 
 const allowLearnSkill = computed(() => props.tier.name === 'Ultimate'
-  ? getSkillCount(props.tier.skills) <= 0
+  ? getSkillCount(props.tier.skills) <= 0 && allowLearnModifierPassive.value
   : allowLearnModifierPassive.value
 )
 
@@ -271,7 +271,7 @@ function highlightChoiceModifier (choiceModifierName: string, modifier: any) {
 }
 
 function highlightPassive (passive: any, passiveGroup: any) {
-  if (passive.connected && allowLearnSkill.value) return true
+  if (passive.connected && allowLearnModifierPassive.value) return true
 
   const requiredPassivesRank = passiveGroup.items.filter((passiveItem: ISkillPassive) => {
     return passiveItem.requiredFor?.find(requirement => requirement.name === passive.name)
