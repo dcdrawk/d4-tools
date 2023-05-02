@@ -56,8 +56,8 @@
             :el1="conjuration?.$el"
             :el2="mastery?.$el"
             :rank="rank"
-            :rank-required="11"
-            :rank-start="6"
+            :rank-required="16"
+            :rank-start="11"
           />
         </BaseSVG>
       </div>
