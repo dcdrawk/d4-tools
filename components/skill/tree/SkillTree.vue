@@ -65,8 +65,8 @@
             :el1="mastery?.$el"
             :el2="ultimate?.$el"
             :rank="rank"
-            :rank-required="16"
-            :rank-start="11"
+            :rank-required="23"
+            :rank-start="16"
           />
         </BaseSVG>
       </div>
@@ -196,12 +196,13 @@ const sorcererConjurationTier = useSorcererConjurationTier()
 const sorcererMasteryTier = useSorcererMasteryTier()
 const sorcererUltimateTier = useSorcererUltimateTier()
 
-const skillCountBasic = computed(() => getSkillCount(sorcererBasicTier.value))
-const skillCountCore = computed(() => getSkillCount(sorcererCoreTier.value))
-const skillCountDefensive = computed(() => getSkillCount(sorcererDefensiveTier.value))
-const skillCountConjuration = computed(() => getSkillCount(sorcererConjurationTier.value))
-const skillCountMastery = computed(() => getSkillCount(sorcererMasteryTier.value))
-const skillCountUltimate = computed(() => getSkillCount(sorcererUltimateTier.value))
+const skillCountBasic = computed(() => getTierPointCount(sorcererBasicTier.value))
+const skillCountCore = computed(() => getTierPointCount(sorcererCoreTier.value))
+const skillCountDefensive = computed(() => getTierPointCount(sorcererDefensiveTier.value))
+const skillCountConjuration = computed(() => getTierPointCount(sorcererConjurationTier.value))
+const skillCountMastery = computed(() => getTierPointCount(sorcererMasteryTier.value))
+const skillCountUltimate = computed(() => getTierPointCount(sorcererUltimateTier.value))
+const shouldAllowUltimateSkillUp = computed(() => getSkillCount(sorcererUltimateTier.value.skills) <= 0)
 
 const skillCountLowerTierDefensive = computed(() => skillCountBasic.value + skillCountCore.value)
 const skillCountLowerTierConjuration = computed(() => skillCountLowerTierDefensive.value + skillCountDefensive.value)
@@ -228,10 +229,14 @@ const rank = computed(() => {
 })
 
 function handleIncrementSkill (skill: any): void {
-  if (skill.rank < skill.rankMax) {
-    skill.rank++
-    tooltipStore.rank++
-  }
+  if (skill.rank >= skill.rankMax) return
+
+  const isUltimate = skill.type === 'Ultimate'
+
+  if (isUltimate && !shouldAllowUltimateSkillUp.value) return
+
+  skill.rank++
+  tooltipStore.rank++
 }
 
 function handleDecrementSkill (skill: any): void {

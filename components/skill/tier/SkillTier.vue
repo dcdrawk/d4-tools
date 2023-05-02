@@ -201,7 +201,7 @@ const allowLearnSkill = computed(() => props.rank >= props.tier.rankRequired)
 
 const rankRequirementGates = [2, 6, 11, 16, 23, 33]
 
-const tierPoints = computed(() => getSkillCount(props.tier))
+const tierPoints = computed(() => getTierPointCount(props.tier))
 
 const tierPointsTotal = computed(() => tierPoints.value + props.lowerTierSkillCount)
 
