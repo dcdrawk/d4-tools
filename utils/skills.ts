@@ -127,10 +127,10 @@ export function getTierPointCount (tier: ISkillTier) {
   return skillTotal + passiveTotal
 }
 
-export function getPassiveCount (passives: ISkillPassiveGroup[]) {
+function getPassiveCount (passives: ISkillPassiveGroup[]) {
   return passives?.reduce((accumulator: number, passive: any) => {
     return accumulator + passive.items.reduce((itemAccumulator: number, itemPassive: any) => itemAccumulator + itemPassive.rank, 0)
-  }, 0) ?? 0
+  }, 0)
 }
 
 export function getSkillCount (skills: ISkillItem[]) {
@@ -143,7 +143,7 @@ export function getSkillCount (skills: ISkillItem[]) {
     }
 
     return accumulator
-  }, 0) ?? 0
+  }, 0)
 }
 
 interface IPassiveLine {
