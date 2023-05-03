@@ -199,10 +199,13 @@ const emit = defineEmits<{
 
 const allowLearnModifierPassive = computed(() => props.rank >= props.tier.rankRequired)
 
-const allowLearnSkill = computed(() => props.tier.name === 'Ultimate'
-  ? getSkillCount(props.tier.skills) <= 0 && allowLearnModifierPassive.value
-  : allowLearnModifierPassive.value
-)
+const allowLearnSkill = computed(() => {
+  const allowLearnUltimate = !!(getSkillCount(props.tier.skills) <= 0 && allowLearnModifierPassive.value)
+
+  return props.tier.name === 'Ultimate'
+    ? allowLearnUltimate
+    : allowLearnModifierPassive.value
+})
 
 const rankRequirementGates = [2, 6, 11, 16, 23, 33]
 

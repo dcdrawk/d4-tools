@@ -97,6 +97,29 @@ const testTier = {
   }]
 }
 
+const testUltimateTier = {
+  name: 'Ultimate',
+  skills: [{ ...testSkill, rank: 1 }],
+  rankRequired: 0,
+  passives: [{
+    name: 'crab damage',
+    items: [{
+      name: 'Passive 1',
+      desription: 'test',
+      transform: '',
+      rank: 1,
+      connected: true,
+      requiredFor: [{ name: 'Passive 2' }]
+    }, {
+      name: 'Passive 2',
+      desription: 'test',
+      transform: '',
+      rank: 0,
+      connected: false
+    }]
+  }]
+}
+
 const testTierWithRank = {
   name: 'basic',
   skills: [testLearnedSkill],
@@ -135,6 +158,7 @@ beforeEach(() => {
   createWrapper({
     skills: [],
     rankRequired: 2
+    // tier: { name: 'FUCK', rankRequired: 0, skills: [], passives: ['REEE'] }
   })
 })
 
@@ -154,6 +178,15 @@ describe('SkillTier.vue', () => {
 
   test('clicking a SkillItem does not emit an event if learning the skill is not allowed', async () => {
     await setTestTier(testTierRankUpNotAllowed)
+
+    const skillItemWrapper = wrapper.findComponent({ name: 'SkillItem' })
+    await skillItemWrapper.vm.$emit('click', {})
+
+    expect(wrapper.emitted()).not.toHaveProperty('increment-skill')
+  })
+
+  test('clicking a SkillItem does not emit an event if learning an Ultimate skill is not allowed', async () => {
+    await setTestTier(testUltimateTier)
 
     const skillItemWrapper = wrapper.findComponent({ name: 'SkillItem' })
     await skillItemWrapper.vm.$emit('click', {})
