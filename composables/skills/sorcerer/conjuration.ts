@@ -1,6 +1,6 @@
 import { ISkillTier } from '@/utils/skills'
 
-const type = 'conjuration'
+const type = 'Conjuration'
 
 export const useSorcererConjurationTier = () => useState('sorcererConjurationTier', (): ISkillTier => ({
   name: 'Conjuratoin',

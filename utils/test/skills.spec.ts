@@ -1,6 +1,6 @@
 import {
   getElementCenterCoordinates,
-  getSkillCount,
+  getTierPointCount,
   getPassiveLine
 } from '../skills'
 
@@ -18,7 +18,7 @@ describe('getElementCenterCoordinates', () => {
   })
 })
 
-describe('getSkillCount', () => {
+describe('getTierPointCount', () => {
   test('returns the total skill points spent in a tier', () => {
     const mockTier = {
       name: 'Metalcore',
@@ -46,7 +46,7 @@ describe('getSkillCount', () => {
         }]
       }]
     }
-    const skillCount = getSkillCount(mockTier as any)
+    const skillCount = getTierPointCount(mockTier as any)
 
     expect(skillCount).toBe(7)
   })

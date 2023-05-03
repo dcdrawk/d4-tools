@@ -56,8 +56,17 @@
             :el1="conjuration?.$el"
             :el2="mastery?.$el"
             :rank="rank"
-            :rank-required="11"
-            :rank-start="6"
+            :rank-required="16"
+            :rank-start="11"
+          />
+
+          <SkillTierLine
+            :parent="skillTreeRef"
+            :el1="mastery?.$el"
+            :el2="ultimate?.$el"
+            :rank="rank"
+            :rank-required="23"
+            :rank-start="16"
           />
         </BaseSVG>
       </div>
@@ -135,6 +144,23 @@
       :rank="rank"
       :rank-required="16"
       :icon="`${useRuntimeConfig().app.baseURL}svg/skill/tier/mastery-sorcerer.svg`"
+      :higher-tier-invested="hasHigherTierInvestedMastery"
+      :lower-tier-skill-count="skillCountLowerTierMastery"
+      @increment-skill="handleIncrementSkill"
+      @decrement-skill="handleDecrementSkill"
+      @activate-modifier="handleActivateModifier"
+      @deactivate-modifier="handleDeactivateModifier"
+      @increment-passive="handleIncrementPassive"
+      @decrement-passive="handleDecrementPassive"
+    />
+
+    <SkillTier
+      ref="ultimate"
+      class="translate-x-[220px] translate-y-[-975px]"
+      :tier="sorcererUltimateTier"
+      :rank="rank"
+      :rank-required="23"
+      :icon="`${useRuntimeConfig().app.baseURL}svg/skill/tier/ultimate-sorcerer.svg`"
       @increment-skill="handleIncrementSkill"
       @decrement-skill="handleDecrementSkill"
       @activate-modifier="handleActivateModifier"
@@ -157,6 +183,7 @@ const core = ref()
 const defensive = ref()
 const conjuration = ref()
 const mastery = ref()
+const ultimate = ref()
 
 /**
  * Skills / Tooltip
@@ -167,20 +194,25 @@ const sorcererCoreTier = useSorcererCoreTier()
 const sorcererDefensiveTier = useSorcererDefensiveTier()
 const sorcererConjurationTier = useSorcererConjurationTier()
 const sorcererMasteryTier = useSorcererMasteryTier()
+const sorcererUltimateTier = useSorcererUltimateTier()
 
-const skillCountBasic = computed(() => getSkillCount(sorcererBasicTier.value))
-const skillCountCore = computed(() => getSkillCount(sorcererCoreTier.value))
-const skillCountDefensive = computed(() => getSkillCount(sorcererDefensiveTier.value))
-const skillCountConjuration = computed(() => getSkillCount(sorcererConjurationTier.value))
-const skillCountMastery = computed(() => getSkillCount(sorcererMasteryTier.value))
+const skillCountBasic = computed(() => getTierPointCount(sorcererBasicTier.value))
+const skillCountCore = computed(() => getTierPointCount(sorcererCoreTier.value))
+const skillCountDefensive = computed(() => getTierPointCount(sorcererDefensiveTier.value))
+const skillCountConjuration = computed(() => getTierPointCount(sorcererConjurationTier.value))
+const skillCountMastery = computed(() => getTierPointCount(sorcererMasteryTier.value))
+const skillCountUltimate = computed(() => getTierPointCount(sorcererUltimateTier.value))
+const shouldAllowUltimateSkillUp = computed(() => getSkillCount(sorcererUltimateTier.value.skills) <= 0)
 
 const skillCountLowerTierDefensive = computed(() => skillCountBasic.value + skillCountCore.value)
-const skillCountLowerTierConjuration = computed(() => skillCountLowerTierDefensive.value + skillCountConjuration.value)
+const skillCountLowerTierConjuration = computed(() => skillCountLowerTierDefensive.value + skillCountDefensive.value)
+const skillCountLowerTierMastery = computed(() => skillCountLowerTierConjuration.value + skillCountConjuration.value)
 
 const hasHigherTierInvestedBasic = computed(() => skillCountCore.value > 0)
 const hasHigherTierInvestedCore = computed(() => skillCountDefensive.value > 0)
 const hasHigherTierInvestedDefensive = computed(() => skillCountConjuration.value > 0)
 const hasHigherTierInvestedConjuration = computed(() => skillCountMastery.value > 0)
+const hasHigherTierInvestedMastery = computed(() => skillCountUltimate.value > 0)
 
 /**
  * Rank
@@ -191,15 +223,20 @@ const rank = computed(() => {
     skillCountCore.value +
     skillCountDefensive.value +
     skillCountConjuration.value +
-    skillCountMastery.value
+    skillCountMastery.value +
+    skillCountUltimate.value
   )
 })
 
 function handleIncrementSkill (skill: any): void {
-  if (skill.rank < skill.rankMax) {
-    skill.rank++
-    tooltipStore.rank++
-  }
+  if (skill.rank >= skill.rankMax) return
+
+  const isUltimate = skill.type === 'Ultimate'
+
+  if (isUltimate && !shouldAllowUltimateSkillUp.value) return
+
+  skill.rank++
+  tooltipStore.rank++
 }
 
 function handleDecrementSkill (skill: any): void {

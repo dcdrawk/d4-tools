@@ -11,15 +11,14 @@ const useStateMock = vi.fn((str: string, init: any) => {
   if (!cache[str]) {
     cache[str] = { value: init() }
   }
-  return cache[str].value
+  return cache[str]
 })
 
 vi.stubGlobal('useState', useStateMock)
 
 const createWrapper = (props = {}) => {
-  wrapper = mount(SkillTree, {
+  return mount(SkillTree, {
     props,
-    // shallow: true,
     global: {
       stubs: ['ClientOnly'],
       mocks: {
@@ -35,7 +34,8 @@ const createWrapper = (props = {}) => {
 }
 
 beforeEach(() => {
-  createWrapper({})
+  vi.stubGlobal('useState', useStateMock)
+  wrapper = createWrapper({})
 })
 
 describe('SkillTree.vue', () => {
@@ -47,6 +47,28 @@ describe('SkillTree.vue', () => {
     await skillItemWrapper.vm.$emit('increment-skill', skill)
 
     expect(skill.rank).toBe(1)
+  })
+
+  test('when SkillTier emits increment-skill, do nothing if rankMax has been reached', async () => {
+    const skillItemWrapper = wrapper.findComponent({ name: 'SkillTier' })
+
+    const skill = { rank: 5, rankMax: 5 }
+
+    await skillItemWrapper.vm.$emit('increment-skill', skill)
+
+    expect(skill.rank).toBe(5)
+  })
+
+  test('when SkillTier emits increment-skill for an Ultimate skill, do nothing if another Ultimate is chosen', async () => {
+    const skill = { name: 'bar', rank: 0, rankMax: 5, type: 'Ultimate' }
+
+    useSorcererUltimateTier().value.skills[1].rank = 1
+
+    const skillItemWrapper = wrapper.findComponent({ name: 'SkillTier' })
+
+    await skillItemWrapper.vm.$emit('increment-skill', skill)
+
+    expect(skill.rank).toBe(0)
   })
 
   test('when SkillTier emits decrement-rank, do nothing if rank is 0', async () => {

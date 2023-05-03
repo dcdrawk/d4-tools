@@ -120,8 +120,21 @@ export interface ISkillTier {
   passives: ISkillPassiveGroup[]
 }
 
-export function getSkillCount (tier: ISkillTier) {
-  const skillTotal = tier?.skills?.reduce((accumulator: number, skill: any) => {
+export function getTierPointCount (tier: ISkillTier) {
+  const skillTotal = getSkillCount(tier?.skills)
+  const passiveTotal = getPassiveCount(tier?.passives)
+
+  return skillTotal + passiveTotal
+}
+
+function getPassiveCount (passives: ISkillPassiveGroup[]) {
+  return passives?.reduce((accumulator: number, passive: any) => {
+    return accumulator + passive.items.reduce((itemAccumulator: number, itemPassive: any) => itemAccumulator + itemPassive.rank, 0)
+  }, 0)
+}
+
+export function getSkillCount (skills: ISkillItem[]) {
+  return skills?.reduce((accumulator: number, skill: any) => {
     if (skill.rank) {
       const modifierValue = skill.modifier.active ? 1 : 0
       const choiceModifierValue = skill.modifier.choiceModifiers.find((modifier: any) => modifier.active) ? 1 : 0
@@ -130,13 +143,7 @@ export function getSkillCount (tier: ISkillTier) {
     }
 
     return accumulator
-  }, 0) ?? 0
-
-  const passiveTotal = tier?.passives?.reduce((accumulator: number, passive: any) => {
-    return accumulator + passive.items.reduce((itemAccumulator: number, itemPassive: any) => itemAccumulator + itemPassive.rank, 0)
-  }, 0) ?? 0
-
-  return skillTotal + passiveTotal
+  }, 0)
 }
 
 interface IPassiveLine {

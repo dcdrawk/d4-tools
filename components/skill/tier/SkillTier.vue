@@ -197,11 +197,19 @@ const emit = defineEmits<{
   (e: 'mouseout'): void
 }>()
 
-const allowLearnSkill = computed(() => props.rank >= props.tier.rankRequired)
+const allowLearnModifierPassive = computed(() => props.rank >= props.tier.rankRequired)
+
+const allowLearnSkill = computed(() => {
+  const allowLearnUltimate = !!(getSkillCount(props.tier.skills) <= 0 && allowLearnModifierPassive.value)
+
+  return props.tier.name === 'Ultimate'
+    ? allowLearnUltimate
+    : allowLearnModifierPassive.value
+})
 
 const rankRequirementGates = [2, 6, 11, 16, 23, 33]
 
-const tierPoints = computed(() => getSkillCount(props.tier))
+const tierPoints = computed(() => getTierPointCount(props.tier))
 
 const tierPointsTotal = computed(() => tierPoints.value + props.lowerTierSkillCount)
 
@@ -223,7 +231,7 @@ function handleSkillRightClick (skill: any): void {
 }
 
 function handleModifierClick (parent: any, modifier: any): void {
-  if (allowLearnSkill.value) emit('activate-modifier', { parent, modifier })
+  if (allowLearnModifierPassive.value) emit('activate-modifier', { parent, modifier })
 }
 
 function handleModifierRightClick (modifier: any): void {
@@ -231,7 +239,7 @@ function handleModifierRightClick (modifier: any): void {
 }
 
 function handlePassiveClick (passive: any, group: any): void {
-  if (allowLearnSkill.value) emit('increment-passive', { passive, group })
+  if (allowLearnModifierPassive.value) emit('increment-passive', { passive, group })
 }
 
 function handlePassiveRightClick (passive: any, group: any): void {
@@ -266,7 +274,7 @@ function highlightChoiceModifier (choiceModifierName: string, modifier: any) {
 }
 
 function highlightPassive (passive: any, passiveGroup: any) {
-  if (passive.connected && allowLearnSkill.value) return true
+  if (passive.connected && allowLearnModifierPassive.value) return true
 
   const requiredPassivesRank = passiveGroup.items.filter((passiveItem: ISkillPassive) => {
     return passiveItem.requiredFor?.find(requirement => requirement.name === passive.name)
