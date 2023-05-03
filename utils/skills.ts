@@ -121,7 +121,7 @@ export interface ISkillTier {
 }
 
 export function getTierPointCount (tier: ISkillTier) {
-  const skillTotal = getSkillCount(tier.skills)
+  const skillTotal = getSkillCount(tier?.skills)
   const passiveTotal = getPassiveCount(tier?.passives)
 
   return skillTotal + passiveTotal
