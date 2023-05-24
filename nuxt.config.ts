@@ -50,9 +50,5 @@ export default defineNuxtConfig({
 
   pinia: {
     autoImports: ['defineStore']
-  },
-
-  linkChecker: {
-    trailingSlash: true
   }
 })

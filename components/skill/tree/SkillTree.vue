@@ -1,4 +1,8 @@
 <template>
+  <SkillKeyPassive
+    active
+    highlight
+  />
   <div
     ref="skillTreeRef"
     class="relative skill-tree"
